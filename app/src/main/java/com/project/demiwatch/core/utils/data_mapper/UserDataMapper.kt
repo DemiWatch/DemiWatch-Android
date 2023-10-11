@@ -1,7 +1,6 @@
-package com.project.demiwatch.core.utils.datamapper
+package com.project.demiwatch.core.utils.data_mapper
 
 import com.project.demiwatch.core.data.source.remote.response.LoginResponse
-import com.project.demiwatch.core.data.source.remote.response.RegisterResponse
 import com.project.demiwatch.core.domain.model.User
 
 object UserDataMapper {

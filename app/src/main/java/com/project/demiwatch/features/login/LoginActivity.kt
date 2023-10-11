@@ -16,5 +16,21 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
+        setButtonToRegister()
+
+        setButtonLogin()
+    }
+
+    private fun setButtonLogin() {
+
+    }
+
+    private fun setButtonToRegister(){
+        binding.tvToRegister.setOnClickListener {
+            val intentToRegister = Intent(this, RegisterActivity::class.java)
+            startActivity(intentToRegister)
+            finish()
+        }
     }
 }

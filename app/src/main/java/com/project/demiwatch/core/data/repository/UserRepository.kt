@@ -4,11 +4,10 @@ import com.project.demiwatch.core.data.source.remote.NetworkBoundResource
 import com.project.demiwatch.core.data.source.remote.datasource.RemoteDataSource
 import com.project.demiwatch.core.data.source.remote.network.ApiResponse
 import com.project.demiwatch.core.data.source.remote.response.LoginResponse
-import com.project.demiwatch.core.data.source.remote.response.RegisterResponse
 import com.project.demiwatch.core.domain.model.User
 import com.project.demiwatch.core.domain.repository.IUserRepository
 import com.project.demiwatch.core.utils.Resource
-import com.project.demiwatch.core.utils.datamapper.UserDataMapper
+import com.project.demiwatch.core.utils.data_mapper.UserDataMapper
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
