@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">DemiWatch</string>
+    <string name="enter_acc">Masuk ke\nAkun Anda</string>
+    <string name="no_acc">Belum memiliki akun?</string>
+    <string name="regis_now">Daftar sekarang</string>
+    <string name="email">Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="login">Masuk</string>
 </resources>
