@@ -3,10 +3,15 @@ package com.project.demiwatch.features.fill_profile.user
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.project.demiwatch.R
+import com.project.demiwatch.databinding.ActivityFillProfileUserBinding
 
 class FillProfileUserActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityFillProfileUserBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fill_profile_user)
+
+        binding = ActivityFillProfileUserBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
