@@ -17,4 +17,11 @@
     <string name="confrim_password">Konfirmasi Kata Sandi</string>
     <string name="user_relation">Hubungan Dengan Pasien</string>
     <string name="safe_radius_patient">Radius Aman Pasien</string>
+    <string name="save">Simpan</string>
+    <string name="full_name">Nama Lengkap</string>
+    <string name="age">Umur</string>
+    <string name="patient_notes">Catatan Pasien</string>
+    <string name="watch_id">Kode Unik Perangkat</string>
+    <string name="address_home">Alamat Rumah (Default)</string>
+    <string name="address_destination">Alamat Tujuan (Opsional)</string>
 </resources>

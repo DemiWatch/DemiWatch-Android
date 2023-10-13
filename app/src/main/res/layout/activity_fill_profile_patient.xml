@@ -6,4 +6,233 @@
     android:layout_height="match_parent"
     tools:context=".features.fill_profile.patient.FillProfilePatientActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="24dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/textStyleSemiBoldCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/fill_user_profile"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:srcCompat="@drawable/ic_arrow_back_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="@string/profile_user"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_profile_user"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:shapeAppearanceOverlay="@style/ImageView.Round" />
+
+                <ImageView
+                    android:id="@+id/btn_edit_profile"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end|bottom"
+                    app:srcCompat="@drawable/edit_profile_user" />
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/ed_patient_full_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:layout_marginTop="32dp"
+                android:ems="10"
+                android:hint="@string/full_name"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+            <EditText
+                android:id="@+id/ed_patient_full_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="@string/age"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_full_name" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ed_patient_disease"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_drop_down_background"
+                android:ems="10"
+                android:inputType="text"
+                android:paddingBottom="4dp"
+                android:textColorHint="@color/dark_grey"
+                app:endIconTint="@color/dark_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_full_age">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dropdown_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_drop_down_background"
+                    android:hint="@string/user_relation"
+                    android:inputType="none"
+                    android:padding="12dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <EditText
+                android:id="@+id/ed_patient_notes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="@string/patient_notes"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_disease" />
+
+            <EditText
+                android:id="@+id/ed_patient_watch_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/watch_id"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_notes" />
+
+            <EditText
+                android:id="@+id/ed_patient_address_home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/address_home"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_watch_id" />
+
+            <EditText
+                android:id="@+id/ed_patient_address_destination"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:padding="16dp"
+                android:hint="@string/address_destination"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_home" />
+
+            <Button
+                android:id="@+id/btn_login"
+                style="@style/textStyleButtonWhite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginVertical="32dp"
+                android:background="@drawable/custom_button_rounded"
+                android:elevation="0dp"
+                android:paddingVertical="8dp"
+                android:text="@string/save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_destination"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
