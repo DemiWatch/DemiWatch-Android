@@ -10,8 +10,7 @@ import android.view.View
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.showLongToast
 import com.project.demiwatch.databinding.ActivityLoginBinding
-import com.project.demiwatch.databinding.ActivitySplashBinding
-import com.project.demiwatch.features.home.HomeActivity
+import com.project.demiwatch.features.dashboard.MainActivity
 import com.project.demiwatch.features.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -78,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
         }else{
             buttonEnabled(true)
 
-            val intentToHome = Intent(this, HomeActivity::class.java)
+            val intentToHome = Intent(this, MainActivity::class.java)
             startActivity(intentToHome)
             finish()
         }

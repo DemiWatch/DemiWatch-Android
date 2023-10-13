@@ -41,4 +41,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="BottomNavigationLabelStyle" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
