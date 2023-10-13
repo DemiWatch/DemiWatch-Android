@@ -24,4 +24,10 @@
     <string name="watch_id">Kode Unik Perangkat</string>
     <string name="address_home">Alamat Rumah (Default)</string>
     <string name="address_destination">Alamat Tujuan (Opsional)</string>
+    <string name="invalid_email">Format email anda salah</string>
+    <string name="invalid_password">Password setidaknya memiliki 8 karakter</string>
+    <string name="fill_data">Tolong lengkapi semua data</string>
+    <string name="pass_not_match">Pastikan password yang anda berikan sama</string>
+    <string name="complete_register_acc">Akun telah berhasil didaftarkan, silahkan login untuk dapat menggunakan aplikasi</string>
+
 </resources>
