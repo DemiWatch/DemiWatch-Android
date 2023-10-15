@@ -21,6 +21,8 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupActionBar()
+
         Handler(Looper.getMainLooper()).postDelayed({
             val intentFromSplash = Intent(this, LoginActivity::class.java)
             startActivity(intentFromSplash)
@@ -31,6 +33,10 @@ class SplashActivity : AppCompatActivity() {
         if(BuildConfig.DEBUG){
             Timber.plant(Timber.DebugTree())
         }
+    }
+
+    private fun setupActionBar(){
+        supportActionBar?.hide()
     }
 
     companion object{

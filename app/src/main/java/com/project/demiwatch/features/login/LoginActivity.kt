@@ -25,6 +25,8 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        setupActionBar()
+
         setupEditTextFormat()
 
         setButtonToRegister()
@@ -112,5 +114,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun buttonEnabled(isEnabled: Boolean) {
         binding.btnLogin.isEnabled = isEnabled
+    }
+
+    private fun setupActionBar(){
+        supportActionBar?.hide()
     }
 }

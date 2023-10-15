@@ -13,5 +13,13 @@ class FillProfileUserActivity : AppCompatActivity() {
 
         binding = ActivityFillProfileUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupButtonBack()
+    }
+
+    private fun setupButtonBack() {
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
     }
 }

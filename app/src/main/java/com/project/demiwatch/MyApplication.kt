@@ -1,8 +1,7 @@
 package com.project.demiwatch
 
 import android.app.Application
-import androidx.viewbinding.BuildConfig
-
+import com.project.demiwatch.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -10,6 +9,7 @@ import timber.log.Timber
 open class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
+
         if(BuildConfig.DEBUG){
             Timber.plant(Timber.DebugTree())
         }

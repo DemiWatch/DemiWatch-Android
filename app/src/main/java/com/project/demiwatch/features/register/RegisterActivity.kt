@@ -21,6 +21,8 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupActionBar()
+
         setupEditTextFormat()
 
         setButtonRegister()
@@ -31,7 +33,9 @@ class RegisterActivity : AppCompatActivity() {
     private fun setupEditTextFormat() {
         binding.edEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+                if(p0.toString().isEmpty()){
+                    binding.btnRegister.isEnabled = false
+                }
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -49,7 +53,9 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.edPass.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+                if(p0.toString().isEmpty()){
+                    binding.btnRegister.isEnabled = false
+                }
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -85,23 +91,29 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setButtonRegister() {
-        val email = binding.edEmail.text.toString()
-        val password = binding.edPass.text.toString()
-        val passwordConfirm = binding.edPassConfirm.text.toString()
-
-        if (email.isEmpty() and password.isEmpty() and passwordConfirm.isEmpty()){
+        if (binding.edEmail.text.toString().isEmpty() and binding.edPass.text.toString().isEmpty() and binding.edPassConfirm.text.toString().isEmpty()){
             buttonEnabled(false)
-            showLongToast(getString(R.string.fill_data))
-        }else if(password != passwordConfirm){
-            buttonEnabled(false)
-            showLongToast(getString(R.string.pass_not_match))
-        }else{
-            buttonEnabled(true)
-            showLongToast(getString(R.string.complete_register_acc))
+        }
 
-            val intentToLogin = Intent(this, LoginActivity::class.java)
-            startActivity(intentToLogin)
-            finish()
+        binding.btnRegister.setOnClickListener {
+            val email = binding.edEmail.text.toString()
+            val password = binding.edPass.text.toString()
+            val passwordConfirm = binding.edPassConfirm.text.toString()
+
+            if (email.isEmpty() and password.isEmpty() and passwordConfirm.isEmpty()){
+                buttonEnabled(false)
+                showLongToast(getString(R.string.fill_data))
+            }else if(password != passwordConfirm){
+                buttonEnabled(false)
+                showLongToast(getString(R.string.pass_not_match))
+            }else{
+                buttonEnabled(true)
+                showLongToast(getString(R.string.complete_register_acc))
+
+                val intentToLogin = Intent(this, LoginActivity::class.java)
+                startActivity(intentToLogin)
+                finish()
+            }
         }
     }
 
@@ -118,5 +130,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun buttonEnabled(isEnabled: Boolean){
         binding.btnRegister.isEnabled = isEnabled
+    }
+
+    private fun setupActionBar(){
+        supportActionBar?.hide()
     }
 }
