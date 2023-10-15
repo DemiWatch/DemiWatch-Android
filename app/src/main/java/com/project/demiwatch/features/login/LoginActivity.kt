@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import com.project.demiwatch.R
@@ -12,6 +13,8 @@ import com.project.demiwatch.core.utils.showLongToast
 import com.project.demiwatch.databinding.ActivityLoginBinding
 import com.project.demiwatch.features.dashboard.MainActivity
 import com.project.demiwatch.features.register.RegisterActivity
+import timber.log.Timber
+import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -32,7 +35,9 @@ class LoginActivity : AppCompatActivity() {
     private fun setupEditTextFormat() {
         binding.edEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+                if(p0.toString().isEmpty()){
+                    binding.btnLogin.isEnabled = false
+                }
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -50,7 +55,9 @@ class LoginActivity : AppCompatActivity() {
 
         binding.edPass.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+                if(p0.toString().isEmpty()){
+                    binding.btnLogin.isEnabled = false
+                }
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -68,19 +75,27 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setButtonLogin() {
-        val email = binding.edEmail.text.toString()
-        val password = binding.edPass.text.toString()
-
-        if(email.isEmpty() and password.isEmpty()){
+        if (binding.edEmail.text.toString().isEmpty() and binding.edPass.text.toString().isEmpty()){
             buttonEnabled(false)
-            showLongToast(getString(R.string.fill_data))
-        }else{
-            buttonEnabled(true)
-
-            val intentToHome = Intent(this, MainActivity::class.java)
-            startActivity(intentToHome)
-            finish()
         }
+
+       binding.btnLogin.setOnClickListener {
+           val email = binding.edEmail.text.toString()
+           val password = binding.edPass.text.toString()
+
+           if (email.isEmpty() or password.isEmpty()) {
+               Timber.tag("TEST").d("%s%s", email.isEmpty().toString(), password.isEmpty().toString())
+               showLongToast(getString(R.string.fill_data))
+               buttonEnabled(false)
+           } else {
+               Timber.tag("TEST").d("%s%s", email.isEmpty().toString(), password.isEmpty().toString())
+               buttonEnabled(true)
+
+               val intentToHome = Intent(this, MainActivity::class.java)
+               startActivity(intentToHome)
+               finish()
+           }
+       }
     }
 
     private fun setButtonToRegister(){
