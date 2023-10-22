@@ -29,7 +29,7 @@
         app:srcCompat="@drawable/ic_arrow_back_24" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_save"
         style="@style/textStyleButtonWhite"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

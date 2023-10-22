@@ -36,5 +36,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="welcome">Selamat datang</string>
     <string name="placeholder_username">Username</string>
+    <string name="patient_loc">Lokasi Pasien</string>
+    <string name="fill_patient_profile">Lengkapi Data Pasien</string>
 
 </resources>

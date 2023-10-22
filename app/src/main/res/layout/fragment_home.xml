@@ -8,7 +8,6 @@
 
     <TextView
         android:id="@+id/textView2"
-        style="@style/textStyleMediumCustom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,14 +19,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tv_home_username"
         style="@style/textStyleSemiBoldCustom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:text="@string/placeholder_username"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/iv_header_profile"
+        app:layout_constraintEnd_toStartOf="@+id/iv_home_profile"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -44,15 +43,26 @@
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_header_profile"
+        android:id="@+id/iv_home_profile"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="24dp"
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder_profile_user"
-        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_home_username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2"
         app:shapeAppearanceOverlay="@style/ImageView.Round" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textSize="16sp"
+        style="@style/textStyleMediumCustom"
+        android:text="@string/patient_loc"
+        app:layout_constraintStart_toStartOf="@+id/tv_home_username"
+        app:layout_constraintTop_toBottomOf="@+id/tv_home_username" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
