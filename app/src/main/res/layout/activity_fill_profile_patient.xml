@@ -228,6 +228,7 @@
                 android:background="@drawable/custom_button_rounded"
                 android:elevation="0dp"
                 android:paddingVertical="8dp"
+                android:textAllCaps="false"
                 android:text="@string/save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

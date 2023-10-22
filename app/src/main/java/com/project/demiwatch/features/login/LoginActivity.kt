@@ -12,6 +12,7 @@ import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.showLongToast
 import com.project.demiwatch.databinding.ActivityLoginBinding
 import com.project.demiwatch.features.dashboard.MainActivity
+import com.project.demiwatch.features.fill_profile.user.FillProfileUserActivity
 import com.project.demiwatch.features.register.RegisterActivity
 import timber.log.Timber
 import kotlin.math.log
@@ -93,6 +94,10 @@ class LoginActivity : AppCompatActivity() {
                Timber.tag("TEST").d("%s%s", email.isEmpty().toString(), password.isEmpty().toString())
                buttonEnabled(true)
 
+//               val intentToFillProfileUser = Intent(this, FillProfileUserActivity::class.java)
+//               startActivity(intentToFillProfileUser)
+//               finish()
+
                val intentToHome = Intent(this, MainActivity::class.java)
                startActivity(intentToHome)
                finish()
@@ -104,7 +109,6 @@ class LoginActivity : AppCompatActivity() {
         binding.tvToRegister.setOnClickListener {
             val intentToRegister = Intent(this, RegisterActivity::class.java)
             startActivity(intentToRegister)
-            finish()
         }
     }
 

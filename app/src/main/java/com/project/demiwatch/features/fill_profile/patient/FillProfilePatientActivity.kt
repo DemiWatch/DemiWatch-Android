@@ -16,6 +16,8 @@ class FillProfilePatientActivity : AppCompatActivity() {
         binding = ActivityFillProfilePatientBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupActionBar()
+
         setupButtonBack()
 
         setupSaveButton()
@@ -42,5 +44,9 @@ class FillProfilePatientActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             finish()
         }
+    }
+
+    private fun setupActionBar(){
+        supportActionBar?.hide()
     }
 }

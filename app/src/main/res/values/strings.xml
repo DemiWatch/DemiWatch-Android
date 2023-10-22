@@ -38,5 +38,9 @@
     <string name="placeholder_username">Username</string>
     <string name="patient_loc">Lokasi Pasien</string>
     <string name="fill_patient_profile">Lengkapi Data Pasien</string>
+    <string name="placeholder_patient_name">Patient Name</string>
+    <string name="placeholder_patient_symtomps">Patient Symtomps</string>
+    <string name="access_route">Akses Rute</string>
+    <string name="patient_list">Daftar Pasien</string>
 
 </resources>

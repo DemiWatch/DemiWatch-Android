@@ -17,6 +17,8 @@ class FillProfileUserActivity : AppCompatActivity() {
         binding = ActivityFillProfileUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupActionBar()
+
         setupButtonBack()
 
         setupSaveButton()
@@ -43,5 +45,9 @@ class FillProfileUserActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             finish()
         }
+    }
+
+    private fun setupActionBar(){
+        supportActionBar?.hide()
     }
 }
