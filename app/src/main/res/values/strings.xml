@@ -45,6 +45,9 @@
     <string name="your_patient">Pasien Anda</string>
 
     <!--    MapBox Token    -->
-    <string name="mapbox_access_token">pk.eyJ1Ijoia3Jpc25hZXJsYW5nZ2EwOCIsImEiOiJjbG5yMm1wcGUxMXk4Mm1xamZhNjQ5eDdqIn0.bwDrSFJPaZ9eUaK6JHKYMg</string><!--    MapBox Token    -->
+    <string name="mapbox_access_token">pk.eyJ1Ijoia3Jpc25hZXJsYW5nZ2EwOCIsImEiOiJjbG5yMm1wcGUxMXk4Mm1xamZhNjQ5eDdqIn0.bwDrSFJPaZ9eUaK6JHKYMg</string>
+    <string name="placeholder_email">user@gmail.com</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="logout">Logout</string><!--    MapBox Token    -->
 
 </resources>

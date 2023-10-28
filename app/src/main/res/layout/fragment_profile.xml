@@ -7,7 +7,7 @@
     tools:context=".features.profile.ProfileFragment">
 
     <ImageView
-        android:id="@+id/iv_profile_setting"
+        android:id="@+id/btn_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -20,24 +20,23 @@
         android:id="@+id/iv_profile_image"
         android:layout_width="92dp"
         android:layout_height="92dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/profile_user"
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder_profile_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_profile_setting"
+        app:layout_constraintTop_toBottomOf="@+id/btn_menu"
         app:shapeAppearanceOverlay="@style/ImageView.Round" />
 
     <TextView
         android:id="@+id/textView5"
+        style="@style/textStyleSemiBoldCustom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:text="@string/name"
-        android:textSize="16sp"
-        style="@style/textStyleSemiBoldCustom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_profile_image" />
 
@@ -48,7 +47,6 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"
         android:textColor="@color/dark_grey"
-        android:textSize="16sp"
         android:text="@string/placeholder_username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView5"
@@ -61,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Email"
-        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_name" />
 
@@ -73,7 +70,6 @@
         android:layout_marginEnd="16dp"
         android:text="@string/placeholder_email"
         android:textColor="@color/dark_grey"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -83,7 +79,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="16sp"
         style="@style/textStyleSemiBoldCustom"
         android:text="@string/phone_number"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_email"
@@ -96,7 +91,6 @@
         android:layout_marginTop="2dp"
         android:text="@string/phone_number"
         android:textColor="@color/dark_grey"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/tv_profile_email"
         app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -106,7 +100,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="16sp"
         style="@style/textStyleSemiBoldCustom"
         android:text="@string/user_relation"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_phone"
@@ -117,7 +110,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="16sp"
         android:textColor="@color/dark_grey"
         android:text="@string/user_relation"
         app:layout_constraintEnd_toEndOf="@+id/tv_profile_phone"
@@ -130,7 +122,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/safe_radius_patient"
-        android:textSize="16sp"
         style="@style/textStyleSemiBoldCustom"
         app:layout_constraintStart_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
@@ -142,7 +133,6 @@
         android:layout_marginTop="2dp"
         android:text="@string/safe_radius_patient"
         android:textColor="@color/dark_grey"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView13"
         app:layout_constraintStart_toStartOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
