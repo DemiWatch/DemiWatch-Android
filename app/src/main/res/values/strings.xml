@@ -42,5 +42,9 @@
     <string name="placeholder_patient_symtomps">Patient Symtomps</string>
     <string name="access_route">Akses Rute</string>
     <string name="patient_list">Daftar Pasien</string>
+    <string name="your_patient">Pasien Anda</string>
+
+    <!--    MapBox Token    -->
+    <string name="mapbox_access_token">pk.eyJ1Ijoia3Jpc25hZXJsYW5nZ2EwOCIsImEiOiJjbG5yMm1wcGUxMXk4Mm1xamZhNjQ5eDdqIn0.bwDrSFJPaZ9eUaK6JHKYMg</string><!--    MapBox Token    -->
 
 </resources>
