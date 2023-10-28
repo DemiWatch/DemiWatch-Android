@@ -1,5 +1,6 @@
 package com.project.demiwatch.features.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.project.demiwatch.R
 import com.project.demiwatch.databinding.FragmentHomeBinding
+import com.project.demiwatch.features.maps.MapsActivity
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -22,6 +24,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.btnPatientRoute.setOnClickListener {
+            val intentToMap = Intent(requireContext(), MapsActivity::class.java)
+            startActivity(intentToMap)
+        }
     }
 
     override fun onDestroyView() {
