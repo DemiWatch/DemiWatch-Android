@@ -48,6 +48,8 @@
     <string name="mapbox_access_token">pk.eyJ1Ijoia3Jpc25hZXJsYW5nZ2EwOCIsImEiOiJjbG5yMm1wcGUxMXk4Mm1xamZhNjQ5eDdqIn0.bwDrSFJPaZ9eUaK6JHKYMg</string>
     <string name="placeholder_email">user@gmail.com</string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="logout">Logout</string><!--    MapBox Token    -->
+    <string name="logout">Logout</string>
+    <string name="address_data">Data Alamat</string>
+    <string name="placeholder_address_default">Rumah (Default)</string><!--    MapBox Token    -->
 
 </resources>
