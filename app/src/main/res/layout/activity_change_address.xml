@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".features.patient_detail.change_address.ChangeAddressActivity">
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/change_address_route"
+        style="@style/textStyleSemiBoldCustom"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="@+id/btn_back"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back" />
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_back_24" />
+
+    <TextView
+        android:id="@+id/textView20"
+        style="@style/textStyleMediumCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Alamat Rumah (Default)"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <EditText
+        android:id="@+id/ed_name_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/custom_text_field_rounded"
+        android:drawablePadding="12sp"
+        android:ems="10"
+        android:hint="Nama Alamat Rumah"
+        android:padding="16dp"
+        android:textColorHint="@color/dark_grey"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+    <EditText
+        android:id="@+id/ed_address_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/custom_text_field_rounded"
+        android:drawablePadding="12sp"
+        android:ems="10"
+        android:hint="Alamat Rumah"
+        android:padding="16dp"
+        android:textColorHint="@color/dark_grey"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_name_home" />
+
+    <TextView
+        android:id="@+id/textView21"
+        style="@style/textStyleMediumCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Alamat Tujuan"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/ed_address_home"
+        app:layout_constraintTop_toBottomOf="@+id/ed_address_home" />
+
+    <EditText
+        android:id="@+id/ed_name_destination"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/custom_text_field_rounded"
+        android:drawablePadding="12sp"
+        android:ems="10"
+        android:hint="Nama Tujuan"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:textColorHint="@color/dark_grey"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <EditText
+        android:id="@+id/ed_address_destination"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/custom_text_field_rounded"
+        android:drawablePadding="12sp"
+        android:ems="10"
+        android:hint="Alamat Rumah"
+        android:padding="16dp"
+        android:textColorHint="@color/dark_grey"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_name_destination" />
+
+    <Button
+        android:id="@+id/btn_save"
+        style="@style/textStyleButtonWhite"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/custom_button_rounded"
+        android:elevation="0dp"
+        android:paddingVertical="8dp"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
