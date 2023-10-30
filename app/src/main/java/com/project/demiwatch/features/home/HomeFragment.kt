@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.project.demiwatch.R
 import com.project.demiwatch.databinding.FragmentHomeBinding
 import com.project.demiwatch.features.maps.MapsActivity
+import com.project.demiwatch.features.patient_detail.PatientDetailActivity
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -25,6 +26,28 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupPatientRouteCard()
+
+        setupPatientListCard()
+
+        setupPatientRoute()
+    }
+
+    private fun setupPatientListCard() {
+        binding.cardPatientList.setOnClickListener {
+            val intentToPatientDetail = Intent(requireContext(), PatientDetailActivity::class.java)
+            startActivity(intentToPatientDetail)
+        }
+    }
+
+    private fun setupPatientRouteCard() {
+        binding.cardPatientRoute.setOnClickListener {
+            val intentToPatientDetail = Intent(requireContext(), PatientDetailActivity::class.java)
+            startActivity(intentToPatientDetail)
+        }
+    }
+
+    private fun setupPatientRoute() {
         binding.btnPatientRoute.setOnClickListener {
             val intentToMap = Intent(requireContext(), MapsActivity::class.java)
             startActivity(intentToMap)

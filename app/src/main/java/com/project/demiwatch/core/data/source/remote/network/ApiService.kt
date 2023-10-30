@@ -14,21 +14,22 @@ interface ApiService{
     //USER
 
     @FormUrlEncoded
-    @POST("auth/register")
-    fun registerUser(
+    @POST("api/register")
+    suspend fun registerUser(
         @Field("name") name: String,
         @Field("email") email: String,
         @Field("password") password: String,
     ): RegisterResponse
 
     @FormUrlEncoded
-    @POST("auth/login")
-    fun loginUser(
+    @POST("api/login")
+    suspend fun loginUser(
         @Field("email") email: String,
         @Field("password") password: String,
     ): LoginResponse
 
     //END-USER
+
 
     //PATIENT
 

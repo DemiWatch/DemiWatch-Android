@@ -8,17 +8,23 @@ import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import androidx.activity.viewModels
 import com.project.demiwatch.R
+import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.showLongToast
+import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.ActivityLoginBinding
 import com.project.demiwatch.features.dashboard.MainActivity
 import com.project.demiwatch.features.fill_profile.user.FillProfileUserActivity
 import com.project.demiwatch.features.register.RegisterActivity
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import kotlin.math.log
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,20 +93,44 @@ class LoginActivity : AppCompatActivity() {
            val password = binding.edPass.text.toString()
 
            if (email.isEmpty() or password.isEmpty()) {
-               Timber.tag("TEST").d("%s%s", email.isEmpty().toString(), password.isEmpty().toString())
                showLongToast(getString(R.string.fill_data))
                buttonEnabled(false)
            } else {
-               Timber.tag("TEST").d("%s%s", email.isEmpty().toString(), password.isEmpty().toString())
                buttonEnabled(true)
 
-//               val intentToFillProfileUser = Intent(this, FillProfileUserActivity::class.java)
-//               startActivity(intentToFillProfileUser)
-//               finish()
+               loginViewModel.loginUser(email, password).observe(this){user ->
+                   when(user){
+                       is Resource.Error ->{
+                           showLoading(false)
+                           buttonEnabled(true)
+                       }
+                       is Resource.Loading -> {
+                           showLoading(true)
+                           buttonEnabled(false)
 
-               val intentToHome = Intent(this, MainActivity::class.java)
-               startActivity(intentToHome)
-               finish()
+                       }
+                       is Resource.Message ->{
+                           Timber.tag("LoginActivity").d(user.message.toString())
+                       }
+                       is Resource.Success ->{
+                           showLoading(false)
+                           buttonEnabled(true)
+
+                           loginViewModel.saveUserToken("Bearer " + user.data?.token!!)
+                           Timber.tag("LoginActivity").d(loginViewModel.getUserToken().toString())
+                           showToast(loginViewModel.getUserToken().toString())
+
+                           //               val intentToFillProfileUser = Intent(this, FillProfileUserActivity::class.java)
+                           //               startActivity(intentToFillProfileUser)
+                           //               finish()
+
+                           val intentToHome = Intent(this, MainActivity::class.java)
+                           startActivity(intentToHome)
+                           finish()
+                       }
+                   }
+
+               }
            }
        }
     }

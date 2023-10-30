@@ -1,11 +1,15 @@
 package com.project.demiwatch.features.splash
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.viewbinding.BuildConfig
 import com.project.demiwatch.R
 import com.project.demiwatch.databinding.ActivitySplashBinding

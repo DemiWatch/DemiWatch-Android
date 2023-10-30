@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="@string/welcome"
         android:textColor="@color/dark_grey"
         android:textSize="14sp"
@@ -68,7 +68,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_home_profile"
-        android:layout_width="52dp"
+        android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="24dp"
         android:scaleType="centerCrop"
@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_home_username" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout3"
+        android:id="@+id/card_patient_route"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder_patient_symtomps"
                 android:textColor="@color/dark_grey"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/card_patient_name"
                 app:layout_constraintTop_toBottomOf="@+id/card_patient_name" />
 
@@ -190,11 +190,11 @@
         android:layout_marginTop="32dp"
         android:text="@string/patient_list"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+        app:layout_constraintStart_toStartOf="@+id/card_patient_route"
+        app:layout_constraintTop_toBottomOf="@+id/card_patient_route" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout4"
+        android:id="@+id/card_patient_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder_patient_symtomps"
                 android:textColor="@color/dark_grey"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/card_patient_list_name"
                 app:layout_constraintTop_toBottomOf="@+id/card_patient_list_name" />
 
