@@ -118,7 +118,6 @@ class LoginActivity : AppCompatActivity() {
 
                            loginViewModel.saveUserToken("Bearer " + user.data?.token!!)
                            Timber.tag("LoginActivity").d(loginViewModel.getUserToken().toString())
-                           showToast(loginViewModel.getUserToken().toString())
 
                            //               val intentToFillProfileUser = Intent(this, FillProfileUserActivity::class.java)
                            //               startActivity(intentToFillProfileUser)
