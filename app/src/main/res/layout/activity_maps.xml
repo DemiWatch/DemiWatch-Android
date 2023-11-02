@@ -20,7 +20,7 @@
     </com.mapbox.maps.MapView>
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/btn_back"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
