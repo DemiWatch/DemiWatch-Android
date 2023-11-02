@@ -14,5 +14,4 @@ interface IUserRepository {
 
     suspend fun deleteTokenUser()
 
-//    fun registerUser(name: String, email: String, password: String): Flow<Resource<User>>
 }

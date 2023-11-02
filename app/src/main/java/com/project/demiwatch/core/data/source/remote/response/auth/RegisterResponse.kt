@@ -1,4 +1,4 @@
-package com.project.demiwatch.core.data.source.remote.response
+package com.project.demiwatch.core.data.source.remote.response.auth
 
 import com.google.gson.annotations.SerializedName
 

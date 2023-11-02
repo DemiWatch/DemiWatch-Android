@@ -1,6 +1,8 @@
 package com.project.demiwatch.core.di
 
+import com.project.demiwatch.core.data.repository.PatientRepository
 import com.project.demiwatch.core.data.repository.UserRepository
+import com.project.demiwatch.core.domain.repository.IPatientRepository
 import com.project.demiwatch.core.domain.repository.IUserRepository
 import dagger.Binds
 import dagger.Module
@@ -13,4 +15,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideUserRepository(userRepository: UserRepository): IUserRepository
+
+    @Binds
+    abstract fun providePatientRepository(patientRepository: PatientRepository): IPatientRepository
 }

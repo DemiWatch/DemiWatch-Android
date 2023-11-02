@@ -1,10 +1,9 @@
 package com.project.demiwatch.core.data.source.remote.datasource
 
-import android.util.Log
 import com.project.demiwatch.core.data.source.remote.network.ApiResponse
 import com.project.demiwatch.core.data.source.remote.network.ApiService
-import com.project.demiwatch.core.data.source.remote.response.LoginResponse
-import com.project.demiwatch.core.data.source.remote.response.RegisterResponse
+import com.project.demiwatch.core.data.source.remote.response.auth.LoginResponse
+import com.project.demiwatch.core.data.source.remote.response.patient.PatientLocationResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -53,6 +52,21 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
 
     //PATIENT
 
+    suspend fun getLocationPatient(token: String): Flow<ApiResponse<PatientLocationResponse>>{
+        return flow<ApiResponse<PatientLocationResponse>> {
+            try {
+                val response = apiService.getLocationPatient(token)
+                if (response.status == 200){
+                    emit(ApiResponse.Success(response))
+                }else{
+                    emit(ApiResponse.Empty)
+                }
+            }catch (e: Exception){
+                Timber.tag("loginUser").d( e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 
 
     //END-PATIENT

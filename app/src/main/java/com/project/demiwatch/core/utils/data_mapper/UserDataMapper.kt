@@ -1,8 +1,7 @@
 package com.project.demiwatch.core.utils.data_mapper
 
-import com.project.demiwatch.core.data.source.remote.response.LoginResponse
+import com.project.demiwatch.core.data.source.remote.response.auth.LoginResponse
 import com.project.demiwatch.core.domain.model.Auth
-import com.project.demiwatch.core.domain.model.User
 
 object UserDataMapper {
     fun mapLoginResponseToDomain(input: LoginResponse?): Auth = Auth(

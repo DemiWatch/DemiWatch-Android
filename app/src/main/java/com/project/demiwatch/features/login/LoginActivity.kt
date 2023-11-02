@@ -107,7 +107,6 @@ class LoginActivity : AppCompatActivity() {
                        is Resource.Loading -> {
                            showLoading(true)
                            buttonEnabled(false)
-
                        }
                        is Resource.Message ->{
                            Timber.tag("LoginActivity").d(user.message.toString())
@@ -116,7 +115,7 @@ class LoginActivity : AppCompatActivity() {
                            showLoading(false)
                            buttonEnabled(true)
 
-                           loginViewModel.saveUserToken("Bearer " + user.data?.token!!)
+                           loginViewModel.saveUserToken(user.data?.token!!)
                            Timber.tag("LoginActivity").d(loginViewModel.getUserToken().toString())
 
                            //               val intentToFillProfileUser = Intent(this, FillProfileUserActivity::class.java)

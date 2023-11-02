@@ -4,9 +4,8 @@ import com.project.demiwatch.core.data.source.local.LocalDataSource
 import com.project.demiwatch.core.data.source.remote.NetworkBoundResource
 import com.project.demiwatch.core.data.source.remote.datasource.RemoteDataSource
 import com.project.demiwatch.core.data.source.remote.network.ApiResponse
-import com.project.demiwatch.core.data.source.remote.response.LoginResponse
+import com.project.demiwatch.core.data.source.remote.response.auth.LoginResponse
 import com.project.demiwatch.core.domain.model.Auth
-import com.project.demiwatch.core.domain.model.User
 import com.project.demiwatch.core.domain.repository.IUserRepository
 import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.data_mapper.UserDataMapper

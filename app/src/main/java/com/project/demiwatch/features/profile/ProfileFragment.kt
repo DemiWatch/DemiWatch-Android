@@ -1,24 +1,30 @@
 package com.project.demiwatch.features.profile
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.showToast
-import com.project.demiwatch.databinding.FragmentHomeBinding
 import com.project.demiwatch.databinding.FragmentProfileBinding
+import com.project.demiwatch.features.splash.SplashActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() =_binding!!
+    private val profileViewModel: ProfileViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -28,6 +34,18 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupSettingsPopUp()
+
+        setupLogOut()
+    }
+
+    private fun setupLogOut() {
+        binding.btnLogout.setOnClickListener {
+            profileViewModel.deleteTokenUser()
+
+            val intentToSplash = Intent(requireContext(), SplashActivity::class.java)
+            startActivity(intentToSplash)
+            activity?.finish()
+        }
     }
 
     private fun setupSettingsPopUp() {

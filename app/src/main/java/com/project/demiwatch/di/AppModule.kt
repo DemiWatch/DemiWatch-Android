@@ -1,5 +1,7 @@
 package com.project.demiwatch.di
 
+import com.project.demiwatch.core.domain.usecase.PatientInteractor
+import com.project.demiwatch.core.domain.usecase.PatientUseCase
 import com.project.demiwatch.core.domain.usecase.UserInteractor
 import com.project.demiwatch.core.domain.usecase.UserUseCase
 import dagger.Binds
@@ -15,4 +17,8 @@ abstract class AppModule {
     @Binds
     @ViewModelScoped
     abstract fun provideUserUseCase(userInteractor: UserInteractor): UserUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun providePatientUseCase(patientInteractor: PatientInteractor): PatientUseCase
 }
