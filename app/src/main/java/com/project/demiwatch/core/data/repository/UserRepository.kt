@@ -5,6 +5,7 @@ import com.project.demiwatch.core.data.source.remote.NetworkBoundResource
 import com.project.demiwatch.core.data.source.remote.datasource.RemoteDataSource
 import com.project.demiwatch.core.data.source.remote.network.ApiResponse
 import com.project.demiwatch.core.data.source.remote.response.auth.LoginResponse
+import com.project.demiwatch.core.data.source.remote.response.auth.RegisterResponse
 import com.project.demiwatch.core.domain.model.Auth
 import com.project.demiwatch.core.domain.repository.IUserRepository
 import com.project.demiwatch.core.utils.Resource
@@ -28,6 +29,18 @@ private val localDataSource: LocalDataSource
                 return remoteDataSource.loginUser(email, password)
             }
 
+        }.asFlow()
+    }
+
+    override fun registerUser(email: String, password: String): Flow<Resource<Auth>> {
+        return object: NetworkBoundResource<Auth, RegisterResponse>(){
+            override suspend fun fetchFromApi(response: RegisterResponse): Auth {
+                return UserDataMapper.mapRegisterResponseToDomain(response)
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<RegisterResponse>> {
+                return remoteDataSource.registerUser(email, password)
+            }
         }.asFlow()
     }
 

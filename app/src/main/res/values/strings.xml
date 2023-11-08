@@ -46,6 +46,8 @@
 
     <!--    MapBox Token    -->
     <string name="mapbox_access_token">pk.eyJ1Ijoia3Jpc25hZXJsYW5nZ2EwOCIsImEiOiJjbG5yMm1wcGUxMXk4Mm1xamZhNjQ5eDdqIn0.bwDrSFJPaZ9eUaK6JHKYMg</string>
+    <!--    MapBox Token    -->
+
     <string name="placeholder_email">user@gmail.com</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="logout">Logout</string>
@@ -53,6 +55,8 @@
     <string name="placeholder_address_default">Rumah (Default)</string>
     <string name="change_address_route">Ubah Alamat Pasien</string>
     <string name="change_address_notes">Anda dapat mengubah alamat rumah dan alamat tujuan perangkat pasien</string>
-    <string name="log_out">Log Out</string><!--    MapBox Token    -->
+    <string name="log_out">Log Out</string>
+    <string name="check_connection">Pastikan koneksi internet anda baik dan coba buka halaman ini kembali</string>
+    <string name="user_registered">Pengguna telah berhasil ditambahkan, silahkan masukkan kembali akun Anda untuk menggunakan aplikasi</string>
 
 </resources>

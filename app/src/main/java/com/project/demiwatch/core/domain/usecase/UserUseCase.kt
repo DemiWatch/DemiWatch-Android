@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface UserUseCase {
     fun loginUser(email:String, password: String): Flow<Resource<Auth>>
 
+    fun registerUser(email: String, password: String): Flow<Resource<Auth>>
+
     fun getTokenUser(): Flow<String>
 
     suspend fun saveTokenUser(token: String)

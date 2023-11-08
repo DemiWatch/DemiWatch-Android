@@ -13,6 +13,10 @@ class UserInteractor @Inject constructor(private val userRepository: UserReposit
         return userRepository.loginUser(email, password)
     }
 
+    override fun registerUser(email: String, password: String): Flow<Resource<Auth>> {
+        return userRepository.registerUser(email, password)
+    }
+
     override fun getTokenUser(): Flow<String> {
        return userRepository.getTokenUser()
     }
