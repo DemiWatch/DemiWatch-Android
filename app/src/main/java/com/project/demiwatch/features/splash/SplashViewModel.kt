@@ -8,7 +8,11 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(private val userUseCase: UserUseCase): ViewModel() {
+class SplashViewModel @Inject constructor(private val userUseCase: UserUseCase) : ViewModel() {
 
     fun getUserToken() = userUseCase.getTokenUser().asLiveData()
+
+    fun getUserId() = userUseCase.getIdUser().asLiveData()
+
+    fun getUser(id: String, token: String) = userUseCase.getUser(token, id).asLiveData()
 }

@@ -29,4 +29,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_back_circle" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_center_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/blue"
+        android:clickable="true"
+        android:focusable="true"
+        app:fabCustomSize="72dp"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="28dp"
+        app:srcCompat="@drawable/ic_location_searching_24"
+        app:tint="@color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>

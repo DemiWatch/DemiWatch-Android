@@ -6,7 +6,7 @@ import com.project.demiwatch.core.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface UserUseCase {
-    fun loginUser(email:String, password: String): Flow<Resource<Auth>>
+    fun loginUser(email: String, password: String): Flow<Resource<Auth>>
 
     fun registerUser(email: String, password: String): Flow<Resource<Auth>>
 
@@ -14,7 +14,30 @@ interface UserUseCase {
 
     suspend fun saveTokenUser(token: String)
 
+    fun getIdUser(): Flow<String>
+
+    suspend fun saveIdUser(userId: String)
+
     suspend fun deleteTokenUser()
 
-//    fun registerUser(name: String, email: String, password: String):Flow<Resource<User>>
+    //without profile picture
+    fun addUser(
+        token: String,
+        id: String,
+        name: String,
+        radius: String,
+        status: String,
+        phoneNumber: String
+    ): Flow<Resource<User>>
+
+    fun updateUser(
+        token: String,
+        id: String,
+        name: String,
+        radius: String,
+        status: String,
+        phoneNumber: String
+    ): Flow<Resource<User>>
+
+    fun getUser(token: String, id: String): Flow<Resource<User>>
 }

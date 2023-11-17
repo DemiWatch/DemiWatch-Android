@@ -1,15 +1,30 @@
 package com.project.demiwatch.features.fill_profile.patient
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.ArrayAdapter
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.project.demiwatch.R
-import com.project.demiwatch.core.utils.showLongToast
+import com.project.demiwatch.core.utils.constants.patientSymptomItems
+import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.ActivityFillProfilePatientBinding
 import com.project.demiwatch.features.dashboard.MainActivity
+import com.project.demiwatch.features.pick_location.PickLocationFragment
+import com.project.demiwatch.features.pick_location.PickLocationViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FillProfilePatientActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFillProfilePatientBinding
+    private val fillProfilePatientViewModel: FillProfilePatientViewModel by viewModels()
+    private val pickLocationViewModel: PickLocationViewModel by viewModels()
+
+    private lateinit var savedToken: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,23 +35,194 @@ class FillProfilePatientActivity : AppCompatActivity() {
 
         setupButtonBack()
 
+        setupPickPatientSymptom()
+
         setupSaveButton()
+
+        setupSetLocation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setLocationData()
+    }
+
+    private fun setLocationData() {
+        pickLocationViewModel.pickedHomeLocation.observe(this@FillProfilePatientActivity) { coor ->
+            showToast(coor.toString())
+            binding.edPatientAddressHomeLatitude.setText(R.string.fill_patient_profile)
+            binding.edPatientAddressHomeLongitude.setText(coor.longitude().toString().toInt())
+        }
+//        pickLocationViewModel.apply {
+//
+//
+//            pickedDestinationLocation.observe(this) { coor ->
+//                binding.edPatientAddressDestinationLatitude.setText(coor.latitude().toString())
+//                binding.edPatientAddressDestinationLongitude.setText(coor.longitude().toString())
+//            }
+//        }
+    }
+
+    private fun setupSetLocation() {
+        binding.edPatientAddressHomeLatitude.setOnClickListener {
+//            intentToPickLocation.putExtra(FLAG_SELECT_LOCATION, 1)
+//            startActivity(intentToPickLocation)
+            pickLocationViewModel.setPickedLocationType(1)
+
+            supportFragmentManager.beginTransaction().add(
+                R.id.frame_container,
+                PickLocationFragment(),
+                PickLocationFragment::class.java.simpleName
+            ).commit()
+        }
+
+        binding.edPatientAddressHomeLongitude.setOnClickListener {
+//            intentToPickLocation.putExtra(FLAG_SELECT_LOCATION, 2)
+//            startActivity(intentToPickLocation)
+            pickLocationViewModel.setPickedLocationType(2)
+
+            supportFragmentManager.beginTransaction().add(
+                R.id.frame_container,
+                PickLocationFragment(),
+                PickLocationFragment::class.java.simpleName
+            ).commit()
+        }
+
+        binding.edPatientAddressDestinationLatitude.setOnClickListener {
+//            intentToPickLocation.putExtra(FLAG_SELECT_LOCATION, 3)
+//            startActivity(intentToPickLocation)
+            pickLocationViewModel.setPickedLocationType(3)
+
+            supportFragmentManager.beginTransaction().add(
+                R.id.frame_container,
+                PickLocationFragment(),
+                PickLocationFragment::class.java.simpleName
+            ).commit()
+        }
+
+        binding.edPatientAddressDestinationLongitude.setOnClickListener {
+//            intentToPickLocation.putExtra(FLAG_SELECT_LOCATION, 4)
+//            startActivity(intentToPickLocation)
+            pickLocationViewModel.setPickedLocationType(4)
+
+            supportFragmentManager.beginTransaction().add(
+                R.id.frame_container,
+                PickLocationFragment(),
+                PickLocationFragment::class.java.simpleName
+            ).commit()
+
+        }
+    }
+
+
+    private fun setupPickPatientSymptom() {
+        val adapter = ArrayAdapter(this, R.layout.item_list_dropdown, patientSymptomItems)
+        binding.dropdownMenu.setAdapter(adapter)
+        binding.dropdownMenu.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                binding.edPatientDisease.isHintEnabled = p0.isNullOrEmpty()
+            }
+        })
     }
 
     private fun setupSaveButton() {
         val name = binding.edPatientFullName.text.toString()
         val age = binding.edPatientAge.text.toString()
-        val status = binding.dropdownMenu.text.toString()
+        val symptom = binding.dropdownMenu.text.toString()
         val patientNotes = binding.edPatientNotes.text.toString()
-        val watchId = binding.edPatientWatchId.text.toString()
+        val watchCode = binding.edPatientWatchId.text.toString()
         val homeAddress = binding.edPatientAddressHome.text.toString()
+        val latitudeHomeAddress = binding.edPatientAddressHomeLatitude.text.toString()
+        val longitudeHomeAddress = binding.edPatientAddressHomeLongitude.text.toString()
         val destinationAddress = binding.edPatientAddressDestination.text.toString()
+        val latitudeDestinationAddress = binding.edPatientAddressDestinationLatitude.text.toString()
+        val longitudeDestinationAddress =
+            binding.edPatientAddressDestinationLongitude.text.toString()
 
-        if(name.isNotEmpty() and age.isNotEmpty() and status.isNotEmpty() and patientNotes.isNotEmpty() and watchId.isNotEmpty() and homeAddress.isNotEmpty() and destinationAddress.isNotEmpty()){
-            val intentToMain = Intent(this, MainActivity::class.java)
-            startActivity(intentToMain)
-        }else{
-            showLongToast(getString(R.string.fill_data))
+        binding.btnSave.setOnClickListener {
+            val intentToHome = Intent(this, MainActivity::class.java)
+            startActivity(intentToHome)
+
+//            if (name.isNotEmpty() &&
+//                age.isNotEmpty() &&
+//                symptom.isNotEmpty() &&
+//                patientNotes.isNotEmpty() &&
+//                watchCode.isNotEmpty() &&
+//                homeAddress.isNotEmpty() &&
+//                destinationAddress.isNotEmpty() &&
+//                latitudeDestinationAddress.isNotEmpty() &&
+//                longitudeHomeAddress.isNotEmpty() &&
+//                latitudeHomeAddress.isNotEmpty() &&
+//                longitudeDestinationAddress.isNotEmpty()
+//            ) {
+////            fillProfilePatientViewModel.apply {
+////                getUserToken().observe(this@FillProfilePatientActivity) {
+////                    savedToken = it
+////                    addPatient(
+////                        savedToken,
+////                        name,
+////                        age.toInt(),
+////                        symptom,
+////                        watchCode,
+////                        homeAddress,
+////                        longitudeHomeAddress.toDouble(),
+////                        latitudeHomeAddress.toDouble(),
+////                        destinationAddress,
+////                        longitudeDestinationAddress.toDouble(),
+////                        latitudeHomeAddress.toDouble(),
+////                        patientNotes
+////                    ).observe(this@FillProfilePatientActivity) { patient ->
+////                        when (patient) {
+////                            is Resource.Error -> {
+////                                showLoading(false)
+////                                buttonEnabled(true)
+////
+////                                showLongToast("Terjadi kesalahan, silahkan simpan ulang")
+////                            }
+////                            is Resource.Loading -> {
+////                                showLoading(true)
+////                                buttonEnabled(false)
+////                            }
+////                            is Resource.Message -> {
+////                                Timber.tag("FillProfilePatientrActivity")
+////                                    .d(patient.message.toString())
+////                            }
+////                            is Resource.Success -> {
+////                                showLoading(false)
+////                                buttonEnabled(true)
+////
+////                                showLongToast(getString(R.string.patient_data_registered))
+////
+////                                val intentToHome =
+////                                    Intent(
+////                                        this@FillProfilePatientActivity,
+////                                        MainActivity::class.java
+////                                    )
+////
+////                                startActivity(intentToHome)
+////                                intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+////                                finish()
+////                            }
+////                        }
+////                    }
+////                }
+////            }
+//
+//                val intentToHome = Intent(this@FillProfilePatientActivity, MainActivity::class.java)
+//                startActivity(intentToHome)
+//                finish()
+//            } else {
+//                showLongToast(getString(R.string.fill_data))
+//            }
         }
     }
 
@@ -46,7 +232,15 @@ class FillProfilePatientActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupActionBar(){
+    private fun setupActionBar() {
         supportActionBar?.hide()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun buttonEnabled(isEnabled: Boolean) {
+        binding.btnSave.isEnabled = isEnabled
     }
 }

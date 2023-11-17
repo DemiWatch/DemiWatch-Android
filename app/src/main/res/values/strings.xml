@@ -22,8 +22,8 @@
     <string name="age">Umur</string>
     <string name="patient_notes">Catatan Pasien</string>
     <string name="watch_id">Kode Unik Perangkat</string>
-    <string name="address_home">Alamat Rumah (Default)</string>
-    <string name="address_destination">Alamat Tujuan (Opsional)</string>
+    <string name="address_home">Nama Alamat Rumah</string>
+    <string name="address_destination">Nama Alamat Tujuan</string>
     <string name="invalid_email">Format email anda salah</string>
     <string name="invalid_password">Password setidaknya memiliki 8 karakter</string>
     <string name="fill_data">Tolong lengkapi semua data</string>
@@ -58,5 +58,7 @@
     <string name="log_out">Log Out</string>
     <string name="check_connection">Pastikan koneksi internet anda baik dan coba buka halaman ini kembali</string>
     <string name="user_registered">Pengguna telah berhasil ditambahkan, silahkan masukkan kembali akun Anda untuk menggunakan aplikasi</string>
+    <string name="user_data_registered">Data pengguna telah berhasil ditambahkan</string>
+    <string name="patient_data_registered">Data pasien telah berhasil ditambahkan</string>
 
 </resources>

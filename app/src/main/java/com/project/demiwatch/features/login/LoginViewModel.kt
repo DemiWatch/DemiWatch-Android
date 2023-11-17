@@ -1,14 +1,10 @@
 package com.project.demiwatch.features.login
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.project.demiwatch.core.domain.model.Auth
 import com.project.demiwatch.core.domain.usecase.UserUseCase
-import com.project.demiwatch.core.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,4 +22,12 @@ class LoginViewModel @Inject constructor(
     }
 
     fun getUserToken() = userUseCase.getTokenUser().asLiveData()
+
+    fun saveUserId(userId: String) = viewModelScope.launch {
+        userUseCase.saveIdUser(userId)
+    }
+
+    fun getUserId() = userUseCase.getIdUser().asLiveData()
+
+    fun getUser(id: String, token: String) = userUseCase.getUser(token, id).asLiveData()
 }

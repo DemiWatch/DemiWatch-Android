@@ -25,7 +25,7 @@ android {
     }
 
     buildTypes {
-        debug{
+        debug {
             buildConfigField 'String', "MAPBOX_ACCESS_TOKEN", MAPBOX_ACCESS_TOKEN
         }
 
@@ -45,7 +45,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 
@@ -99,6 +99,10 @@ dependencies {
 
     //mapbox
     implementation 'com.mapbox.maps:android:10.16.1'
+
+    //navigation
+    implementation "com.mapbox.navigation:ui-dropin:2.17.3"
+    implementation "com.mapbox.navigation:android:2.17.3"
 }
 
 // Allow references to generated code

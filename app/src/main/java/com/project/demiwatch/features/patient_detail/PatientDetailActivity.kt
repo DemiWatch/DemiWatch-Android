@@ -46,7 +46,6 @@ class PatientDetailActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
     private lateinit var locationPermissionHelper: LocationPermissionHelper
 
-    private lateinit var token: String
     private lateinit var patientCoordinate: Point
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {

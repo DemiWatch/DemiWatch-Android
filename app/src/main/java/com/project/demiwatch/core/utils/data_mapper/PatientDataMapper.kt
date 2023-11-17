@@ -1,15 +1,34 @@
 package com.project.demiwatch.core.utils.data_mapper
 
 import com.project.demiwatch.core.data.source.remote.response.patient.PatientLocationResponse
+import com.project.demiwatch.core.data.source.remote.response.patient.PatientResponse
+import com.project.demiwatch.core.domain.model.Patient
 import com.project.demiwatch.core.domain.model.PatientLocation
 
 object PatientDataMapper {
-    fun mapPatientLocationResponseToDomain(input: PatientLocationResponse?): PatientLocation = PatientLocation(
-        status = input?.status ?: 401,
-        message = input?.message,
-        latitude = input?.location?.latitude as Double,
-        longitude = input.location.longitude as Double,
-        kode = input.location.kode
-    )
+    fun mapPatientLocationResponseToDomain(input: PatientLocationResponse?): PatientLocation =
+        PatientLocation(
+            status = input?.status ?: 401,
+            message = input?.message,
+            latitude = input?.location?.latitude as Double,
+            longitude = input.location.longitude as Double,
+            kode = input.location.kode
+        )
 
+
+    fun mapPatientResponseToDomain(input: PatientResponse?): Patient = Patient(
+        id = input?.data?.id!!,
+        name = input.data.nama ?: "Nama Pasien",
+        age = input.data.umur ?: 99,
+        symptom = input.data.jenisPenyakit ?: "Jenis Penyakit",
+        watchCode = input.data.kode ?: "P002",
+        homeName = input.data.alamatRumah?.name ?: "Nama Alamat Rumah",
+        latitudeHome = input.data.alamatRumah?.lat as Double,
+        longitudeHome = input.data.alamatRumah.longi as Double,
+        destinationName = input.data.alamatTujuan?.name ?: "Nama Alamat Tujuan",
+        latitudeDestination = input.data.alamatTujuan?.lat as Double,
+        longitudeDestination = input.data.alamatTujuan.longi as Double,
+        note = input.data.catatan ?: "Catatan Pasien",
+        error = input.error ?: "Error Response"
+    )
 }

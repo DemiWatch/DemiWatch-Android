@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".features.fill_profile.patient.FillProfilePatientActivity">
@@ -24,18 +25,18 @@
             android:layout_marginStart="12dp"
             android:text="@string/fill_patient_profile"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_back"
             app:layout_constraintStart_toEndOf="@+id/btn_back"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/btn_back" />
 
         <ImageView
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_arrow_back_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,10 +86,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/custom_text_field_rounded"
                 android:drawablePadding="12sp"
-                android:layout_marginTop="32dp"
                 android:ems="10"
                 android:hint="@string/full_name"
                 android:padding="16dp"
@@ -103,10 +104,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/custom_text_field_rounded"
                 android:drawablePadding="12sp"
-                android:layout_marginTop="24dp"
                 android:ems="10"
                 android:hint="@string/age"
                 android:padding="16dp"
@@ -121,14 +122,15 @@
                 style="@style/CustomTextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/custom_drop_down_background"
                 android:ems="10"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingBottom="4dp"
                 android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
                 app:endIconTint="@color/dark_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -142,7 +144,8 @@
                     android:background="@drawable/custom_drop_down_background"
                     android:hint="@string/user_relation"
                     android:inputType="none"
-                    android:padding="12dp" />
+                    android:padding="12dp"
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <EditText
@@ -150,10 +153,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/custom_text_field_rounded"
                 android:drawablePadding="12sp"
-                android:layout_marginTop="24dp"
                 android:ems="10"
                 android:hint="@string/patient_notes"
                 android:padding="16dp"
@@ -168,13 +171,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/custom_text_field_rounded"
                 android:drawablePadding="12sp"
-                android:layout_marginTop="24dp"
                 android:ems="10"
-                android:padding="16dp"
                 android:hint="@string/watch_id"
+                android:padding="16dp"
                 android:textColorHint="@color/dark_grey"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -200,40 +203,129 @@
                 app:layout_constraintTop_toBottomOf="@+id/ed_patient_watch_id" />
 
             <EditText
-                android:id="@+id/ed_patient_address_destination"
+                android:id="@+id/ed_patient_address_home_latitude"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/custom_text_field_rounded"
                 android:drawablePadding="12sp"
-                android:layout_marginTop="24dp"
                 android:ems="10"
+                android:focusable="false"
+                android:hint="Latitude Alamat Rumah"
                 android:padding="16dp"
-                android:hint="@string/address_destination"
                 android:textColorHint="@color/dark_grey"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_home" />
 
-            <Button
-                android:id="@+id/btn_login"
-                style="@style/textStyleButtonWhite"
+            <EditText
+                android:id="@+id/ed_patient_address_home_longitude"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Longitude Alamat Rumah"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_home_latitude" />
+
+
+            <EditText
+                android:id="@+id/ed_patient_address_destination"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:hint="@string/address_destination"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_home_longitude" />
+
+            <EditText
+                android:id="@+id/ed_patient_address_destination_latitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Latitude Alamat Tujuan"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_destination" />
+
+            <EditText
+                android:id="@+id/ed_patient_address_destination_longitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Longitude Alamat Tujuan"
+                android:inputType="none"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_destination_latitude" />
+
+
+            <Button
+                android:id="@+id/btn_save"
+                style="@style/textStyleButtonWhite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginVertical="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/custom_button_rounded"
                 android:elevation="0dp"
                 android:paddingVertical="8dp"
-                android:textAllCaps="false"
                 android:text="@string/save"
+                android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_destination"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_destination_longitude" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

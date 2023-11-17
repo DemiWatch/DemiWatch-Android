@@ -111,7 +111,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_access_route"
         style="@style/textStyleButtonWhite"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -122,7 +122,9 @@
         android:background="@drawable/custom_button_rounded"
         android:elevation="0dp"
         android:paddingVertical="8dp"
-        android:text="@string/login"
+        android:text="@string/access_route"
+        android:textAlignment="textStart"
+        android:drawableEnd="@drawable/baseline_arrow_forward_24"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

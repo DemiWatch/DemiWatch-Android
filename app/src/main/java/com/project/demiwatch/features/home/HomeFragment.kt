@@ -37,9 +37,11 @@ import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.core.utils.showLongToast
 import com.project.demiwatch.databinding.FragmentHomeBinding
 import com.project.demiwatch.features.maps.MapsActivity
+import com.project.demiwatch.features.navigation.NavigationActivity
 import com.project.demiwatch.features.patient_detail.PatientDetailActivity
 import timber.log.Timber
 import java.lang.ref.WeakReference
+
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -138,8 +140,8 @@ class HomeFragment : Fragment() {
 
     private fun setupPatientRoute() {
         binding.btnPatientRoute.setOnClickListener {
-            val intentToMap = Intent(requireContext(), MapsActivity::class.java)
-            startActivity(intentToMap)
+            val intentToNavigation = Intent(requireContext(), NavigationActivity::class.java)
+            startActivity(intentToNavigation)
         }
     }
 
@@ -177,7 +179,7 @@ class HomeFragment : Fragment() {
 
     private fun onMapReady() {
         mapView.getMapboxMap().setCamera(
-            CameraOptions.Builder().center(patientCoordinate).zoom(14.5).build()
+            CameraOptions.Builder().center(patientCoordinate).zoom(15.0).build()
         )
 
         mapView.getMapboxMap().loadStyleUri(

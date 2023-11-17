@@ -5,6 +5,8 @@ import com.project.demiwatch.core.data.source.remote.network.ApiService
 import com.project.demiwatch.core.data.source.remote.response.auth.LoginResponse
 import com.project.demiwatch.core.data.source.remote.response.auth.RegisterResponse
 import com.project.demiwatch.core.data.source.remote.response.patient.PatientLocationResponse
+import com.project.demiwatch.core.data.source.remote.response.patient.PatientResponse
+import com.project.demiwatch.core.data.source.remote.response.user.UserResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,37 +16,107 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RemoteDataSource @Inject constructor(private val apiService: ApiService){
+class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
     //USER
 
     suspend fun loginUser(email: String, password: String): Flow<ApiResponse<LoginResponse>> {
-        return flow{
+        return flow {
             try {
                 val response = apiService.loginUser(email, password)
-                if(response.status == 200){
+
+                if (response.status == 200) {
                     emit(ApiResponse.Success(response))
-                }else{
+                } else {
                     emit(ApiResponse.Empty)
                 }
-            }catch (e: Exception){
-                Timber.tag("loginUser").d( e.toString())
+            } catch (e: Exception) {
+                Timber.tag("loginUser").d(e.toString())
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)
     }
 
     suspend fun registerUser(email: String, password: String): Flow<ApiResponse<RegisterResponse>> {
-        return flow{
+        return flow {
             try {
                 val response = apiService.registerUser(email, password)
-                if(response.status == 200){
+
+                if (response.status == 200) {
                     emit(ApiResponse.Success(response))
-                }else{
+                } else {
                     emit(ApiResponse.Empty)
                 }
-            }catch (e: Exception){
-                Timber.tag("loginUser").d( e.toString())
+            } catch (e: Exception) {
+                Timber.tag("loginUser").d(e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun addUser(
+        token: String,
+        id: String,
+        name: String,
+        phoneNumber: String,
+        status: String,
+        maxRadius: String,
+    ): Flow<ApiResponse<UserResponse>> {
+        return flow {
+            try {
+                val response = apiService.addUser(token, id, name, phoneNumber, status, maxRadius)
+
+                if (response.message == "Data user berhasil disimpan") {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                Timber.tag("addUser").d(e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun updateUser(
+        token: String,
+        id: String,
+        name: String,
+        phoneNumber: String,
+        status: String,
+        maxRadius: String,
+    ): Flow<ApiResponse<UserResponse>> {
+        return flow {
+            try {
+                val response =
+                    apiService.updateUser(token, id, name, phoneNumber, status, maxRadius)
+
+                if (response.message == "Data user berhasil diperbarui") {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                Timber.tag("updateUser").d(e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }
+    }
+
+    suspend fun getUser(
+        id: String, token: String
+    ): Flow<ApiResponse<UserResponse>> {
+        return flow {
+            try {
+                val response = apiService.getUser(token, id)
+
+                if (response.data != null) {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                Timber.tag("getUser").d(e.toString())
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)
@@ -55,17 +127,110 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService){
 
     //PATIENT
 
-    suspend fun getLocationPatient(token: String): Flow<ApiResponse<PatientLocationResponse>>{
+
+    suspend fun getLocationPatient(token: String): Flow<ApiResponse<PatientLocationResponse>> {
         return flow<ApiResponse<PatientLocationResponse>> {
             try {
                 val response = apiService.getLocationPatient(token)
-                if (response.status == 200){
+
+                if (response.status == 200) {
                     emit(ApiResponse.Success(response))
-                }else{
+                } else {
                     emit(ApiResponse.Empty)
                 }
-            }catch (e: Exception){
-                Timber.tag("loginUser").d( e.toString())
+            } catch (e: Exception) {
+                Timber.tag("loginUser").d(e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun addPatient(
+        token: String,
+        name: String,
+        age: Int,
+        symptom: String,
+        note: String,
+        watchCode: String,
+        homeAddress: String,
+        destinationAddress: String,
+    ): Flow<ApiResponse<PatientResponse>> {
+        return flow<ApiResponse<PatientResponse>> {
+            try {
+                val response = apiService.addPatient(
+                    token,
+                    name,
+                    age,
+                    symptom,
+                    note,
+                    watchCode,
+                    homeAddress,
+                    destinationAddress
+                )
+
+                if (response.message == "Data pasien berhasil disimpan") {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                Timber.tag("addPatient").d(e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun updatePatient(
+        id: String,
+        token: String,
+        name: String,
+        age: Int,
+        symptom: String,
+        note: String,
+        watchCode: String,
+        homeAddress: String,
+        destinationAddress: String,
+    ): Flow<ApiResponse<PatientResponse>> {
+        return flow<ApiResponse<PatientResponse>> {
+            try {
+                val response = apiService.updatePatient(
+                    id,
+                    token,
+                    name,
+                    age,
+                    symptom,
+                    note,
+                    watchCode,
+                    homeAddress,
+                    destinationAddress
+                )
+
+                if (response.message == "Data pasien berhasil diperbarui") {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                Timber.tag("updatePatient").d(e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getPatient(id: String, token: String): Flow<ApiResponse<PatientResponse>> {
+        return flow<ApiResponse<PatientResponse>> {
+            try {
+                val response = apiService.getPatient(token, id)
+
+                if (response.data != null) {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                Timber.tag("getPatient").d(e.toString())
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)

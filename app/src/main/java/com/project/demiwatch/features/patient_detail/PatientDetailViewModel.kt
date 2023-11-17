@@ -17,12 +17,10 @@ class PatientDetailViewModel @Inject constructor(private var userUseCase: UserUs
     private fun reqLocationPatient(token: String) = patientUseCase.getLocationPatient(token).asLiveData()
 
     fun getLocationPatient(): MediatorLiveData<Resource<PatientLocation>> = MediatorLiveData<Resource<PatientLocation>>().apply {
-        addSource(getTokenUser()){
-                token -> addSource(reqLocationPatient(token)){
-                location ->
-            value = location
-        }
+        addSource(getTokenUser()){ token ->
+            addSource(reqLocationPatient(token)){ location ->
+                value = location
+            }
         }
     }
-
 }

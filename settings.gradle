@@ -14,6 +14,7 @@ dependencyResolutionManagement {
         mavenCentral()
         maven {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
+
             authentication {
                 basic(BasicAuthentication)
             }
@@ -23,9 +24,11 @@ dependencyResolutionManagement {
                 username = "mapbox"
                 // Use the secret token you stored in gradle.properties as the password
                 password = MAPBOX_ACCESS_TOKEN
+//                password = System.getenv("MAPBOX_ACCESS_TOKEN") ?: project.property("MAPBOX_ACCESS_TOKEN") as String
             }
         }
     }
 }
+
 rootProject.name = "DemiWatch"
 include ':app'

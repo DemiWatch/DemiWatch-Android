@@ -8,9 +8,8 @@ data class User(
     val name: String,
     val id: String,
     val email: String,
-    val password: String,
-    val token: String,
     val teleNumber: String,
-    val userStatus: String,
+    val status: String,
     val safeRadius: String,
-    ): Parcelable
+    val error: String,
+) : Parcelable

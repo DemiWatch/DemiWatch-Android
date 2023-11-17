@@ -1,11 +1,10 @@
 package com.project.demiwatch.features.maps
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.mapbox.android.gestures.MoveGestureDetector
@@ -13,7 +12,7 @@ import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
-import com.project.demiwatch.R
+import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.MapView
 import com.mapbox.maps.Style
 import com.mapbox.maps.extension.style.expressions.generated.Expression.Companion.interpolate
@@ -27,16 +26,26 @@ import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorBearingChangedListener
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListener
 import com.mapbox.maps.plugin.locationcomponent.location
+import com.mapbox.maps.plugin.viewport.data.OverviewViewportStateOptions
+import com.mapbox.maps.plugin.viewport.state.OverviewViewportState
+import com.mapbox.maps.plugin.viewport.viewport
+import com.project.demiwatch.R
+import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.databinding.ActivityMapsBinding
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.lang.ref.WeakReference
 
-
+@AndroidEntryPoint
 class MapsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMapsBinding
+    private val mapViewModel: MapViewModel by viewModels()
 
     private lateinit var mapView: MapView
     private lateinit var locationPermissionHelper: LocationPermissionHelper
+
+    private lateinit var patientCoordinate: Point
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
         mapView.getMapboxMap().setCamera(CameraOptions.Builder().bearing(it).build())
@@ -73,48 +82,82 @@ class MapsActivity : AppCompatActivity() {
 
         locationPermissionHelper = LocationPermissionHelper((WeakReference(this)))
         locationPermissionHelper.checkPermissions {
-            onMapReady()
+            mapViewModel.getLocationPatient().observe(this) { location ->
+                when (location) {
+                    is Resource.Error -> {
+                        //show loading
+                        Timber.tag("HomeFragment").e(location.message)
+                    }
+                    is Resource.Loading -> {
+                        //show loading
+                    }
+                    is Resource.Message -> {
+                        Timber.tag("HomeFragment").d(location.message)
+                    }
+                    is Resource.Success -> {
+                        patientCoordinate = Point.fromLngLat(
+                            location.data?.longitude ?: 0.0,
+                            location.data?.latitude ?: 0.0
+                        )
+                        onMapReady()
+                    }
+                }
+            }
+        }
+
+        setupFabButton()
+    }
+
+    private fun setupBottomSheet() {
+        YourPatientFragment().show(supportFragmentManager, YOUR_PATIENT_TAG)
+    }
+
+    private fun setupFabButton() {
+        binding.fabCenterLocation.setOnClickListener {
+
+            val viewportPlugin = mapView.viewport
+            val overviewViewportState: OverviewViewportState =
+                viewportPlugin.makeOverviewViewportState(
+                    OverviewViewportStateOptions.Builder()
+                        .padding(EdgeInsets(100.0, 100.0, 100.0, 100.0))
+                        .build()
+                )
         }
     }
 
     private fun addPatientLocation(style: Style) {
-        // Define your marker coordinates
         val markerCoordinates = listOf(
-            Point.fromLngLat(-122.416, 37.784),
-            Point.fromLngLat(-122.425, 37.784),
-            // ... add as many markers as you want
+            patientCoordinate,
         )
 
-        // Convert FeatureCollection to its string representation
         val geoJsonString = FeatureCollection.fromFeatures(
             markerCoordinates.map {
                 Feature.fromGeometry(it)
             }
         ).toJson()
 
-        // Create a GeoJsonSource using the Builder
         val source = GeoJsonSource.Builder("marker-source-id")
             .data(geoJsonString)
             .build()
 
-        // Add the source to the style
         style.addSource(source)
 
-        val vectorDrawable = ContextCompat.getDrawable(this, R.drawable.ic_location_inner_24)
-        val bitmap = Bitmap.createBitmap(vectorDrawable!!.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val vectorDrawable = ContextCompat.getDrawable(this, R.drawable.ic_location_on_24)
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable!!.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
         val canvas = Canvas(bitmap)
         vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
         vectorDrawable.draw(canvas)
 
-        // Add the marker icon to the style
         style.addImage("marker-icon-id", bitmap)
 
-        // Create a SymbolLayer and set the iconImage to your marker icon
         val layer = SymbolLayer("marker-layer-id", "marker-source-id")
         layer.iconImage("marker-icon-id")
         layer.iconSize(1.0)
 
-        // Add the SymbolLayer to the style
         style.addLayer(layer)
     }
 
@@ -125,14 +168,14 @@ class MapsActivity : AppCompatActivity() {
     }
 
     private fun onMapReady() {
-       mapView.getMapboxMap().setCamera(
-           CameraOptions.Builder().zoom(14.0).build()
-       )
+        mapView.getMapboxMap().setCamera(
+            CameraOptions.Builder().zoom(14.0).build()
+        )
 
         mapView.getMapboxMap().loadStyleUri(
             Style.MAPBOX_STREETS
-        ){
-            initLocationComponent()
+        ) {
+            initLocationUser()
             setupGesturesListener()
             addPatientLocation(it)
         }
@@ -142,7 +185,7 @@ class MapsActivity : AppCompatActivity() {
         mapView.gestures.addOnMoveListener(onMoveListener)
     }
 
-    private fun initLocationComponent() {
+    private fun initLocationUser() {
         val locationComponentPlugin = mapView.location
         locationComponentPlugin.updateSettings {
             this.enabled = true
@@ -169,8 +212,12 @@ class MapsActivity : AppCompatActivity() {
                 }.toJson()
             )
         }
-        locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
-        locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
+        locationComponentPlugin.addOnIndicatorPositionChangedListener(
+            onIndicatorPositionChangedListener
+        )
+        locationComponentPlugin.addOnIndicatorBearingChangedListener(
+            onIndicatorBearingChangedListener
+        )
     }
 
     private fun onCameraTrackingDismissed() {
@@ -199,7 +246,11 @@ class MapsActivity : AppCompatActivity() {
         locationPermissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun setupActionBar(){
+    private fun setupActionBar() {
         supportActionBar?.hide()
+    }
+
+    companion object {
+        const val YOUR_PATIENT_TAG = "Your Patient Fragment"
     }
 }

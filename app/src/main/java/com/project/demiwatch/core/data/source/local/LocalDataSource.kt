@@ -10,11 +10,22 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocalDataSource @Inject constructor(private val dataStore: DataStore<Preferences>)
-{
-    suspend fun saveUserToken(token: String){
-        dataStore.edit{preferences ->
+class LocalDataSource @Inject constructor(private val dataStore: DataStore<Preferences>) {
+    suspend fun saveUserToken(token: String) {
+        dataStore.edit { preferences ->
             preferences[USER_TOKEN_KEY] = token
+        }
+    }
+
+    suspend fun saveIdUser(userId: String) {
+        dataStore.edit { preferences ->
+            preferences[USER_ID_KEY] = userId
+        }
+    }
+
+    suspend fun saveIdPatient(patientId: String) {
+        dataStore.edit { preferences ->
+            preferences[PATIENT_ID_KEY] = patientId
         }
     }
 
@@ -24,13 +35,28 @@ class LocalDataSource @Inject constructor(private val dataStore: DataStore<Prefe
         }
     }
 
-    suspend fun deleteTokenUser(){
+    fun getIdUser(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[USER_ID_KEY] ?: ""
+        }
+    }
+
+    fun getIdPatient(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[PATIENT_ID_KEY] ?: ""
+        }
+    }
+
+    suspend fun deleteTokenUser() {
         dataStore.edit {
             it.clear()
         }
     }
 
-    companion object{
+
+    companion object {
         private val USER_TOKEN_KEY = stringPreferencesKey("user_token_key")
+        private val USER_ID_KEY = stringPreferencesKey("user_id_key")
+        private val PATIENT_ID_KEY = stringPreferencesKey("patient_id_key")
     }
 }
