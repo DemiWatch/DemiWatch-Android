@@ -13,6 +13,30 @@ class PatientInteractor @Inject constructor(private val patientRepository: Patie
         return patientRepository.getLocationPatient(token)
     }
 
+    override suspend fun saveIdPatient(patientId: String) {
+        return patientRepository.saveIdPatient(patientId)
+    }
+
+    override fun getIdPatient(): Flow<String> {
+        return patientRepository.getIdPatient()
+    }
+
+    override suspend fun saveHomeLocationPatient(homeLocation: String) {
+        return patientRepository.saveHomeLocationPatient(homeLocation)
+    }
+
+    override fun getHomeLocationPatient(): Flow<String> {
+        return patientRepository.getHomeLocationPatient()
+    }
+
+    override suspend fun saveDestinationLocationPatient(destinationLocation: String) {
+        return patientRepository.saveDestinationLocationPatient(destinationLocation)
+    }
+
+    override fun getDestinationLocationPatient(): Flow<String> {
+        return patientRepository.getDestinationLocationPatient()
+    }
+
     override fun addPatient(
         token: String,
         name: String,

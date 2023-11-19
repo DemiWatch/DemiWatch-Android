@@ -1,5 +1,6 @@
 package com.project.demiwatch.core.data.repository
 
+import com.project.demiwatch.core.data.source.local.LocalDataSource
 import com.project.demiwatch.core.data.source.remote.NetworkBoundResource
 import com.project.demiwatch.core.data.source.remote.datasource.RemoteDataSource
 import com.project.demiwatch.core.data.source.remote.network.ApiResponse
@@ -20,6 +21,7 @@ import javax.inject.Singleton
 class
 PatientRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
 ) : IPatientRepository {
     override fun getLocationPatient(token: String): Flow<Resource<PatientLocation>> {
         return object : NetworkBoundResource<PatientLocation, PatientLocationResponse>() {
@@ -33,6 +35,32 @@ PatientRepository @Inject constructor(
 
         }.asFlow()
     }
+
+    override suspend fun saveIdPatient(patientId: String) {
+        return localDataSource.saveIdPatient(patientId)
+    }
+
+    override fun getIdPatient(): Flow<String> {
+        return localDataSource.getIdPatient()
+    }
+
+    override suspend fun saveHomeLocationPatient(homeLocation: String) {
+        return localDataSource.saveHomeLocationPatient(homeLocation)
+    }
+
+    override fun getHomeLocationPatient(): Flow<String> {
+        return localDataSource.getHomeLocationPatient()
+    }
+
+    override suspend fun saveDestinationLocationPatient(destinationLocation: String) {
+        return localDataSource.saveDestinationLocationPatient(destinationLocation)
+
+    }
+
+    override fun getDestinationLocationPatient(): Flow<String> {
+        return localDataSource.getDestinationLocationPatient()
+    }
+
 
     override fun addPatient(
         token: String,
@@ -139,6 +167,4 @@ PatientRepository @Inject constructor(
             }
         }.asFlow()
     }
-
-
 }

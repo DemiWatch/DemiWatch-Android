@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.project.demiwatch.R
+import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.constants.userStatusItems
 import com.project.demiwatch.core.utils.showLongToast
 import com.project.demiwatch.databinding.ActivityFillProfileUserBinding
@@ -68,67 +69,58 @@ class FillProfileUserActivity : AppCompatActivity() {
             if (name.isEmpty() && phone.isEmpty() && status.isEmpty() && safeRadius.isEmpty()) {
                 showLongToast(getString(R.string.fill_data))
             } else if (name.isNotEmpty() && phone.isNotEmpty() && status.isNotEmpty() && safeRadius.isNotEmpty()) {
-//                fillProfileUserViewModel.apply {
-//                    getUserToken().observe(this@FillProfileUserActivity) {
-//                        savedToken = it
-//                    }
-//
-//                    getUserId().observe(this@FillProfileUserActivity) {
-//                        savedUserId = it
-//                    }
-//
-//                    addUser(
-//                        savedUserId,
-//                        savedToken,
-//                        name,
-//                        phone,
-//                        status,
-//                        safeRadius
-//                    ).observe(this@FillProfileUserActivity) { user ->
-//                        when (user) {
-//                            is Resource.Error -> {
-//                                showLoading(false)
-//                                buttonEnabled(true)
-//
-//                                showLongToast("Terjadi kesalahan, silahkan simpan ulang")
-//                            }
-//                            is Resource.Loading -> {
-//                                showLoading(true)
-//                                buttonEnabled(false)
-//                            }
-//                            is Resource.Message -> {
-//                                Timber.tag("FillProfileUserActivity").d(user.message.toString())
-//                            }
-//                            is Resource.Success -> {
-//                                showLoading(false)
-//                                buttonEnabled(true)
-//
-//                                showLongToast(getString(R.string.user_data_registered))
-//
-//                                val intentToFillProfilePatient =
-//                                    Intent(
-//                                        this@FillProfileUserActivity,
-//                                        FillProfilePatientActivity::class.java
-//                                    )
-//                                startActivity(intentToFillProfilePatient)
-//                            }
-//                        }
-//                    }
-//                }
+                fillProfileUserViewModel.apply {
+                    getUserToken().observe(this@FillProfileUserActivity) {
+                        savedToken = it
+                    }
 
-                val intentToFillProfilePatient =
-                    Intent(this@FillProfileUserActivity, FillProfilePatientActivity::class.java)
-                startActivity(intentToFillProfilePatient)
-            } else {
-                Timber.tag("FillProfileActivity").d(name.isNotEmpty().toString() + "5")
-                Timber.tag("FillProfileActivity").d(phone.isNotEmpty().toString() + "6")
-                Timber.tag("FillProfileActivity").d(status.isNotEmpty().toString() + "7")
-                Timber.tag("FillProfileActivity").d(safeRadius.isNotEmpty().toString() + "8")
+                    getUserId().observe(this@FillProfileUserActivity) {
+                        savedUserId = it
+                    }
 
+                    Timber.tag("TEST").d(savedUserId)
+                    Timber.tag("TEST").d(savedToken)
 
-                if (name.isEmpty() || phone.isEmpty() || status.isEmpty() || safeRadius.isEmpty()) {
-                    showLongToast(getString(R.string.fill_data))
+                    addUser(
+                        savedUserId,
+                        savedToken,
+                        name,
+                        safeRadius,
+                        status,
+                        phone
+                    ).observe(this@FillProfileUserActivity) { user ->
+                        when (user) {
+                            is Resource.Error -> {
+                                showLoading(false)
+                                buttonEnabled(true)
+
+                                showLongToast("Terjadi kesalahan, silahkan simpan ulang")
+                            }
+                            is Resource.Loading -> {
+                                showLoading(true)
+                                buttonEnabled(false)
+                            }
+                            is Resource.Message -> {
+                                Timber.tag("FillProfileUserActivity").d(user.message.toString())
+                            }
+                            is Resource.Success -> {
+                                showLoading(false)
+                                buttonEnabled(true)
+
+                                showLongToast(getString(R.string.user_data_registered))
+
+                                val intentToFillProfilePatient =
+                                    Intent(
+                                        this@FillProfileUserActivity,
+                                        FillProfilePatientActivity::class.java
+                                    )
+                                startActivity(intentToFillProfilePatient)
+                            }
+                        }
+                    }
                 }
+            } else {
+                showLongToast(getString(R.string.fill_data))
             }
         }
     }

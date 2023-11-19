@@ -29,6 +29,18 @@ class LocalDataSource @Inject constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    suspend fun saveHomeLocationPatient(homeLocation: String) {
+        dataStore.edit { preferences ->
+            preferences[PATIENT_HOME_KEY] = homeLocation
+        }
+    }
+
+    suspend fun saveDestinationLocationPatient(destinationLocation: String) {
+        dataStore.edit { preferences ->
+            preferences[PATIENT_DESTINATION_KEY] = destinationLocation
+        }
+    }
+
     fun getUserToken(): Flow<String> {
         return dataStore.data.map { preferences ->
             preferences[USER_TOKEN_KEY] ?: ""
@@ -47,6 +59,19 @@ class LocalDataSource @Inject constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    fun getHomeLocationPatient(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[PATIENT_HOME_KEY] ?: ""
+        }
+    }
+
+    fun getDestinationLocationPatient(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[PATIENT_DESTINATION_KEY] ?: ""
+        }
+    }
+
+
     suspend fun deleteTokenUser() {
         dataStore.edit {
             it.clear()
@@ -58,5 +83,7 @@ class LocalDataSource @Inject constructor(private val dataStore: DataStore<Prefe
         private val USER_TOKEN_KEY = stringPreferencesKey("user_token_key")
         private val USER_ID_KEY = stringPreferencesKey("user_id_key")
         private val PATIENT_ID_KEY = stringPreferencesKey("patient_id_key")
+        private val PATIENT_HOME_KEY = stringPreferencesKey("patient_home_key")
+        private val PATIENT_DESTINATION_KEY = stringPreferencesKey("patient_destination_key")
     }
 }

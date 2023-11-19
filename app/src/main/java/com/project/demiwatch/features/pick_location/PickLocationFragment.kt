@@ -11,6 +11,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.gson.Gson
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
@@ -34,6 +35,7 @@ import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListen
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
+import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.FragmentPickLocationBinding
 import com.project.demiwatch.features.fill_profile.patient.FillProfilePatientActivity
 import java.lang.ref.WeakReference
@@ -102,73 +104,30 @@ class PickLocationFragment : Fragment() {
     }
 
     private fun setupSaveButton() {
-//        binding.btnSave.setOnClickListener {
-//            val intentToFillPatientProfile =
-//                Intent(requireActivity(), FillProfilePatientActivity::class.java)
-//
-//            when (intent.getIntExtra(PickLocationActivity.FLAG_SELECT_LOCATION, 0)) {
-//                1 -> {
-//                    pickLocationViewModel.setPickedHomeLocation(pickedCoordinates)
-//                    intentToFillPatientProfile.putExtra(
-//                        PickLocationActivity.FLAG_SELECT_LOCATION,
-//                        1
-//                    )
-//                }
-//                2 -> {
-//                    pickLocationViewModel.setPickedHomeLocation(pickedCoordinates)
-//                    intentToFillPatientProfile.putExtra(
-//                        PickLocationActivity.FLAG_SELECT_LOCATION,
-//                        2
-//                    )
-//                }
-//                3 -> {
-//                    pickLocationViewModel.setPickedDestinationLocation(pickedCoordinates)
-//                    intentToFillPatientProfile.putExtra(
-//                        PickLocationActivity.FLAG_SELECT_LOCATION,
-//                        3
-//                    )
-//                }
-//                4 -> {
-//                    pickLocationViewModel.setPickedDestinationLocation(pickedCoordinates)
-//                    intentToFillPatientProfile.putExtra(
-//                        PickLocationActivity.FLAG_SELECT_LOCATION,
-//                        4
-//                    )
-//                }
-//                else -> {
-//                    pickLocationViewModel.setPickedHomeLocation(pickedCoordinates)
-//                    intentToFillPatientProfile.putExtra(
-//                        PickLocationActivity.FLAG_SELECT_LOCATION,
-//                        1
-//                    )
-//                }
-//            }
-//
-//            startActivity(intentToFillPatientProfile)
-//        }
-
         binding.btnSave.setOnClickListener {
             pickLocationViewModel.pickedLocationType.observe(this) { type ->
-                val intentToFillPatientProfile =
-                    Intent(requireContext(), FillProfilePatientActivity::class.java)
+                activity?.showToast(type.toString())
 
+                val location = Gson().toJson(pickedCoordinates)
                 when (type) {
                     1 -> {
-                        pickLocationViewModel.setPickedHomeLocation(pickedCoordinates)
+                        pickLocationViewModel.saveHomeLocationPatient(location)
                     }
                     2 -> {
-                        pickLocationViewModel.setPickedHomeLocation(pickedCoordinates)
+                        pickLocationViewModel.saveHomeLocationPatient(location)
                     }
                     3 -> {
-                        pickLocationViewModel.setPickedDestinationLocation(pickedCoordinates)
+                        pickLocationViewModel.saveDestinationLocationPatient(location)
                     }
                     4 -> {
-                        pickLocationViewModel.setPickedDestinationLocation(pickedCoordinates)
+                        pickLocationViewModel.saveDestinationLocationPatient(location)
                     }
                 }
-
-                startActivity(intentToFillPatientProfile)
             }
+
+            val intentToFillPatientProfile =
+                Intent(requireContext(), FillProfilePatientActivity::class.java)
+            startActivity(intentToFillPatientProfile)
         }
     }
 

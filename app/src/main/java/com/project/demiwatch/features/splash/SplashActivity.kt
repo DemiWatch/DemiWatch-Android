@@ -9,6 +9,7 @@ import androidx.viewbinding.BuildConfig
 import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.databinding.ActivitySplashBinding
 import com.project.demiwatch.features.dashboard.MainActivity
+import com.project.demiwatch.features.fill_profile.patient.FillProfilePatientActivity
 import com.project.demiwatch.features.fill_profile.user.FillProfileUserActivity
 import com.project.demiwatch.features.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +22,7 @@ class SplashActivity : AppCompatActivity() {
     private val splashViewModel: SplashViewModel by viewModels()
     private lateinit var token: String
     private lateinit var userId: String
+    private lateinit var patientId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,32 +38,21 @@ class SplashActivity : AppCompatActivity() {
 
             getUserId().observe(this@SplashActivity) {
                 userId = it
+            }
 
-                checkUser(token, userId)
+            getPatientId().observe(this@SplashActivity){
+                patientId = it
+
+                checkUser(token, userId, patientId)
             }
         }
-//        splashViewModel.getUserToken().observe(this) { token ->
-//
-//            if (token != null) {
-//                Handler(Looper.getMainLooper()).postDelayed({
-//                    val intentFormSplash = if (token != "") {
-//                        Intent(this, MainActivity::class.java)
-//                    } else {
-//                        Intent(this, LoginActivity::class.java)
-//                    }
-//                    startActivity(intentFormSplash)
-//                    intentFormSplash.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-//                    finish()
-//                }, DELAY.toLong())
-//            }
-//        }
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
     }
 
-    private fun checkUser(checkToken: String, checkUserId: String) {
+    private fun checkUser(checkToken: String, checkUserId: String, checkPatientId: String) {
         splashViewModel.getUser(checkUserId, checkToken).observe(this@SplashActivity) { user ->
             when (user) {
                 is Resource.Error -> {
@@ -84,12 +75,16 @@ class SplashActivity : AppCompatActivity() {
 
                         startActivity(intentToFillProfileUser)
                         finish()
-                    } else {
+                    }
+                    else if (checkPatientId == "") {
+                        val intentToFillProfilePatient = Intent(this@SplashActivity, FillProfilePatientActivity::class.java)
+
+                        startActivity(intentToFillProfilePatient)
+                        finish()
+                    }
+                    else {
                         val intentToHome =
-                            Intent(
-                                this@SplashActivity,
-                                MainActivity::class.java
-                            )
+                            Intent(this@SplashActivity, MainActivity::class.java)
 
                         startActivity(intentToHome)
                         finish()

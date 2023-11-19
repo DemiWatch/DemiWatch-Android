@@ -3,13 +3,18 @@ package com.project.demiwatch.features.pick_location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mapbox.geojson.Point
+import com.project.demiwatch.core.domain.usecase.PatientUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class PickLocationViewModel @Inject constructor() : ViewModel() {
+class PickLocationViewModel @Inject constructor(
+    private val patientUseCase: PatientUseCase
+) : ViewModel() {
     private var _pickedLocationType = MutableLiveData<Int>()
     var pickedLocationType: LiveData<Int> = _pickedLocationType
 
@@ -31,5 +36,11 @@ class PickLocationViewModel @Inject constructor() : ViewModel() {
         _pickedDestinationLocation.value = input
     }
 
+    fun saveHomeLocationPatient(homeLocation: String) = viewModelScope.launch {
+        patientUseCase.saveHomeLocationPatient(homeLocation)
+    }
 
+    fun saveDestinationLocationPatient(destinationLocation: String) = viewModelScope.launch {
+        patientUseCase.saveDestinationLocationPatient(destinationLocation)
+    }
 }

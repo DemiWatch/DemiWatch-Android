@@ -9,6 +9,18 @@ interface PatientUseCase {
 
     fun getLocationPatient(token: String): Flow<Resource<PatientLocation>>
 
+    suspend fun saveIdPatient(patientId: String)
+
+    fun getIdPatient(): Flow<String>
+
+    suspend fun saveHomeLocationPatient(homeLocation: String)
+
+    fun getHomeLocationPatient(): Flow<String>
+
+    suspend fun saveDestinationLocationPatient(destinationLocation: String)
+
+    fun getDestinationLocationPatient(): Flow<String>
+
     //without profile picture
     fun addPatient(
         token: String,
@@ -42,4 +54,5 @@ interface PatientUseCase {
     ): Flow<Resource<Patient>>
 
     fun getPatient(token: String, id: String): Flow<Resource<Patient>>
+
 }

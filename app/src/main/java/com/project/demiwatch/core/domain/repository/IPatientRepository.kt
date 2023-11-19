@@ -9,6 +9,18 @@ interface IPatientRepository {
 
     fun getLocationPatient(token: String): Flow<Resource<PatientLocation>>
 
+    suspend fun saveIdPatient(patientId: String)
+
+    fun getIdPatient(): Flow<String>
+
+    suspend fun saveHomeLocationPatient(homeLocation: String)
+
+    fun getHomeLocationPatient(): Flow<String>
+
+    suspend fun saveDestinationLocationPatient(destinationLocation: String)
+
+    fun getDestinationLocationPatient(): Flow<String>
+
     fun addPatient(
         token: String,
         name: String,
@@ -41,5 +53,4 @@ interface IPatientRepository {
     ): Flow<Resource<Patient>>
 
     fun getPatient(id: String, token: String): Flow<Resource<Patient>>
-
 }

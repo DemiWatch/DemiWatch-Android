@@ -8,7 +8,6 @@ import com.project.demiwatch.core.data.source.remote.response.user.UserResponse
 import retrofit2.http.*
 
 interface ApiService {
-
     //USER
 
     @FormUrlEncoded
@@ -26,7 +25,7 @@ interface ApiService {
     ): LoginResponse
 
     @FormUrlEncoded
-    @POST("api/addUser/{id}")
+    @PUT("api/addUser/{id}")
     suspend fun addUser(
         @Header("Authorization") token: String,
         @Path("id") id: String,
