@@ -35,14 +35,16 @@ import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.core.utils.showLongToast
+import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.FragmentHomeBinding
 import com.project.demiwatch.features.maps.MapsActivity
 import com.project.demiwatch.features.navigation.NavigationActivity
 import com.project.demiwatch.features.patient_detail.PatientDetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() =_binding!!
@@ -52,7 +54,9 @@ class HomeFragment : Fragment() {
     private lateinit var locationPermissionHelper: LocationPermissionHelper
 
     private lateinit var token: String
+    private lateinit var patientId: String
     private lateinit var patientCoordinate: Point
+    private lateinit var userId: String
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
         mapView.getMapboxMap().setCamera(CameraOptions.Builder().bearing(it).build())
@@ -98,8 +102,72 @@ class HomeFragment : Fragment() {
             token = it
         }
 
+        homeViewModel.getIdPatient().observe(this){
+            patientId = it
+
+            setupPatientData(token, patientId)
+        }
+
+        homeViewModel.getIdUser().observe(this){
+            userId = it
+
+            setupUserData(token, userId)
+        }
+
         mapView = binding.mapView
 
+        setupMap()
+    }
+
+    private fun setupPatientData(token:String, patientId: String) {
+        homeViewModel.getPatient(token, patientId).observe(this){patient ->
+            when(patient){
+                is Resource.Error ->{
+                    showLoading(false)
+                    activity?.showToast("Pastikan internet anda terknoneksi dengan baik dan buka kembali aplikasi")
+                }
+                is Resource.Loading ->{
+                    showLoading(true)
+                }
+                is Resource.Message ->{
+                    Timber.tag("HomeFragment").d(patient.message)
+                }
+                is Resource.Success ->{
+                    showLoading(false)
+
+                   binding.apply {
+                       cardPatientName.text = patient.data?.name
+                       cardPatientListSymptomps.text = patient.data?.symptom
+
+                       cardPatientListName.text = patient.data?.name
+                       cardPatientListSymptomps.text = patient.data?.symptom
+                   }
+                }
+            }
+        }
+    }
+
+    private fun setupUserData(token:String, patientId: String) {
+        homeViewModel.getUser(token, patientId).observe(this){user ->
+            when(user){
+                is Resource.Error ->{
+                    showLoading(false)
+                    activity?.showToast("Pastikan internet anda terknoneksi dengan baik dan buka kembali aplikasi")
+                }
+                is Resource.Loading ->{
+                    showLoading(true)
+                }
+                is Resource.Message ->{
+                    Timber.tag("HomeFragment").d(user.message)
+                }
+                is Resource.Success ->{
+                    binding.tvHomeUsername.text = user.data?.name
+                }
+            }
+        }
+    }
+
+    private fun setupMap() {
         locationPermissionHelper = LocationPermissionHelper((WeakReference(activity)))
         locationPermissionHelper.checkPermissions {
             homeViewModel.getLocationPatient().observe(this){location ->
@@ -145,8 +213,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun addPatientLocation(style: Style) {
-        val markerCoordinates = listOf(
+    private fun addPatientLocation() {
+        binding.mapView.getMapboxMap().loadStyleUri(  Style.MAPBOX_STREETS){style ->
+            val markerCoordinates = listOf(
             patientCoordinate,
         )
 
@@ -175,6 +244,37 @@ class HomeFragment : Fragment() {
         layer.iconSize(1.0)
 
         style.addLayer(layer)
+        }
+
+//        val markerCoordinates = listOf(
+//            patientCoordinate,
+//        )
+//
+//        val geoJsonString = FeatureCollection.fromFeatures(
+//            markerCoordinates.map {
+//                Feature.fromGeometry(it)
+//            }
+//        ).toJson()
+//
+//        val source = GeoJsonSource.Builder("marker-source-id")
+//            .data(geoJsonString)
+//            .build()
+//
+//        style.addSource(source)
+//
+//        val vectorDrawable = ContextCompat.getDrawable( requireContext(), R.drawable.ic_location_on_24)
+//        val bitmap = Bitmap.createBitmap(vectorDrawable!!.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+//        val canvas = Canvas(bitmap)
+//        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+//        vectorDrawable.draw(canvas)
+//
+//        style.addImage("marker-icon-id", bitmap)
+//
+//        val layer = SymbolLayer("marker-layer-id", "marker-source-id")
+//        layer.iconImage("marker-icon-id")
+//        layer.iconSize(1.0)
+//
+//        style.addLayer(layer)
     }
 
     private fun onMapReady() {
@@ -187,7 +287,7 @@ class HomeFragment : Fragment() {
         ){
 //            initLocationUser()
             setupGesturesListener()
-            addPatientLocation(it)
+            addPatientLocation()
         }
 
         mapView.gestures.apply {
@@ -215,36 +315,36 @@ class HomeFragment : Fragment() {
         mapView.gestures.addOnMoveListener(onMoveListener)
     }
 
-//    private fun initLocationUser() {
-//        val locationComponentPlugin = mapView.location
-//        locationComponentPlugin.updateSettings {
-//            this.enabled = true
-//            this.locationPuck = LocationPuck2D(
-//                bearingImage = AppCompatResources.getDrawable(
-//                    requireContext(),
-//                    R.drawable.ic_location_inner_24,
-//                ),
-//                shadowImage = AppCompatResources.getDrawable(
-//                    requireContext(),
-//                    R.drawable.ic_location_outer_24,
-//                ),
-//                scaleExpression = Expression.interpolate {
-//                    linear()
-//                    zoom()
-//                    stop {
-//                        literal(0.0)
-//                        literal(0.6)
-//                    }
-//                    stop {
-//                        literal(20.0)
-//                        literal(1.0)
-//                    }
-//                }.toJson()
-//            )
-//        }
-//        locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
-//        locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
-//    }
+    private fun initLocationUser() {
+        val locationComponentPlugin = mapView.location
+        locationComponentPlugin.updateSettings {
+            this.enabled = true
+            this.locationPuck = LocationPuck2D(
+                bearingImage = AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_location_inner_24,
+                ),
+                shadowImage = AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_location_outer_24,
+                ),
+                scaleExpression = Expression.interpolate {
+                    linear()
+                    zoom()
+                    stop {
+                        literal(0.0)
+                        literal(0.6)
+                    }
+                    stop {
+                        literal(20.0)
+                        literal(1.0)
+                    }
+                }.toJson()
+            )
+        }
+        locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
+        locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
+    }
 
     private fun onCameraTrackingDismissed() {
         mapView.location
@@ -279,7 +379,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-//    private fun showLoading(isLoading: Boolean) {
-//        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//    }
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
 }

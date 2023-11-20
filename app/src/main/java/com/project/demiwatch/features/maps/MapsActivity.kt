@@ -105,25 +105,25 @@ class MapsActivity : AppCompatActivity() {
             }
         }
 
-        setupFabButton()
+//        setupFabButton()
     }
 
     private fun setupBottomSheet() {
         YourPatientFragment().show(supportFragmentManager, YOUR_PATIENT_TAG)
     }
 
-    private fun setupFabButton() {
-        binding.fabCenterLocation.setOnClickListener {
-
-            val viewportPlugin = mapView.viewport
-            val overviewViewportState: OverviewViewportState =
-                viewportPlugin.makeOverviewViewportState(
-                    OverviewViewportStateOptions.Builder()
-                        .padding(EdgeInsets(100.0, 100.0, 100.0, 100.0))
-                        .build()
-                )
-        }
-    }
+//    private fun setupFabButton() {
+//        binding.fabCenterLocation.setOnClickListener {
+//
+//            val viewportPlugin = mapView.viewport
+//            val overviewViewportState: OverviewViewportState =
+//                viewportPlugin.makeOverviewViewportState(
+//                    OverviewViewportStateOptions.Builder()
+//                        .padding(EdgeInsets(100.0, 100.0, 100.0, 100.0))
+//                        .build()
+//                )
+//        }
+//    }
 
     private fun addPatientLocation(style: Style) {
         val markerCoordinates = listOf(

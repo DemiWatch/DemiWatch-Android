@@ -504,6 +504,7 @@ class NavigationActivity : AppCompatActivity() {
         binding.stop.setOnClickListener {
             clearRouteAndStopNavigation()
         }
+
         binding.recenter.setOnClickListener {
             navigationCamera.requestNavigationCameraToFollowing()
             binding.routeOverview.showTextAndExtend(BUTTON_ANIMATION_DURATION)

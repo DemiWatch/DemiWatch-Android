@@ -106,7 +106,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_phone" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/tv_profile_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -123,8 +123,8 @@
         android:layout_marginTop="20dp"
         android:text="@string/safe_radius_patient"
         style="@style/textStyleSemiBoldCustom"
-        app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintStart_toStartOf="@+id/tv_profile_status"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_status" />
 
     <TextView
         android:id="@+id/tv_profile_radius_patient"
@@ -169,4 +169,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="160dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

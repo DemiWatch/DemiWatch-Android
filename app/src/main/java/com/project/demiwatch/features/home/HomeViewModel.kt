@@ -18,6 +18,10 @@ class HomeViewModel @Inject constructor(
 
     fun getTokenUser() = userUseCase.getTokenUser().asLiveData()
 
+    fun getIdPatient() = patientUseCase.getIdPatient().asLiveData()
+
+    fun getIdUser() = userUseCase.getIdUser().asLiveData()
+
     private fun reqLocationPatient(token: String) =
         patientUseCase.getLocationPatient(token).asLiveData()
 
@@ -30,5 +34,9 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+
+    fun getPatient(token: String, id: String) = patientUseCase.getPatient(token, id).asLiveData()
+
+    fun getUser(token: String, id:String) = userUseCase.getUser(token, id).asLiveData()
 
 }

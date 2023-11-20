@@ -77,6 +77,7 @@ class SplashActivity : AppCompatActivity() {
                         finish()
                     }
                     else if (checkPatientId == "") {
+                        Timber.tag("SplashActivity").d((checkPatientId == "").toString())
                         val intentToFillProfilePatient = Intent(this@SplashActivity, FillProfilePatientActivity::class.java)
 
                         startActivity(intentToFillProfilePatient)

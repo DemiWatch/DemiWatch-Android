@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -33,6 +34,7 @@ import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.databinding.ActivityPatientDetailBinding
 import com.project.demiwatch.features.maps.MapsActivity
+import com.project.demiwatch.features.navigation.NavigationActivity
 import com.project.demiwatch.features.patient_detail.change_address.ChangeAddressActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -45,6 +47,9 @@ class PatientDetailActivity : AppCompatActivity() {
 
     private lateinit var mapView: MapView
     private lateinit var locationPermissionHelper: LocationPermissionHelper
+
+    private lateinit var token: String
+    private lateinit var patientId: String
 
     private lateinit var patientCoordinate: Point
 
@@ -77,7 +82,17 @@ class PatientDetailActivity : AppCompatActivity() {
         binding = ActivityPatientDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setupMap()
+        patientDetailViewModel.getTokenUser().observe(this){
+            token = it
+        }
+
+        patientDetailViewModel.getIdPatient().observe(this){
+            patientId = it
+
+            setupPatientDetail(token, patientId)
+        }
+
+        setupMap()
 
         setupActionBar()
 
@@ -85,8 +100,56 @@ class PatientDetailActivity : AppCompatActivity() {
 
         setupFAB()
 
-        mapView = binding.mapView
+        setupPatientRoute()
 
+        mapView = binding.mapView
+    }
+
+    private fun setupPatientRoute() {
+        binding.btnPatientRoute.setOnClickListener {
+            val intentToNavigation = Intent(this, NavigationActivity::class.java)
+            startActivity(intentToNavigation)
+        }
+    }
+
+    private fun setupPatientDetail(token: String, patientId: String) {
+        patientDetailViewModel.getPatient(token, patientId).observe(this){patient ->
+            when(patient){
+                is Resource.Error ->{
+                    Timber.tag("PatientDetailActivity").e(patient.message)
+                    showLoading(false)
+                }
+                is Resource.Loading ->{
+                    showLoading(true)
+                }
+                is Resource.Message ->{
+                    Timber.tag("PatientDetailActivity").d(patient.message)
+                }
+                is Resource.Success ->{
+                    showLoading(false)
+
+                    binding.apply {
+                        tvHeaderPatientName.text = patient.data?.name
+                        tvHeaderPatientSymtomp.text = patient.data?.symptom
+
+                        tvHomeDestination.text = patient.data?.homeName
+                        tvHomeDestinationDetail.text = "${patient.data?.latitudeHome}, ${patient.data?.longitudeHome}"
+
+                        tvDestination.text = patient.data?.destinationName
+                        tvDestinationDetail.text = "${patient.data?.latitudeDestination}, ${patient.data?.longitudeDestination}"
+
+                        tvDetailPatientName.text = patient.data?.name
+                        tvDetailPatientAge.text = patient.data?.age.toString()
+                        tvDetailPatientSymptompsType.text = patient.data?.symptom.toString()
+                        tvDetailPatientNotes.text = patient.data?.symptom
+                        tvDetailWatchCode.text = patient.data?.watchCode
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupMap() {
         locationPermissionHelper = LocationPermissionHelper((WeakReference(this)))
         locationPermissionHelper.checkPermissions {
             patientDetailViewModel.getLocationPatient().observe(this) { location ->
@@ -111,14 +174,12 @@ class PatientDetailActivity : AppCompatActivity() {
                 }
             }
         }
-    }
 
-//    private fun setupMap() {
-//        binding.mapWrapper.setOnClickListener {
-//            val intentToMap = Intent(this, MapsActivity::class.java)
-//            startActivity(intentToMap)
-//        }
-//    }
+        binding.mapWrapper.setOnClickListener {
+            val intentToMap = Intent(this, MapsActivity::class.java)
+            startActivity(intentToMap)
+        }
+    }
 
     private fun setupFAB() {
         binding.fabChangeAddress.setOnClickListener {
@@ -143,7 +204,7 @@ class PatientDetailActivity : AppCompatActivity() {
         ){
 //            initLocationUser()
             setupGesturesListener()
-            addPatientLocation(it)
+            addPatientLocation()
         }
 
         mapView.gestures.apply {
@@ -171,36 +232,36 @@ class PatientDetailActivity : AppCompatActivity() {
         mapView.gestures.addOnMoveListener(onMoveListener)
     }
 
-//    private fun initLocationUser() {
-//        val locationComponentPlugin = mapView.location
-//        locationComponentPlugin.updateSettings {
-//            this.enabled = true
-//            this.locationPuck = LocationPuck2D(
-//                bearingImage = AppCompatResources.getDrawable(
-//                    this@PatientDetailActivity,
-//                    R.drawable.ic_location_inner_24,
-//                ),
-//                shadowImage = AppCompatResources.getDrawable(
-//                    this@PatientDetailActivity,
-//                    R.drawable.ic_location_outer_24,
-//                ),
-//                scaleExpression = Expression.interpolate {
-//                    linear()
-//                    zoom()
-//                    stop {
-//                        literal(0.0)
-//                        literal(0.6)
-//                    }
-//                    stop {
-//                        literal(20.0)
-//                        literal(1.0)
-//                    }
-//                }.toJson()
-//            )
-//        }
-//        locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
-//        locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
-//    }
+    private fun initLocationUser() {
+        val locationComponentPlugin = mapView.location
+        locationComponentPlugin.updateSettings {
+            this.enabled = true
+            this.locationPuck = LocationPuck2D(
+                bearingImage = AppCompatResources.getDrawable(
+                    this@PatientDetailActivity,
+                    R.drawable.ic_location_inner_24,
+                ),
+                shadowImage = AppCompatResources.getDrawable(
+                    this@PatientDetailActivity,
+                    R.drawable.ic_location_outer_24,
+                ),
+                scaleExpression = Expression.interpolate {
+                    linear()
+                    zoom()
+                    stop {
+                        literal(0.0)
+                        literal(0.6)
+                    }
+                    stop {
+                        literal(20.0)
+                        literal(1.0)
+                    }
+                }.toJson()
+            )
+        }
+        locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
+        locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
+    }
 
     private fun onCameraTrackingDismissed() {
         mapView.location
@@ -210,10 +271,10 @@ class PatientDetailActivity : AppCompatActivity() {
         mapView.gestures.removeOnMoveListener(onMoveListener)
     }
 
-    private fun addPatientLocation(style: Style) {
-        val markerCoordinates = listOf(
-            patientCoordinate,
-        )
+    private fun addPatientLocation() {
+        binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS){ style ->
+            val markerCoordinates = listOf(
+            patientCoordinate,)
 
         val geoJsonString = FeatureCollection.fromFeatures(
             markerCoordinates.map {
@@ -240,6 +301,8 @@ class PatientDetailActivity : AppCompatActivity() {
         layer.iconSize(1.0)
 
         style.addLayer(layer)
+        }
+
     }
 
     override fun onDestroy() {
@@ -262,5 +325,9 @@ class PatientDetailActivity : AppCompatActivity() {
 
     private fun setupActionBar(){
         supportActionBar?.hide()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

@@ -143,90 +143,90 @@ class FillProfilePatientActivity : AppCompatActivity() {
     private fun setupSaveButton() {
         binding.btnSave.setOnClickListener {
             // temp for saving id patient
-//            fillProfilePatientViewModel.saveIdPatient("655a1b27c6edf99e700f264e")
+            fillProfilePatientViewModel.saveIdPatient("655a1b27c6edf99e700f264e")
 
-            val name = binding.edPatientFullName.text.toString()
-            val age = binding.edPatientAge.text.toString()
-            val symptom = binding.dropdownMenu.text.toString()
-            val patientNotes = binding.edPatientNotes.text.toString()
-            val watchCode = binding.edPatientWatchId.text.toString()
-            val homeAddress = binding.edPatientAddressHome.text.toString()
-            val latitudeHomeAddress = binding.edPatientAddressHomeLatitude.text.toString()
-            val longitudeHomeAddress = binding.edPatientAddressHomeLongitude.text.toString()
-            val destinationAddress = binding.edPatientAddressDestination.text.toString()
-            val latitudeDestinationAddress = binding.edPatientAddressDestinationLatitude.text.toString()
-            val longitudeDestinationAddress =
-                binding.edPatientAddressDestinationLongitude.text.toString()
-
-            if (
-                name.isNotEmpty() &&
-                age.isNotEmpty() &&
-                symptom.isNotEmpty() &&
-                patientNotes.isNotEmpty() &&
-                watchCode.isNotEmpty() &&
-                homeAddress.isNotEmpty() &&
-                destinationAddress.isNotEmpty() &&
-                latitudeDestinationAddress.isNotEmpty() &&
-                longitudeHomeAddress.isNotEmpty() &&
-                latitudeHomeAddress.isNotEmpty() &&
-                longitudeDestinationAddress.isNotEmpty()
-            ) {
-                fillProfilePatientViewModel.apply {
-                    getUserToken().observe(this@FillProfilePatientActivity) {
-                        savedToken = it
-                        addPatient(
-                            savedToken,
-                            name,
-                            age.toInt(),
-                            symptom,
-                            watchCode,
-                            homeAddress,
-                            longitudeHomeAddress.toDouble(),
-                            latitudeHomeAddress.toDouble(),
-                            destinationAddress,
-                            longitudeDestinationAddress.toDouble(),
-                            latitudeHomeAddress.toDouble(),
-                            patientNotes
-                        ).observe(this@FillProfilePatientActivity) { patient ->
-                            when (patient) {
-                                is Resource.Error -> {
-                                    showLoading(false)
-                                    buttonEnabled(true)
-
-                                    showLongToast("Terjadi kesalahan, silahkan simpan ulang")
-                                }
-                                is Resource.Loading -> {
-                                    showLoading(true)
-                                    buttonEnabled(false)
-                                }
-                                is Resource.Message -> {
-                                    Timber.tag("FillProfilePatientrActivity")
-                                        .d(patient.message.toString())
-                                }
-                                is Resource.Success -> {
-                                    showLoading(false)
-                                    buttonEnabled(true)
-
-                                    showLongToast(getString(R.string.patient_data_registered))
-                                    fillProfilePatientViewModel.saveIdPatient(patient.data?.id!!)
-
-                                    val intentToHome =
-                                        Intent(
-                                            this@FillProfilePatientActivity,
-                                            MainActivity::class.java
-                                        )
-
-                                    startActivity(intentToHome)
-                                    intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    finish()
-                                }
-                            }
-                        }
-                    }
-                }
-            }else {
-                showLongToast(getString(R.string.fill_data))
-            }
+//            val name = binding.edPatientFullName.text.toString()
+//            val age = binding.edPatientAge.text.toString()
+//            val symptom = binding.dropdownMenu.text.toString()
+//            val patientNotes = binding.edPatientNotes.text.toString()
+//            val watchCode = binding.edPatientWatchId.text.toString()
+//            val homeAddress = binding.edPatientAddressHome.text.toString()
+//            val latitudeHomeAddress = binding.edPatientAddressHomeLatitude.text.toString()
+//            val longitudeHomeAddress = binding.edPatientAddressHomeLongitude.text.toString()
+//            val destinationAddress = binding.edPatientAddressDestination.text.toString()
+//            val latitudeDestinationAddress = binding.edPatientAddressDestinationLatitude.text.toString()
+//            val longitudeDestinationAddress =
+//                binding.edPatientAddressDestinationLongitude.text.toString()
+//
+//            if (
+//                name.isNotEmpty() &&
+//                age.isNotEmpty() &&
+//                symptom.isNotEmpty() &&
+//                patientNotes.isNotEmpty() &&
+//                watchCode.isNotEmpty() &&
+//                homeAddress.isNotEmpty() &&
+//                destinationAddress.isNotEmpty() &&
+//                latitudeDestinationAddress.isNotEmpty() &&
+//                longitudeHomeAddress.isNotEmpty() &&
+//                latitudeHomeAddress.isNotEmpty() &&
+//                longitudeDestinationAddress.isNotEmpty()
+//            ) {
+//                fillProfilePatientViewModel.apply {
+//                    getUserToken().observe(this@FillProfilePatientActivity) {
+//                        savedToken = it
+//                        addPatient(
+//                            savedToken,
+//                            name,
+//                            age.toInt(),
+//                            symptom,
+//                            watchCode,
+//                            homeAddress,
+//                            longitudeHomeAddress.toDouble(),
+//                            latitudeHomeAddress.toDouble(),
+//                            destinationAddress,
+//                            longitudeDestinationAddress.toDouble(),
+//                            latitudeHomeAddress.toDouble(),
+//                            patientNotes
+//                        ).observe(this@FillProfilePatientActivity) { patient ->
+//                            when (patient) {
+//                                is Resource.Error -> {
+//                                    showLoading(false)
+//                                    buttonEnabled(true)
+//
+//                                    showLongToast("Terjadi kesalahan, silahkan simpan ulang")
+//                                }
+//                                is Resource.Loading -> {
+//                                    showLoading(true)
+//                                    buttonEnabled(false)
+//                                }
+//                                is Resource.Message -> {
+//                                    Timber.tag("FillProfilePatientrActivity")
+//                                        .d(patient.message.toString())
+//                                }
+//                                is Resource.Success -> {
+//                                    showLoading(false)
+//                                    buttonEnabled(true)
+//
+//                                    showLongToast(getString(R.string.patient_data_registered))
+//                                    fillProfilePatientViewModel.saveIdPatient(patient.data?.id!!)
+//
+//                                    val intentToHome =
+//                                        Intent(
+//                                            this@FillProfilePatientActivity,
+//                                            MainActivity::class.java
+//                                        )
+//
+//                                    startActivity(intentToHome)
+//                                    intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+//                                    finish()
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }else {
+//                showLongToast(getString(R.string.fill_data))
+//            }
         }
     }
 
