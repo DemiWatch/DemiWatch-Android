@@ -1,6 +1,7 @@
 package com.project.demiwatch.features.navigation
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
@@ -66,8 +67,11 @@ import com.mapbox.navigation.ui.voice.model.SpeechError
 import com.mapbox.navigation.ui.voice.model.SpeechValue
 import com.mapbox.navigation.ui.voice.model.SpeechVolume
 import com.project.demiwatch.R
+import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.databinding.ActivityNavigationBinding
+import com.project.demiwatch.features.dashboard.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -397,6 +401,7 @@ class NavigationActivity : AppCompatActivity() {
         onInitialize = this::initNavigation
     )
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNavigationBinding.inflate(layoutInflater)
@@ -494,9 +499,30 @@ class NavigationActivity : AppCompatActivity() {
         // load map style
         binding.mapView.getMapboxMap().loadStyleUri(NavigationStyles.NAVIGATION_DAY_STYLE) {
             // add long click listener that search for a route to the clicked destination
-            binding.mapView.gestures.addOnMapLongClickListener { point ->
-                findRoute(point)
-                true
+//            binding.mapView.gestures.addOnMapLongClickListener { point ->
+//                findRoute(point)
+//                true
+//            }
+
+            navigationViewModel.getLocationPatient().observe(this){location ->
+                when(location){
+                    is Resource.Error ->{
+                        Timber.tag("NavigationActivity").e(location.message)
+                        showLoading(false)
+                    }
+                    is Resource.Loading ->{
+                        showLoading(true)
+                    }
+                    is Resource.Message ->{
+                        Timber.tag("NavigationActivity").d(location.message)
+                    }
+                    is Resource.Success ->{
+                        showLoading(false)
+
+                        val destinationLocation = Point.fromLngLat(location.data?.longitude!!, location.data.latitude!!)
+                        findRoute(destinationLocation)
+                    }
+                }
             }
         }
 
@@ -522,6 +548,12 @@ class NavigationActivity : AppCompatActivity() {
 
         // set initial sounds button state
         binding.soundButton.unmute()
+
+        binding.btnBack.setOnClickListener{
+            val intentToMain = Intent(this, MainActivity::class.java)
+            startActivity(intentToMain)
+            finish()
+        }
     }
 
     override fun onDestroy() {
@@ -539,19 +571,24 @@ class NavigationActivity : AppCompatActivity() {
             NavigationOptions.Builder(this)
                 .accessToken(getString(R.string.mapbox_access_token))
                 // comment out the location engine setting block to disable simulation
-                .locationEngine(replayLocationEngine)
+//                .locationEngine(replayLocationEngine)
                 .build()
         )
 
         // initialize location puck
+//        binding.mapView.location.apply {
+//            setLocationProvider(navigationLocationProvider)
+//            this.locationPuck = LocationPuck2D(
+//                bearingImage = ContextCompat.getDrawable(
+//                    this@NavigationActivity,
+//                    R.drawable.ic_location_on_24
+//                )
+//            )
+//            enabled = true
+//        }
+
         binding.mapView.location.apply {
             setLocationProvider(navigationLocationProvider)
-            this.locationPuck = LocationPuck2D(
-                bearingImage = ContextCompat.getDrawable(
-                    this@NavigationActivity,
-                    R.drawable.ic_location_on_24
-                )
-            )
             enabled = true
         }
 
@@ -649,5 +686,9 @@ class NavigationActivity : AppCompatActivity() {
 
     private fun setupActionBar() {
         supportActionBar?.hide()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
