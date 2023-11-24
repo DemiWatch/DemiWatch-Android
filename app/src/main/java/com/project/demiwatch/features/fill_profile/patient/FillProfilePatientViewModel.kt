@@ -28,6 +28,12 @@ class FillProfilePatientViewModel @Inject constructor(
         patientUseCase.saveIdPatient(patientId)
     }
 
+    fun cachePatientProfile(patientProfile: String) = viewModelScope.launch {
+        patientUseCase.cachePatientProfile(patientProfile)
+    }
+
+    fun getCachePatientProfile() = patientUseCase.getCachePatientProfile().asLiveData()
+
     fun addPatient(
         token: String,
         name: String,

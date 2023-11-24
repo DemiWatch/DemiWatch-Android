@@ -11,6 +11,4 @@ object MapUtils {
     }
 
     fun convertToPoint(jsonValue: String): Point = Gson().fromJson(jsonValue, Point::class.java)
-
-
 }

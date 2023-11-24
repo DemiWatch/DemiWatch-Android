@@ -41,6 +41,12 @@ class LocalDataSource @Inject constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    suspend fun cachePatientProfile(patientProfile: String) {
+        dataStore.edit { preferences ->
+            preferences[PATIENT_PROFILE_CACHE_KEY] = patientProfile
+        }
+    }
+
     fun getUserToken(): Flow<String> {
         return dataStore.data.map { preferences ->
             preferences[USER_TOKEN_KEY] ?: ""
@@ -71,6 +77,11 @@ class LocalDataSource @Inject constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    fun getCachePatientProfile(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[PATIENT_PROFILE_CACHE_KEY] ?: ""
+        }
+    }
 
     suspend fun deleteTokenUser() {
         dataStore.edit {
@@ -78,12 +89,12 @@ class LocalDataSource @Inject constructor(private val dataStore: DataStore<Prefe
         }
     }
 
-
     companion object {
         private val USER_TOKEN_KEY = stringPreferencesKey("user_token_key")
         private val USER_ID_KEY = stringPreferencesKey("user_id_key")
         private val PATIENT_ID_KEY = stringPreferencesKey("patient_id_key")
         private val PATIENT_HOME_KEY = stringPreferencesKey("patient_home_key")
         private val PATIENT_DESTINATION_KEY = stringPreferencesKey("patient_destination_key")
+        private val PATIENT_PROFILE_CACHE_KEY = stringPreferencesKey("patient_profile_key")
     }
 }

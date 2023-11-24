@@ -37,6 +37,14 @@ class PatientInteractor @Inject constructor(private val patientRepository: Patie
         return patientRepository.getDestinationLocationPatient()
     }
 
+    override suspend fun cachePatientProfile(patientProfile: String) {
+        return patientRepository.cachePatientProfile(patientProfile)
+    }
+
+    override fun getCachePatientProfile(): Flow<String> {
+        return patientRepository.getCachePatientProfile()
+    }
+
     override fun addPatient(
         token: String,
         name: String,
@@ -101,5 +109,27 @@ class PatientInteractor @Inject constructor(private val patientRepository: Patie
 
     override fun getPatient(token: String, id: String): Flow<Resource<Patient>> {
         return patientRepository.getPatient(id, token)
+    }
+
+    override fun updatePatientLocations(
+        token: String,
+        id: String,
+        addressName: String,
+        longitudeHome: Double,
+        latitudeHome: Double,
+        destinationName: String,
+        longitudeDestination: Double,
+        latitudeDestination: Double,
+    ): Flow<Resource<Patient>> {
+        return patientRepository.updatePatientLocations(
+            token,
+            id,
+            addressName,
+            longitudeHome,
+            latitudeHome,
+            destinationName,
+            longitudeDestination,
+            latitudeDestination
+        )
     }
 }

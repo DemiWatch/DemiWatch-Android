@@ -18,6 +18,9 @@ class PickLocationViewModel @Inject constructor(
     private var _pickedLocationType = MutableLiveData<Int>()
     var pickedLocationType: LiveData<Int> = _pickedLocationType
 
+    private var _fromActivityType = MutableLiveData<Int>()
+    var fromActivityType: LiveData<Int> = _fromActivityType
+
     private var _pickedHomeLocation = MutableLiveData<Point>()
     var pickedHomeLocation: LiveData<Point> = _pickedHomeLocation
 
@@ -26,6 +29,10 @@ class PickLocationViewModel @Inject constructor(
 
     fun setPickedLocationType(input: Int) {
         _pickedLocationType.value = input
+    }
+
+    fun setFromActivityType(input: Int) {
+        _fromActivityType.value = input
     }
 
     fun setPickedHomeLocation(input: Point) {

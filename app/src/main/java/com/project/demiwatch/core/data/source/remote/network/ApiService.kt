@@ -92,6 +92,17 @@ interface ApiService {
         @Field("alamatTujuan") destinationAddress: String,
     ): PatientResponse
 
+    @FormUrlEncoded
+    @PUT("api/addPatient/{id}")
+    suspend fun updatePatientLocations(
+        @Path("id") id: String,
+        @Header("Authorization") token: String,
+
+        //use JSON string
+        @Field("alamatRumah") homeAddress: String,
+        @Field("alamatTujuan") destinationAddress: String,
+    ): PatientResponse
+
     @GET("api/getPatient/{id}")
     suspend fun getPatient(
         @Header("Authorization") token: String,

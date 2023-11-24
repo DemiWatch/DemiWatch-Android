@@ -18,8 +18,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class
-PatientRepository @Inject constructor(
+class PatientRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
 ) : IPatientRepository {
@@ -59,6 +58,14 @@ PatientRepository @Inject constructor(
 
     override fun getDestinationLocationPatient(): Flow<String> {
         return localDataSource.getDestinationLocationPatient()
+    }
+
+    override suspend fun cachePatientProfile(patientProfile: String) {
+        return localDataSource.cachePatientProfile(patientProfile)
+    }
+
+    override fun getCachePatientProfile(): Flow<String> {
+        return localDataSource.getCachePatientProfile()
     }
 
 
@@ -167,4 +174,48 @@ PatientRepository @Inject constructor(
             }
         }.asFlow()
     }
+
+    override fun updatePatientLocations(
+        token: String,
+        id: String,
+        addressName: String,
+        longitudeHome: Double,
+        latitudeHome: Double,
+        destinationName: String,
+        longitudeDestination: Double,
+        latitudeDestination: Double,
+    ): Flow<Resource<Patient>> {
+        return object : NetworkBoundResource<Patient, PatientResponse>() {
+            override suspend fun fetchFromApi(response: PatientResponse): Patient {
+                return PatientDataMapper.mapPatientResponseToDomain(response)
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<PatientResponse>> {
+                val homeAddress = JsonMapper.convertPatientAddressToJSON(
+                    PatientAddress(
+                        addressName,
+                        longitudeHome,
+                        latitudeHome,
+                    )
+                )
+
+                val destinationAddress = JsonMapper.convertPatientAddressToJSON(
+                    PatientAddress(
+                        destinationName,
+                        longitudeDestination,
+                        latitudeDestination,
+                    )
+                )
+
+                return remoteDataSource.updatePatientLocations(
+                    id,
+                    token,
+                    homeAddress,
+                    destinationAddress
+                )
+            }
+        }.asFlow()
+    }
+
+
 }

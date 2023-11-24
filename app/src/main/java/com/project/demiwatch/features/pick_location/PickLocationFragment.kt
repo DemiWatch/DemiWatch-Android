@@ -35,9 +35,9 @@ import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListen
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
-import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.FragmentPickLocationBinding
 import com.project.demiwatch.features.fill_profile.patient.FillProfilePatientActivity
+import com.project.demiwatch.features.patient_detail.change_address.ChangeAddressActivity
 import java.lang.ref.WeakReference
 
 class PickLocationFragment : Fragment() {
@@ -106,8 +106,6 @@ class PickLocationFragment : Fragment() {
     private fun setupSaveButton() {
         binding.btnSave.setOnClickListener {
             pickLocationViewModel.pickedLocationType.observe(this) { type ->
-                activity?.showToast(type.toString())
-
                 val location = Gson().toJson(pickedCoordinates)
                 when (type) {
                     1 -> {
@@ -125,9 +123,20 @@ class PickLocationFragment : Fragment() {
                 }
             }
 
-            val intentToFillPatientProfile =
-                Intent(requireContext(), FillProfilePatientActivity::class.java)
-            startActivity(intentToFillPatientProfile)
+            pickLocationViewModel.fromActivityType.observe(this) { type ->
+                val intentBack = when (type) {
+                    1 -> {
+                        Intent(requireActivity(), FillProfilePatientActivity::class.java)
+                    }
+                    2 -> {
+                        Intent(requireActivity(), ChangeAddressActivity::class.java)
+                    }
+                    else -> {
+                        Intent(requireActivity(), ChangeAddressActivity::class.java)
+                    }
+                }
+                startActivity(intentBack)
+            }
         }
     }
 

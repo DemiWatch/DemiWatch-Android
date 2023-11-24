@@ -127,7 +127,6 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
     //PATIENT
 
-
     suspend fun getLocationPatient(token: String): Flow<ApiResponse<PatientLocationResponse>> {
         return flow<ApiResponse<PatientLocationResponse>> {
             try {
@@ -231,6 +230,31 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                 }
             } catch (e: Exception) {
                 Timber.tag("getPatient").d(e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun updatePatientLocations(
+        id: String, token: String, homeAddress: String,
+        destinationAddress: String,
+    ): Flow<ApiResponse<PatientResponse>> {
+        return flow<ApiResponse<PatientResponse>> {
+            try {
+                val response = apiService.updatePatientLocations(
+                    id,
+                    token,
+                    homeAddress,
+                    destinationAddress
+                )
+
+                if (response.data != null) {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                Timber.tag("updatePatientLocations").d(e.toString())
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)

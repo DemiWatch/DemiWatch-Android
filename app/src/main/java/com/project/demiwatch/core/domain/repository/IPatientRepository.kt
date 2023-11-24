@@ -21,6 +21,10 @@ interface IPatientRepository {
 
     fun getDestinationLocationPatient(): Flow<String>
 
+    suspend fun cachePatientProfile(patientProfile: String)
+
+    fun getCachePatientProfile(): Flow<String>
+
     fun addPatient(
         token: String,
         name: String,
@@ -53,4 +57,15 @@ interface IPatientRepository {
     ): Flow<Resource<Patient>>
 
     fun getPatient(id: String, token: String): Flow<Resource<Patient>>
+
+    fun updatePatientLocations(
+        token: String,
+        id: String,
+        addressName: String,
+        longitudeHome: Double,
+        latitudeHome: Double,
+        destinationName: String,
+        longitudeDestination: Double,
+        latitudeDestination: Double,
+    ): Flow<Resource<Patient>>
 }
