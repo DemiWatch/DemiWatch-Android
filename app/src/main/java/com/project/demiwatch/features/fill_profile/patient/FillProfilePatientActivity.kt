@@ -290,8 +290,10 @@ class FillProfilePatientActivity : AppCompatActivity() {
                                     buttonEnabled(false)
                                 }
                                 is Resource.Message -> {
-                                    Timber.tag("FillProfilePatientrActivity")
-                                        .d(patient.message.toString())
+                                    Timber.tag("FillProfilePatientActivity")
+                                        .d(patient.message.toString() + "Masuk")
+                                    Timber.tag("FillProfilePatientActivity")
+                                        .e(patient.data.toString())
                                 }
                                 is Resource.Success -> {
                                     showLoading(false)

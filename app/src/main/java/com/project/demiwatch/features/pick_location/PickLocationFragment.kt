@@ -90,7 +90,28 @@ class PickLocationFragment : Fragment() {
 
         setupSaveButton()
 
+        setupBackButton()
+
         saveButtonIsClickable(false)
+    }
+
+    private fun setupBackButton() {
+        binding.btnBack.setOnClickListener {
+            pickLocationViewModel.fromActivityType.observe(this) { type ->
+                val intentBack = when (type) {
+                    1 -> {
+                        Intent(requireActivity(), FillProfilePatientActivity::class.java)
+                    }
+                    2 -> {
+                        Intent(requireActivity(), ChangeAddressActivity::class.java)
+                    }
+                    else -> {
+                        Intent(requireActivity(), ChangeAddressActivity::class.java)
+                    }
+                }
+                startActivity(intentBack)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -286,10 +307,5 @@ class PickLocationFragment : Fragment() {
         private const val MARKER_SOURCE_ID = "marker-source-id"
         private const val MARKER_IMAGE_ID = "marker-icon-id"
         private const val MARKER_LAYER_ID = "marker-layer-id"
-
-        const val HOME_LOCATION_CODE = "HOME_LOCATION"
-        const val DESTINATION_LOCATION_CODE = "DESTINATION_LOCATION"
-
-        const val FLAG_SELECT_LOCATION = "FLAG_SELECT_LOCATION"
     }
 }

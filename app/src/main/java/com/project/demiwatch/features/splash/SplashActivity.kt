@@ -40,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
                 userId = it
             }
 
-            getPatientId().observe(this@SplashActivity){
+            getPatientId().observe(this@SplashActivity) {
                 patientId = it
 
                 checkUser(token, userId, patientId)
@@ -75,15 +75,13 @@ class SplashActivity : AppCompatActivity() {
 
                         startActivity(intentToFillProfileUser)
                         finish()
-                    }
-                    else if (checkPatientId == "") {
-                        Timber.tag("SplashActivity").d((checkPatientId == "").toString())
-                        val intentToFillProfilePatient = Intent(this@SplashActivity, FillProfilePatientActivity::class.java)
+                    } else if (checkPatientId == "") {
+                        val intentToFillProfilePatient =
+                            Intent(this@SplashActivity, FillProfilePatientActivity::class.java)
 
                         startActivity(intentToFillProfilePatient)
                         finish()
-                    }
-                    else {
+                    } else {
                         val intentToHome =
                             Intent(this@SplashActivity, MainActivity::class.java)
 

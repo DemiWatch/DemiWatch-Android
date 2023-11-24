@@ -66,7 +66,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
             try {
                 val response = apiService.addUser(token, id, name, phoneNumber, status, maxRadius)
 
-                if (response.message == "Data user berhasil disimpan") {
+                if (response.data != null) {
                     emit(ApiResponse.Success(response))
                 } else {
                     emit(ApiResponse.Empty)
@@ -91,7 +91,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                 val response =
                     apiService.updateUser(token, id, name, phoneNumber, status, maxRadius)
 
-                if (response.message == "Data user berhasil diperbarui") {
+                if (response.data != null) {
                     emit(ApiResponse.Success(response))
                 } else {
                     emit(ApiResponse.Empty)
@@ -167,7 +167,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                     destinationAddress
                 )
 
-                if (response.message == "Data pasien berhasil disimpan") {
+                if (response.data != null) {
                     emit(ApiResponse.Success(response))
                 } else {
                     emit(ApiResponse.Empty)
@@ -205,7 +205,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                     destinationAddress
                 )
 
-                if (response.message == "Data pasien berhasil diperbarui") {
+                if (response.data != null) {
                     emit(ApiResponse.Success(response))
                 } else {
                     emit(ApiResponse.Empty)

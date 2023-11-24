@@ -177,13 +177,13 @@ class ChangeAddressActivity : AppCompatActivity() {
     }
 
     private fun setupInitialLocationData() {
-        changeAddressViewModel.getHomeLocationPatient().observe(this) { home ->
-            binding.edNameHome.setText(home.toString())
-        }
-
-        changeAddressViewModel.getDestinationLocationPatient().observe(this) { destination ->
-            binding.edNameDestination.setText(destination.toString())
-        }
+//        changeAddressViewModel.getHomeLocationPatient().observe(this) { home ->
+//            binding.edNameHome.setText(home.toString())
+//        }
+//
+//        changeAddressViewModel.getDestinationLocationPatient().observe(this) { destination ->
+//            binding.edNameDestination.setText(destination.toString())
+//        }
     }
 
     private fun setupButtonBack() {
