@@ -1,9 +1,7 @@
 package com.project.demiwatch.core.utils.data_mapper
 
-import com.project.demiwatch.core.data.source.remote.response.patient.PatientLocationResponse
-import com.project.demiwatch.core.data.source.remote.response.patient.PatientResponse
-import com.project.demiwatch.core.domain.model.Patient
-import com.project.demiwatch.core.domain.model.PatientLocation
+import com.project.demiwatch.core.data.source.remote.response.patient.*
+import com.project.demiwatch.core.domain.model.*
 
 object PatientDataMapper {
     fun mapPatientLocationResponseToDomain(input: PatientLocationResponse?): PatientLocation =
@@ -31,4 +29,29 @@ object PatientDataMapper {
         note = input.data.catatan ?: "Catatan Pasien",
         error = input.error ?: "Error Response"
     )
+
+    fun mapHistoryItemToDomain(input: List<DurationsItem?>?): List<HistoryItem> = input!!.map {
+        HistoryItem(
+            condition = it?.condition ?: "kendala",
+            duration = it?.duration ?: "0 hours 0 minutes",
+            start = it?.start ?: "2023-11-25 03:04:46",
+            end = it?.end ?: "2023-11-25 03:04:46"
+        )
+    }
+
+    private fun mapAddressToDomain(input: Address): PatientAddress = PatientAddress(
+        name = input.name ?: "Nama Lokasi",
+        longitude = input.longi as Double,
+        latitude = input.lat as Double,
+    )
+
+    fun mapHistoryPatientResponseToDomain(input: PatientHistoryResponse): PatientHistory =
+        PatientHistory(
+            id = input.id!!,
+            name = input.nama ?: "Nama Pasien",
+            symptom = input.jenisPenyakit ?: "Jenis Penyakit",
+            homeAddress = mapAddressToDomain(input.alamatRumah!!),
+            destinationAddress = mapAddressToDomain(input.alamatTujuan!!),
+            historyList = mapHistoryItemToDomain(input.durations)
+        )
 }

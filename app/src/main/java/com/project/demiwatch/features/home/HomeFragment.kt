@@ -4,13 +4,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.geojson.Feature
@@ -34,7 +33,6 @@ import com.mapbox.maps.plugin.locationcomponent.location
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
-import com.project.demiwatch.core.utils.showLongToast
 import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.FragmentHomeBinding
 import com.project.demiwatch.features.maps.MapsActivity
@@ -47,8 +45,8 @@ import java.lang.ref.WeakReference
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
-    private val binding get() =_binding!!
-    private val homeViewModel:HomeViewModel by activityViewModels()
+    private val binding get() = _binding!!
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
     private lateinit var mapView: MapView
     private lateinit var locationPermissionHelper: LocationPermissionHelper
@@ -98,17 +96,17 @@ class HomeFragment : Fragment() {
 
         setupPatientRoute()
 
-        homeViewModel.getTokenUser().observe(this){
+        homeViewModel.getTokenUser().observe(this) {
             token = it
         }
 
-        homeViewModel.getIdPatient().observe(this){
+        homeViewModel.getIdPatient().observe(this) {
             patientId = it
 
             setupPatientData(token, patientId)
         }
 
-        homeViewModel.getIdUser().observe(this){
+        homeViewModel.getIdUser().observe(this) {
             userId = it
 
             setupUserData(token, userId)
@@ -119,48 +117,48 @@ class HomeFragment : Fragment() {
         setupMap()
     }
 
-    private fun setupPatientData(token:String, patientId: String) {
-        homeViewModel.getPatient(token, patientId).observe(this){patient ->
-            when(patient){
-                is Resource.Error ->{
+    private fun setupPatientData(token: String, patientId: String) {
+        homeViewModel.getPatient(token, patientId).observe(this) { patient ->
+            when (patient) {
+                is Resource.Error -> {
                     showLoading(false)
                     activity?.showToast("Pastikan internet anda terknoneksi dengan baik dan buka kembali aplikasi")
                 }
-                is Resource.Loading ->{
+                is Resource.Loading -> {
                     showLoading(true)
                 }
-                is Resource.Message ->{
+                is Resource.Message -> {
                     Timber.tag("HomeFragment").d(patient.message)
                 }
-                is Resource.Success ->{
+                is Resource.Success -> {
                     showLoading(false)
 
-                   binding.apply {
-                       cardPatientName.text = patient.data?.name
-                       cardPatientListSymptomps.text = patient.data?.symptom
+                    binding.apply {
+                        cardPatientName.text = patient.data?.name
+                        cardPatientSymptomps.text = patient.data?.symptom
 
-                       cardPatientListName.text = patient.data?.name
-                       cardPatientListSymptomps.text = patient.data?.symptom
-                   }
+                        cardPatientListName.text = patient.data?.name
+                        cardPatientListSymptomps.text = patient.data?.symptom
+                    }
                 }
             }
         }
     }
 
-    private fun setupUserData(token:String, patientId: String) {
-        homeViewModel.getUser(token, patientId).observe(this){user ->
-            when(user){
-                is Resource.Error ->{
+    private fun setupUserData(token: String, patientId: String) {
+        homeViewModel.getUser(token, patientId).observe(this) { user ->
+            when (user) {
+                is Resource.Error -> {
                     showLoading(false)
                     activity?.showToast("Pastikan internet anda terknoneksi dengan baik dan buka kembali aplikasi")
                 }
-                is Resource.Loading ->{
+                is Resource.Loading -> {
                     showLoading(true)
                 }
-                is Resource.Message ->{
+                is Resource.Message -> {
                     Timber.tag("HomeFragment").d(user.message)
                 }
-                is Resource.Success ->{
+                is Resource.Success -> {
                     binding.tvHomeUsername.text = user.data?.name
                 }
             }
@@ -170,20 +168,23 @@ class HomeFragment : Fragment() {
     private fun setupMap() {
         locationPermissionHelper = LocationPermissionHelper((WeakReference(activity)))
         locationPermissionHelper.checkPermissions {
-            homeViewModel.getLocationPatient().observe(this){location ->
-                when(location){
-                    is Resource.Error ->{
+            homeViewModel.getLocationPatient().observe(this) { location ->
+                when (location) {
+                    is Resource.Error -> {
                         //show loading
                         Timber.tag("HomeFragment").e(location.message)
                     }
                     is Resource.Loading -> {
                         //show loading
                     }
-                    is Resource.Message ->{
+                    is Resource.Message -> {
                         Timber.tag("HomeFragment").d(location.message)
                     }
-                    is Resource.Success ->{
-                        patientCoordinate = Point.fromLngLat(location.data?.longitude ?: 0.0, location.data?.latitude ?: 0.0)
+                    is Resource.Success -> {
+                        patientCoordinate = Point.fromLngLat(
+                            location.data?.longitude ?: 0.0,
+                            location.data?.latitude ?: 0.0
+                        )
                         onMapReady()
                     }
                 }
@@ -214,36 +215,41 @@ class HomeFragment : Fragment() {
     }
 
     private fun addPatientLocation() {
-        binding.mapView.getMapboxMap().loadStyleUri(  Style.MAPBOX_STREETS){style ->
+        binding.mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS) { style ->
             val markerCoordinates = listOf(
-            patientCoordinate,
-        )
+                patientCoordinate,
+            )
 
-        val geoJsonString = FeatureCollection.fromFeatures(
-            markerCoordinates.map {
-                Feature.fromGeometry(it)
-            }
-        ).toJson()
+            val geoJsonString = FeatureCollection.fromFeatures(
+                markerCoordinates.map {
+                    Feature.fromGeometry(it)
+                }
+            ).toJson()
 
-        val source = GeoJsonSource.Builder("marker-source-id")
-            .data(geoJsonString)
-            .build()
+            val source = GeoJsonSource.Builder("marker-source-id")
+                .data(geoJsonString)
+                .build()
 
-        style.addSource(source)
+            style.addSource(source)
 
-        val vectorDrawable = ContextCompat.getDrawable( requireContext(), R.drawable.ic_location_on_24)
-        val bitmap = Bitmap.createBitmap(vectorDrawable!!.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-        vectorDrawable.draw(canvas)
+            val vectorDrawable =
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_location_on_24)
+            val bitmap = Bitmap.createBitmap(
+                vectorDrawable!!.intrinsicWidth,
+                vectorDrawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+            val canvas = Canvas(bitmap)
+            vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+            vectorDrawable.draw(canvas)
 
-        style.addImage("marker-icon-id", bitmap)
+            style.addImage("marker-icon-id", bitmap)
 
-        val layer = SymbolLayer("marker-layer-id", "marker-source-id")
-        layer.iconImage("marker-icon-id")
-        layer.iconSize(1.0)
+            val layer = SymbolLayer("marker-layer-id", "marker-source-id")
+            layer.iconImage("marker-icon-id")
+            layer.iconSize(1.0)
 
-        style.addLayer(layer)
+            style.addLayer(layer)
         }
 
 //        val markerCoordinates = listOf(
@@ -284,7 +290,7 @@ class HomeFragment : Fragment() {
 
         mapView.getMapboxMap().loadStyleUri(
             Style.MAPBOX_STREETS
-        ){
+        ) {
 //            initLocationUser()
             setupGesturesListener()
             addPatientLocation()
@@ -301,7 +307,7 @@ class HomeFragment : Fragment() {
             simultaneousRotateAndPinchToZoomEnabled = false
             scrollEnabled = false
             rotateEnabled = false
-            quickZoomEnabled= false
+            quickZoomEnabled = false
         }
 
         mapView.getMapboxMap().addOnMapClickListener { point ->
@@ -342,8 +348,12 @@ class HomeFragment : Fragment() {
                 }.toJson()
             )
         }
-        locationComponentPlugin.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
-        locationComponentPlugin.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
+        locationComponentPlugin.addOnIndicatorPositionChangedListener(
+            onIndicatorPositionChangedListener
+        )
+        locationComponentPlugin.addOnIndicatorBearingChangedListener(
+            onIndicatorBearingChangedListener
+        )
     }
 
     private fun onCameraTrackingDismissed() {

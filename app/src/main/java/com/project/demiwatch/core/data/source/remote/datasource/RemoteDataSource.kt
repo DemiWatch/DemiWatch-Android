@@ -4,6 +4,7 @@ import com.project.demiwatch.core.data.source.remote.network.ApiResponse
 import com.project.demiwatch.core.data.source.remote.network.ApiService
 import com.project.demiwatch.core.data.source.remote.response.auth.LoginResponse
 import com.project.demiwatch.core.data.source.remote.response.auth.RegisterResponse
+import com.project.demiwatch.core.data.source.remote.response.patient.PatientHistoryResponse
 import com.project.demiwatch.core.data.source.remote.response.patient.PatientLocationResponse
 import com.project.demiwatch.core.data.source.remote.response.patient.PatientResponse
 import com.project.demiwatch.core.data.source.remote.response.user.UserResponse
@@ -255,6 +256,23 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                 }
             } catch (e: Exception) {
                 Timber.tag("updatePatientLocations").d(e.toString())
+                emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getHistoryPatient(token: String): Flow<ApiResponse<PatientHistoryResponse>> {
+        return flow<ApiResponse<PatientHistoryResponse>> {
+            try {
+                val response = apiService.getHistoryPatient(token)
+
+                if (response.status == 200) {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                Timber.tag("getHistoryPatient").d(e.toString())
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)

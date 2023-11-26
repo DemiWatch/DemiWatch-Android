@@ -1,6 +1,7 @@
 package com.project.demiwatch.core.domain.usecase
 
 import com.project.demiwatch.core.domain.model.Patient
+import com.project.demiwatch.core.domain.model.PatientHistory
 import com.project.demiwatch.core.domain.model.PatientLocation
 import com.project.demiwatch.core.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -70,4 +71,5 @@ interface PatientUseCase {
         latitudeDestination: Double,
     ): Flow<Resource<Patient>>
 
+    fun getHistoryPatient(token: String): Flow<Resource<PatientHistory>>
 }

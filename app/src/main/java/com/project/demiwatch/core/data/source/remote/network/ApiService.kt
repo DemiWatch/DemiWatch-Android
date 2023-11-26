@@ -2,6 +2,7 @@ package com.project.demiwatch.core.data.source.remote.network
 
 import com.project.demiwatch.core.data.source.remote.response.auth.LoginResponse
 import com.project.demiwatch.core.data.source.remote.response.auth.RegisterResponse
+import com.project.demiwatch.core.data.source.remote.response.patient.PatientHistoryResponse
 import com.project.demiwatch.core.data.source.remote.response.patient.PatientLocationResponse
 import com.project.demiwatch.core.data.source.remote.response.patient.PatientResponse
 import com.project.demiwatch.core.data.source.remote.response.user.UserResponse
@@ -108,6 +109,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: String,
     ): PatientResponse
+
+    @GET("api/history/P002")
+    suspend fun getHistoryPatient(
+        @Header("Authorization") token: String
+    ): PatientHistoryResponse
+
     //END-PATIENT
 
 

@@ -40,6 +40,4 @@ interface IUserRepository {
     ): Flow<Resource<User>>
 
     fun getUser(id: String, token: String): Flow<Resource<User>>
-
-
 }

@@ -1,6 +1,7 @@
 package com.project.demiwatch.core.domain.repository
 
 import com.project.demiwatch.core.domain.model.Patient
+import com.project.demiwatch.core.domain.model.PatientHistory
 import com.project.demiwatch.core.domain.model.PatientLocation
 import com.project.demiwatch.core.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -68,4 +69,6 @@ interface IPatientRepository {
         longitudeDestination: Double,
         latitudeDestination: Double,
     ): Flow<Resource<Patient>>
+
+    fun getHistoryPatient(token: String): Flow<Resource<PatientHistory>>
 }

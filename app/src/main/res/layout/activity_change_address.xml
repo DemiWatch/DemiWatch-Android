@@ -7,182 +7,231 @@
     android:layout_height="match_parent"
     tools:context=".features.patient_detail.change_address.ChangeAddressActivity">
 
-    <TextView
-        android:id="@+id/textView16"
-        style="@style/textStyleSemiBoldCustom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="@string/change_address_route"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_back"
-        app:layout_constraintStart_toEndOf="@+id/btn_back"
-        app:layout_constraintTop_toTopOf="@+id/btn_back" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView16"-->
+    <!--        style="@style/textStyleSemiBoldCustom"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="12dp"-->
+    <!--        android:text="@string/change_address_route"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/btn_back"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/btn_back"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/btn_back" />-->
 
-    <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_back_24" />
+    <!--    <ImageView-->
+    <!--        android:id="@+id/btn_back"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="24dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:srcCompat="@drawable/ic_arrow_back_24" />-->
 
-    <TextView
-        android:id="@+id/textView20"
-        style="@style/textStyleMediumCustom"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Alamat Rumah (Default)"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/btn_back"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-    <EditText
-        android:id="@+id/ed_name_home"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_text_field_rounded"
-        android:drawablePadding="12sp"
-        android:ems="10"
-        android:hint="Nama Alamat Rumah"
-        android:padding="16dp"
-        android:textColorHint="@color/dark_grey"
-        android:textSize="14sp"
+        android:paddingTop="24dp"
+        android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/ed_patient_address_home_latitude"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_text_field_rounded"
-        android:drawablePadding="12sp"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Latitude Alamat Rumah"
-        android:padding="16dp"
-        android:textColorHint="@color/dark_grey"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_name_home" />
+        <TextView
+            android:id="@+id/textView"
+            style="@style/textStyleSemiBoldCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/fill_patient_profile"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_back"
+            app:layout_constraintStart_toEndOf="@+id/btn_back"
+            app:layout_constraintTop_toTopOf="@+id/btn_back" />
 
-    <EditText
-        android:id="@+id/ed_patient_address_home_longitude"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_text_field_rounded"
-        android:drawablePadding="12sp"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Longitude Alamat Rumah"
-        android:padding="16dp"
-        android:textColorHint="@color/dark_grey"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_home_latitude" />
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_back_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textView21"
-        style="@style/textStyleMediumCustom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Alamat Tujuan"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/ed_patient_address_home_longitude"
-        app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_home_longitude" />
-
-    <EditText
-        android:id="@+id/ed_name_destination"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_text_field_rounded"
-        android:drawablePadding="12sp"
-        android:ems="10"
-        android:hint="Nama Tujuan"
-        android:padding="16dp"
-        android:textColorHint="@color/dark_grey"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-    <EditText
-        android:id="@+id/ed_patient_address_destination_latitude"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_text_field_rounded"
-        android:drawablePadding="12sp"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Latitude Alamat Tujuan"
-        android:padding="16dp"
-        android:textColorHint="@color/dark_grey"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_name_destination" />
-
-    <EditText
-        android:id="@+id/ed_patient_address_destination_longitude"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_text_field_rounded"
-        android:drawablePadding="12sp"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Longitude Alamat Tujuan"
-        android:inputType="none"
-        android:padding="16dp"
-        android:textColorHint="@color/dark_grey"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_destination_latitude" />
-
-
-    <Button
-        android:id="@+id/btn_save"
-        style="@style/textStyleButtonWhite"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/custom_button_rounded"
-        android:elevation="0dp"
-        android:paddingVertical="8dp"
-        android:text="@string/save"
-        android:textAllCaps="false"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView20"
+                style="@style/textStyleMediumCustom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alamat Rumah (Default)"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/ed_name_home"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/ed_name_home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:hint="Nama Alamat Rumah"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+            <EditText
+                android:id="@+id/ed_patient_address_home_latitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Latitude Alamat Rumah"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_name_home" />
+
+            <EditText
+                android:id="@+id/ed_patient_address_home_longitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Longitude Alamat Rumah"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_home_latitude" />
+
+            <TextView
+                android:id="@+id/textView21"
+                style="@style/textStyleMediumCustom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Alamat Tujuan"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/ed_patient_address_home_longitude"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_home_longitude" />
+
+            <EditText
+                android:id="@+id/ed_name_destination"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:hint="Nama Tujuan"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+            <EditText
+                android:id="@+id/ed_patient_address_destination_latitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Latitude Alamat Tujuan"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_name_destination" />
+
+            <EditText
+                android:id="@+id/ed_patient_address_destination_longitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_text_field_rounded"
+                android:drawablePadding="12sp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Longitude Alamat Tujuan"
+                android:inputType="none"
+                android:padding="16dp"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_destination_latitude" />
+
+
+            <Button
+                android:id="@+id/btn_save"
+                style="@style/textStyleButtonWhite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/custom_button_rounded"
+                android:elevation="0dp"
+                android:paddingVertical="8dp"
+                android:text="@string/save"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_patient_address_destination_longitude" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
     <ProgressBar
         android:id="@+id/progress_bar"

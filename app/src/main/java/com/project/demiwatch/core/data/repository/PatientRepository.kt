@@ -4,10 +4,12 @@ import com.project.demiwatch.core.data.source.local.LocalDataSource
 import com.project.demiwatch.core.data.source.remote.NetworkBoundResource
 import com.project.demiwatch.core.data.source.remote.datasource.RemoteDataSource
 import com.project.demiwatch.core.data.source.remote.network.ApiResponse
+import com.project.demiwatch.core.data.source.remote.response.patient.PatientHistoryResponse
 import com.project.demiwatch.core.data.source.remote.response.patient.PatientLocationResponse
 import com.project.demiwatch.core.data.source.remote.response.patient.PatientResponse
 import com.project.demiwatch.core.domain.model.Patient
 import com.project.demiwatch.core.domain.model.PatientAddress
+import com.project.demiwatch.core.domain.model.PatientHistory
 import com.project.demiwatch.core.domain.model.PatientLocation
 import com.project.demiwatch.core.domain.repository.IPatientRepository
 import com.project.demiwatch.core.utils.Resource
@@ -213,6 +215,18 @@ class PatientRepository @Inject constructor(
                     homeAddress,
                     destinationAddress
                 )
+            }
+        }.asFlow()
+    }
+
+    override fun getHistoryPatient(token: String): Flow<Resource<PatientHistory>> {
+        return object : NetworkBoundResource<PatientHistory, PatientHistoryResponse>() {
+            override suspend fun fetchFromApi(response: PatientHistoryResponse): PatientHistory {
+                return PatientDataMapper.mapHistoryPatientResponseToDomain(response)
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<PatientHistoryResponse>> {
+                return remoteDataSource.getHistoryPatient(token)
             }
         }.asFlow()
     }

@@ -42,8 +42,6 @@ class ChangeAddressActivity : AppCompatActivity() {
 
         setupButtonBack()
 
-        setupInitialLocationData()
-
         setupSetLocation()
     }
 
@@ -71,6 +69,7 @@ class ChangeAddressActivity : AppCompatActivity() {
                     PickLocationFragment::class.java.simpleName
                 ).commit()
             }
+
             edPatientAddressDestinationLatitude.setOnClickListener {
                 pickLocationViewModel.setPickedLocationType(3)
                 pickLocationViewModel.setFromActivityType(2)
@@ -81,6 +80,7 @@ class ChangeAddressActivity : AppCompatActivity() {
                     PickLocationFragment::class.java.simpleName
                 ).commit()
             }
+
             edPatientAddressDestinationLongitude.setOnClickListener {
                 pickLocationViewModel.setPickedLocationType(4)
                 pickLocationViewModel.setFromActivityType(2)
@@ -92,7 +92,6 @@ class ChangeAddressActivity : AppCompatActivity() {
                 ).commit()
             }
         }
-
     }
 
     private fun setupSaveButton(token: String, patientId: String) {
@@ -168,22 +167,15 @@ class ChangeAddressActivity : AppCompatActivity() {
 
                     binding.apply {
                         edNameHome.setText(patient.data?.homeName)
+                        edPatientAddressHomeLatitude.setText(patient.data?.latitudeDestination.toString())
+                        edPatientAddressHomeLongitude.setText(patient.data?.longitudeDestination.toString())
                         edNameDestination.setText(patient.data?.destinationName)
+                        edPatientAddressDestinationLatitude.setText(patient.data?.latitudeHome.toString())
+                        edPatientAddressDestinationLongitude.setText(patient.data?.longitudeHome.toString())
                     }
                 }
             }
-
         }
-    }
-
-    private fun setupInitialLocationData() {
-//        changeAddressViewModel.getHomeLocationPatient().observe(this) { home ->
-//            binding.edNameHome.setText(home.toString())
-//        }
-//
-//        changeAddressViewModel.getDestinationLocationPatient().observe(this) { destination ->
-//            binding.edNameDestination.setText(destination.toString())
-//        }
     }
 
     private fun setupButtonBack() {

@@ -2,6 +2,7 @@ package com.project.demiwatch.core.domain.usecase
 
 import com.project.demiwatch.core.data.repository.PatientRepository
 import com.project.demiwatch.core.domain.model.Patient
+import com.project.demiwatch.core.domain.model.PatientHistory
 import com.project.demiwatch.core.domain.model.PatientLocation
 import com.project.demiwatch.core.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -132,4 +133,10 @@ class PatientInteractor @Inject constructor(private val patientRepository: Patie
             latitudeDestination
         )
     }
+
+    override fun getHistoryPatient(token: String): Flow<Resource<PatientHistory>> {
+        return patientRepository.getHistoryPatient(token)
+    }
+
+
 }
