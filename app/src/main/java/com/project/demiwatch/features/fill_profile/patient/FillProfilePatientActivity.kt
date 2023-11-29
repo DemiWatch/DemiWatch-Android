@@ -18,6 +18,7 @@ import com.project.demiwatch.core.utils.showLongToast
 import com.project.demiwatch.databinding.ActivityFillProfilePatientBinding
 import com.project.demiwatch.features.dashboard.MainActivity
 import com.project.demiwatch.features.fill_profile.user.FillProfileUserActivity
+import com.project.demiwatch.features.patient_detail.PatientDetailActivity
 import com.project.demiwatch.features.pick_location.PickLocationFragment
 import com.project.demiwatch.features.pick_location.PickLocationViewModel
 import com.project.demiwatch.features.splash.SplashActivity
@@ -31,6 +32,9 @@ class FillProfilePatientActivity : AppCompatActivity() {
     private val pickLocationViewModel: PickLocationViewModel by viewModels()
 
     private lateinit var savedToken: String
+    private lateinit var savedId: String
+
+    private var isUpdateProfile: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,19 +42,65 @@ class FillProfilePatientActivity : AppCompatActivity() {
         binding = ActivityFillProfilePatientBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        fillProfilePatientViewModel.apply {
+            getUserToken().observe(this@FillProfilePatientActivity) {
+                savedToken = it
+            }
+            getPatientId().observe(this@FillProfilePatientActivity) {
+                savedId = it
+
+                setupInitialData(savedToken, savedId)
+                setupSaveButton(savedToken, savedId)
+            }
+        }
+
         setupActionBar()
 
         setupButtonBack()
 
         setupPickPatientSymptom()
 
-        setupSaveButton()
-
         setupSetLocation()
 
         setLocationData()
 
         setupPatientProfileCache()
+    }
+
+    private fun setupInitialData(token: String, id: String) {
+        fillProfilePatientViewModel.getPatient(savedToken, savedId).observe(this) { patient ->
+            when (patient) {
+                is Resource.Error -> {
+                    showLoading(false)
+                    showLongToast("Terjadi kesalahan, pastikan koneksi internet anda baik")
+                }
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
+                is Resource.Message -> {
+                    Timber.tag("FillProfilePatientActivity").d(patient.message)
+                }
+                is Resource.Success -> {
+                    if (patient.data?.name != "Nama Pasien" || patient.data.age != 99) {
+                        binding.apply {
+                            edPatientFullName.setText(patient.data?.name)
+                            edPatientAge.setText(patient.data?.age!!)
+                            dropdownMenu.setText(patient.data.symptom)
+                            edPatientNotes.setText(patient.data.note)
+                            edPatientWatchId.setText(patient.data.watchCode)
+                            edPatientAddressHome.setText(patient.data.homeName)
+                            edPatientAddressHomeLatitude.setText(patient.data.latitudeHome.toString())
+                            edPatientAddressHomeLongitude.setText(patient.data.longitudeHome.toString())
+                            edPatientAddressDestination.setText(patient.data.destinationName)
+                            edPatientAddressDestinationLatitude.setText(patient.data.latitudeDestination.toString())
+                            edPatientAddressDestinationLongitude.setText(patient.data.longitudeDestination.toString())
+
+                            isUpdateProfile = true
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun setupPatientProfileCache() {
@@ -125,6 +175,7 @@ class FillProfilePatientActivity : AppCompatActivity() {
             fillProfilePatientViewModel.cachePatientProfile(cacheProfile)
 
             pickLocationViewModel.setPickedLocationType(1)
+
             pickLocationViewModel.setFromActivityType(1)
 
             supportFragmentManager.beginTransaction().add(
@@ -160,6 +211,7 @@ class FillProfilePatientActivity : AppCompatActivity() {
                 PickLocationFragment::class.java.simpleName
             ).commit()
         }
+
         binding.edPatientAddressDestinationLatitude.setOnClickListener {
             val name = binding.edPatientFullName.text.toString()
             val age = binding.edPatientAge.text.toString()
@@ -213,7 +265,6 @@ class FillProfilePatientActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupPickPatientSymptom() {
         val adapter = ArrayAdapter(this, R.layout.item_list_dropdown, patientSymptomItems)
         binding.dropdownMenu.setAdapter(adapter)
@@ -232,7 +283,7 @@ class FillProfilePatientActivity : AppCompatActivity() {
         })
     }
 
-    private fun setupSaveButton() {
+    private fun setupSaveButton(token: String, id: String) {
         binding.btnSave.setOnClickListener {
             val name = binding.edPatientFullName.text.toString()
             val age = binding.edPatientAge.text.toString()
@@ -261,57 +312,86 @@ class FillProfilePatientActivity : AppCompatActivity() {
                 latitudeHomeAddress.isNotEmpty() &&
                 longitudeDestinationAddress.isNotEmpty()
             ) {
-                fillProfilePatientViewModel.apply {
-                    getUserToken().observe(this@FillProfilePatientActivity) {
-                        savedToken = it
-                        addPatient(
-                            savedToken,
-                            name,
-                            age.toInt(),
-                            symptom,
-                            watchCode,
-                            homeAddress,
-                            longitudeHomeAddress.toDouble(),
-                            latitudeHomeAddress.toDouble(),
-                            destinationAddress,
-                            longitudeDestinationAddress.toDouble(),
-                            latitudeHomeAddress.toDouble(),
-                            patientNotes
-                        ).observe(this@FillProfilePatientActivity) { patient ->
-                            when (patient) {
-                                is Resource.Error -> {
-                                    showLoading(false)
-                                    buttonEnabled(true)
+                if (isUpdateProfile) {
+                    fillProfilePatientViewModel.updatePatient(
+                        id, token, name,
+                        age.toInt(),
+                        symptom,
+                        watchCode,
+                        homeAddress,
+                        longitudeHomeAddress.toDouble(),
+                        latitudeHomeAddress.toDouble(),
+                        destinationAddress,
+                        longitudeDestinationAddress.toDouble(),
+                        latitudeHomeAddress.toDouble(),
+                        patientNotes
+                    ).observe(this) { patient ->
+                        when (patient) {
+                            is Resource.Error -> {
+                                showLoading(false)
+                                showLongToast("Terjadi kesalahan, pastikan internet anda baik")
+                            }
+                            is Resource.Loading -> {
+                                showLoading(true)
+                            }
+                            is Resource.Message -> {
+                                Timber.tag("FillProfilePatientActivity").d(patient.message)
+                            }
+                            is Resource.Success -> {
+                                showLongToast("Data pasien berhasil diperbaharui")
 
-                                    showLongToast("Terjadi kesalahan, silahkan simpan ulang")
-                                }
-                                is Resource.Loading -> {
-                                    showLoading(true)
-                                    buttonEnabled(false)
-                                }
-                                is Resource.Message -> {
-                                    Timber.tag("FillProfilePatientActivity")
-                                        .d(patient.message.toString() + "Masuk")
-                                    Timber.tag("FillProfilePatientActivity")
-                                        .e(patient.data.toString())
-                                }
-                                is Resource.Success -> {
-                                    showLoading(false)
-                                    buttonEnabled(true)
+                                val intentToDetail = Intent(this, PatientDetailActivity::class.java)
+                                startActivity(intentToDetail)
+                                finish()
+                            }
+                        }
+                    }
+                } else {
+                    fillProfilePatientViewModel.addPatient(
+                        token,
+                        name,
+                        age.toInt(),
+                        symptom,
+                        watchCode,
+                        homeAddress,
+                        longitudeHomeAddress.toDouble(),
+                        latitudeHomeAddress.toDouble(),
+                        destinationAddress,
+                        longitudeDestinationAddress.toDouble(),
+                        latitudeHomeAddress.toDouble(),
+                        patientNotes
+                    ).observe(this@FillProfilePatientActivity) { patient ->
+                        when (patient) {
+                            is Resource.Error -> {
+                                showLoading(false)
+                                buttonEnabled(true)
 
-                                    showLongToast(getString(R.string.patient_data_registered))
-                                    fillProfilePatientViewModel.saveIdPatient(patient.data?.id!!)
+                                showLongToast("Terjadi kesalahan, silahkan simpan ulang")
+                            }
+                            is Resource.Loading -> {
+                                showLoading(true)
+                                buttonEnabled(false)
+                            }
+                            is Resource.Message -> {
+                                Timber.tag("FillProfilePatientActivity")
+                                    .d(patient.message)
+                            }
+                            is Resource.Success -> {
+                                showLoading(false)
+                                buttonEnabled(true)
 
-                                    val intentToHome =
-                                        Intent(
-                                            this@FillProfilePatientActivity,
-                                            MainActivity::class.java
-                                        )
+                                showLongToast(getString(R.string.patient_data_registered))
+                                fillProfilePatientViewModel.saveIdPatient(patient.data?.id!!)
 
-                                    startActivity(intentToHome)
-                                    intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    finish()
-                                }
+                                val intentToHome =
+                                    Intent(
+                                        this@FillProfilePatientActivity,
+                                        MainActivity::class.java
+                                    )
+
+                                startActivity(intentToHome)
+                                intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                finish()
                             }
                         }
                     }

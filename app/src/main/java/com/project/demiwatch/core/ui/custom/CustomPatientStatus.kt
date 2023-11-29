@@ -9,7 +9,7 @@ import androidx.core.graphics.ColorUtils
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.constants.PatientStatus
 
-class CustomPatientStatus: AppCompatTextView {
+class CustomPatientStatus : AppCompatTextView {
     private var status: String = PatientStatus.NOT_ACTIVE.status
 
     constructor(context: Context) : super(context) {
@@ -37,49 +37,55 @@ class CustomPatientStatus: AppCompatTextView {
         setBackground(context, R.color.dark_grey)
     }
 
-    fun setStatus(status: String){
+    fun setStatus(status: String) {
         this.status = status
         updateStatus()
     }
 
-    private fun setBackground(context: Context, colorId: Int){
+    private fun setBackground(context: Context, colorId: Int) {
 
         setTextColor(ContextCompat.getColor(context, colorId))
-        setBackgroundColor( ColorUtils.setAlphaComponent(
-            ContextCompat.getColor(
-                context,
-                colorId,
-            ), ALPHA_OPACITY
-        ))
+        setBackgroundColor(
+            ColorUtils.setAlphaComponent(
+                ContextCompat.getColor(
+                    context,
+                    colorId,
+                ), ALPHA_OPACITY
+            )
+        )
 
     }
 
-    private fun updateStatus(){
-        when(status){
-            PatientStatus.NOT_ACTIVE.status ->{
-                text = PatientStatus.NOT_ACTIVE.status
+    private fun updateStatus() {
+        when (status) {
+            PatientStatus.NOT_ACTIVE.status -> {
+                text = "Tidak Aktif"
                 setBackground(context, R.color.dark_grey)
             }
-            PatientStatus.ACTIVE.status ->{
-                text = PatientStatus.ACTIVE.status
+            PatientStatus.ACTIVE.status -> {
+                text = "Perjalanan"
                 setBackground(context, R.color.blue)
             }
-            PatientStatus.DANGER.status ->{
-                text = PatientStatus.DANGER.status
+            PatientStatus.DANGER.status -> {
+                text = "Darurat"
                 setBackground(context, R.color.red)
             }
-            PatientStatus.SAFE.status ->{
+            PatientStatus.ARRIVED.status -> {
+                text = "Sampai"
+                setBackground(context, R.color.green)
+            }
+            PatientStatus.SAFE.status -> {
                 text = PatientStatus.SAFE.status
                 setBackground(context, R.color.green)
             }
-            PatientStatus.TROUBLE.status ->{
+            PatientStatus.TROUBLE.status -> {
                 text = PatientStatus.TROUBLE.status
                 setBackground(context, R.color.red)
             }
         }
     }
 
-    companion object{
+    companion object {
         const val ALPHA_OPACITY = 64
     }
 }

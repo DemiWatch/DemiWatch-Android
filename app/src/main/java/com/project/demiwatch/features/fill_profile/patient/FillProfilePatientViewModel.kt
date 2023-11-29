@@ -17,6 +17,8 @@ class FillProfilePatientViewModel @Inject constructor(
 
     fun getUserId() = userUseCase.getIdUser().asLiveData()
 
+    fun getPatientId() = patientUseCase.getIdPatient().asLiveData()
+
     fun getUserToken() = userUseCase.getTokenUser().asLiveData()
 
     fun getHomeLocationPatient() = patientUseCase.getHomeLocationPatient().asLiveData()
@@ -34,6 +36,8 @@ class FillProfilePatientViewModel @Inject constructor(
 
     fun getCachePatientProfile() = patientUseCase.getCachePatientProfile().asLiveData()
 
+    fun getPatient(token: String, id: String) = patientUseCase.getPatient(token, id).asLiveData()
+
     fun addPatient(
         token: String,
         name: String,
@@ -48,6 +52,36 @@ class FillProfilePatientViewModel @Inject constructor(
         latitudeDestination: Double,
         notes: String
     ) = patientUseCase.addPatient(
+        token,
+        name,
+        age,
+        symptom,
+        watchCode,
+        addressName,
+        longitudeHome,
+        latitudeHome,
+        destinationName,
+        longitudeDestination,
+        latitudeDestination,
+        notes
+    ).asLiveData()
+
+    fun updatePatient(
+        id: String,
+        token: String,
+        name: String,
+        age: Int,
+        symptom: String,
+        watchCode: String,
+        addressName: String,
+        longitudeHome: Double,
+        latitudeHome: Double,
+        destinationName: String,
+        longitudeDestination: Double,
+        latitudeDestination: Double,
+        notes: String
+    ) = patientUseCase.updatePatient(
+        id,
         token,
         name,
         age,

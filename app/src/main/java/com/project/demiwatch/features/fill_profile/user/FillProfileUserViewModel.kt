@@ -17,6 +17,8 @@ class FillProfileUserViewModel @Inject constructor(
 
     fun getUserToken() = userUseCase.getTokenUser().asLiveData()
 
+    fun getUser(token: String, id: String) = userUseCase.getUser(token, id).asLiveData()
+
     fun addUser(
         id: String,
         token: String,
@@ -25,4 +27,13 @@ class FillProfileUserViewModel @Inject constructor(
         status: String,
         phoneNumber: String
     ) = userUseCase.addUser(token, id, name, radius, status, phoneNumber).asLiveData()
+
+    fun updateUser(
+        id: String,
+        token: String,
+        name: String,
+        radius: String,
+        status: String,
+        phoneNumber: String
+    ) = userUseCase.updateUser(token, id, name, radius, status, phoneNumber).asLiveData()
 }
