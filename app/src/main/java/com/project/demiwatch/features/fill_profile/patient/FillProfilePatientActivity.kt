@@ -68,7 +68,7 @@ class FillProfilePatientActivity : AppCompatActivity() {
     }
 
     private fun setupInitialData(token: String, id: String) {
-        fillProfilePatientViewModel.getPatient(savedToken, savedId).observe(this) { patient ->
+        fillProfilePatientViewModel.getPatient(token, id).observe(this) { patient ->
             when (patient) {
                 is Resource.Error -> {
                     showLoading(false)

@@ -197,7 +197,7 @@ class PatientDetailActivity : AppCompatActivity() {
 
     private fun onMapReady() {
         mapView.getMapboxMap().setCamera(
-            CameraOptions.Builder().center(patientCoordinate).zoom(15.0).build()
+            CameraOptions.Builder().center(patientCoordinate).zoom(13.0).build()
         )
 
         mapView.getMapboxMap().loadStyleUri(

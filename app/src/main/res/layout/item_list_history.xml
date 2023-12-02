@@ -17,26 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_patient_profile"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_profile_user"
-            app:layout_constraintBottom_toBottomOf="@+id/card_patient_symptomps"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ImageView.Round" />
-
         <TextView
             android:id="@+id/card_patient_name"
             style="@style/textStyleSemiBoldCustom"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="12dp"
             android:text="@string/placeholder_patient_name"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/iv_patient_profile"
+            app:layout_constraintEnd_toStartOf="@+id/cardView3"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

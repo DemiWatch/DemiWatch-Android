@@ -37,7 +37,9 @@
         <com.mapbox.navigation.ui.tripprogress.view.MapboxTripProgressView
             android:id="@+id/tripProgressView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:padding="16dp" />
 
         <ImageView
             android:id="@+id/stop"
@@ -56,7 +58,10 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:maneuverViewBackgroundColor="@color/blue"
+        app:subManeuverViewBackgroundColor="@color/blue"
+        app:upcomingManeuverViewBackgroundColor="@color/blue" />
 
     <com.mapbox.navigation.ui.voice.view.MapboxSoundButton
         android:id="@+id/soundButton"

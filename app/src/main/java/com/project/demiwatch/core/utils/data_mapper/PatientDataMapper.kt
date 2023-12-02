@@ -50,8 +50,6 @@ object PatientDataMapper {
             id = input.id!!,
             name = input.nama ?: "Nama Pasien",
             symptom = input.jenisPenyakit ?: "Jenis Penyakit",
-            homeAddress = mapAddressToDomain(input.alamatRumah!!),
-            destinationAddress = mapAddressToDomain(input.alamatTujuan!!),
             historyList = mapHistoryItemToDomain(input.durations)
         )
 }

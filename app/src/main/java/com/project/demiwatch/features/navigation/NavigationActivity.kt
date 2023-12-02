@@ -9,16 +9,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.mapbox.api.directions.v5.models.Bearing
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.bindgen.Expected
 import com.mapbox.common.location.Location
 import com.mapbox.geojson.Point
 import com.mapbox.maps.EdgeInsets
-import com.mapbox.maps.plugin.LocationPuck2D
 import com.mapbox.maps.plugin.animation.camera
-import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.mapbox.navigation.base.TimeFormat
 import com.mapbox.navigation.base.extensions.applyDefaultNavigationOptions
@@ -504,22 +501,23 @@ class NavigationActivity : AppCompatActivity() {
 //                true
 //            }
 
-            navigationViewModel.getLocationPatient().observe(this){location ->
-                when(location){
-                    is Resource.Error ->{
+            navigationViewModel.getLocationPatient().observe(this) { location ->
+                when (location) {
+                    is Resource.Error -> {
                         Timber.tag("NavigationActivity").e(location.message)
                         showLoading(false)
                     }
-                    is Resource.Loading ->{
+                    is Resource.Loading -> {
                         showLoading(true)
                     }
-                    is Resource.Message ->{
+                    is Resource.Message -> {
                         Timber.tag("NavigationActivity").d(location.message)
                     }
-                    is Resource.Success ->{
+                    is Resource.Success -> {
                         showLoading(false)
 
-                        val destinationLocation = Point.fromLngLat(location.data?.longitude!!, location.data.latitude!!)
+                        val destinationLocation =
+                            Point.fromLngLat(location.data?.longitude!!, location.data.latitude!!)
                         findRoute(destinationLocation)
                     }
                 }
@@ -529,6 +527,7 @@ class NavigationActivity : AppCompatActivity() {
         // initialize view interactions
         binding.stop.setOnClickListener {
             clearRouteAndStopNavigation()
+            finish()
         }
 
         binding.recenter.setOnClickListener {
@@ -549,7 +548,7 @@ class NavigationActivity : AppCompatActivity() {
         // set initial sounds button state
         binding.soundButton.unmute()
 
-        binding.btnBack.setOnClickListener{
+        binding.btnBack.setOnClickListener {
             val intentToMain = Intent(this, MainActivity::class.java)
             startActivity(intentToMain)
             finish()

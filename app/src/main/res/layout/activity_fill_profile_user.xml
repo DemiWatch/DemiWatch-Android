@@ -46,35 +46,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/profile_user"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_profile_user"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:shapeAppearanceOverlay="@style/ImageView.Round" />
-
-        <ImageView
-            android:id="@+id/btn_edit_profile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end|bottom"
-            app:srcCompat="@drawable/edit_profile_user" />
-    </FrameLayout>
-
     <EditText
         android:id="@+id/ed_profile_name"
         android:layout_width="0dp"
@@ -82,19 +53,19 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:singleLine="true"
-        android:maxLines="1"
         android:background="@drawable/custom_text_field_rounded"
         android:drawablePadding="12sp"
         android:ems="10"
         android:hint="@string/name"
         android:imeOptions="actionNext"
+        android:maxLines="1"
         android:padding="16dp"
+        android:singleLine="true"
         android:textColorHint="@color/dark_grey"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/ed_profile_telp"
@@ -107,9 +78,9 @@
         android:drawableStart="@drawable/ic_local_phone_24"
         android:drawablePadding="12sp"
         android:ems="10"
-        android:maxLines="1"
         android:hint="@string/phone_number"
         android:inputType="number"
+        android:maxLines="1"
         android:padding="16dp"
         android:textColorHint="@color/dark_grey"
         android:textSize="14sp"
@@ -125,12 +96,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:focusable="false"
         android:layout_marginEnd="16dp"
         android:background="@drawable/custom_drop_down_background"
         android:ems="10"
-        android:maxLines="1"
+        android:focusable="false"
         android:inputType="text"
+        android:maxLines="1"
         android:paddingBottom="4dp"
         android:textColorHint="@color/dark_grey"
         android:textSize="14sp"
@@ -160,14 +131,14 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/custom_text_field_rounded"
         android:ems="10"
-        android:maxLines="1"
         android:hint="@string/safe_radius_patient"
+        android:imeOptions="actionDone"
         android:inputType="number"
+        android:maxLines="1"
         android:padding="16dp"
+        android:singleLine="true"
         android:textColorHint="@color/dark_grey"
         android:textSize="14sp"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

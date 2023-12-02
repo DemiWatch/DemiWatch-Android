@@ -1,5 +1,6 @@
 package com.project.demiwatch.features.maps
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -12,7 +13,6 @@ import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
-import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.MapView
 import com.mapbox.maps.Style
 import com.mapbox.maps.extension.style.expressions.generated.Expression.Companion.interpolate
@@ -26,13 +26,11 @@ import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorBearingChangedListener
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListener
 import com.mapbox.maps.plugin.locationcomponent.location
-import com.mapbox.maps.plugin.viewport.data.OverviewViewportStateOptions
-import com.mapbox.maps.plugin.viewport.state.OverviewViewportState
-import com.mapbox.maps.plugin.viewport.viewport
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.databinding.ActivityMapsBinding
+import com.project.demiwatch.features.navigation.NavigationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -77,6 +75,11 @@ class MapsActivity : AppCompatActivity() {
         setupActionBar()
 
         setupBackButton()
+
+        binding.fabCenterLocation.setOnClickListener {
+            val intentToNavigation = Intent(this, NavigationActivity::class.java)
+            startActivity(intentToNavigation)
+        }
 
         mapView = binding.mapView
 

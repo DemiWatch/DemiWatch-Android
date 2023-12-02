@@ -25,6 +25,8 @@ class FillProfileUserActivity : AppCompatActivity() {
     private lateinit var savedToken: String
     private lateinit var savedUserId: String
 
+    private var isUpdateProfile: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,16 +57,26 @@ class FillProfileUserActivity : AppCompatActivity() {
             .observe(this@FillProfileUserActivity) { user ->
                 when (user) {
                     is Resource.Error -> {
-
+                        showLoading(false)
+                        showLongToast("Terjadi kesalahan, pastikan koneksi internet anda baik")
                     }
                     is Resource.Loading -> {
-
+                        showLoading(true)
                     }
                     is Resource.Message -> {
-
+                        Timber.tag("FillProfileUserActivity").d(user.message)
                     }
                     is Resource.Success -> {
+                        binding.apply {
+                            if (user.data?.name != "Nama User") {
+                                edProfileName.setText(user.data?.name)
+                                edProfileTelp.setText(user.data?.teleNumber)
+                                dropdownMenu.setText(user.data?.status)
+                                edProfileSafeRadius.setText(user.data?.safeRadius)
 
+                                isUpdateProfile = true
+                            }
+                        }
                     }
                 }
             }
@@ -98,40 +110,70 @@ class FillProfileUserActivity : AppCompatActivity() {
             if (name.isEmpty() && phone.isEmpty() && status.isEmpty() && safeRadius.isEmpty()) {
                 showLongToast(getString(R.string.fill_data))
             } else if (name.isNotEmpty() && phone.isNotEmpty() && status.isNotEmpty() && safeRadius.isNotEmpty()) {
-                fillProfileUserViewModel.addUser(
-                    savedUserId,
-                    savedToken,
-                    name,
-                    safeRadius,
-                    status,
-                    phone
-                ).observe(this@FillProfileUserActivity) { user ->
-                    when (user) {
-                        is Resource.Error -> {
-                            showLoading(false)
-                            buttonEnabled(true)
+                if (isUpdateProfile) {
+                    fillProfileUserViewModel.updateUser(
+                        savedUserId,
+                        savedToken,
+                        name,
+                        safeRadius,
+                        status,
+                        phone
+                    ).observe(this) { user ->
+                        when (user) {
+                            is Resource.Error -> {
+                                showLoading(false)
+                                showLongToast("Terjadi kesalahan, pastikan koneksi internet anda baik")
+                            }
+                            is Resource.Loading -> {
+                                showLoading(true)
+                            }
+                            is Resource.Message -> {
+                                Timber.tag("FillProfileUserActivity").d(user.message)
+                            }
+                            is Resource.Success -> {
+                                showLoading(false)
+                                showLongToast("Data user berhasil diperbaharui")
 
-                            showLongToast("Terjadi kesalahan, silahkan simpan ulang")
+                                finish()
+                            }
                         }
-                        is Resource.Loading -> {
-                            showLoading(true)
-                            buttonEnabled(false)
-                        }
-                        is Resource.Message -> {
-                            Timber.tag("FillProfileUserActivity").d(user.message.toString())
-                        }
-                        is Resource.Success -> {
-                            showLoading(false)
-                            buttonEnabled(true)
+                    }
+                } else {
+                    fillProfileUserViewModel.addUser(
+                        savedUserId,
+                        savedToken,
+                        name,
+                        safeRadius,
+                        status,
+                        phone
+                    ).observe(this@FillProfileUserActivity) { user ->
+                        when (user) {
+                            is Resource.Error -> {
+                                showLoading(false)
+                                buttonEnabled(true)
 
-                            showLongToast(getString(R.string.user_data_registered))
+                                showLongToast("Terjadi kesalahan, silahkan simpan ulang")
+                            }
+                            is Resource.Loading -> {
+                                showLoading(true)
+                                buttonEnabled(false)
+                            }
+                            is Resource.Message -> {
+                                Timber.tag("FillProfileUserActivity").d(user.message.toString())
+                            }
+                            is Resource.Success -> {
+                                showLoading(false)
+                                buttonEnabled(true)
 
-                            val intentToFillProfilePatient =
-                                Intent(
-                                    this@FillProfileUserActivity,
-                                    FillProfilePatientActivity::class.java
-                                )
-                            startActivity(intentToFillProfilePatient)
+                                showLongToast(getString(R.string.user_data_registered))
+
+                                val intentToFillProfilePatient =
+                                    Intent(
+                                        this@FillProfileUserActivity,
+                                        FillProfilePatientActivity::class.java
+                                    )
+                                startActivity(intentToFillProfilePatient)
+                            }
                         }
                     }
                 }

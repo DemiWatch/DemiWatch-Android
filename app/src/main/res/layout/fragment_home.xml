@@ -10,13 +10,15 @@
         android:id="@+id/map_wrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        app:cardCornerRadius="12dp"
+        android:layout_marginEnd="16dp"
         android:elevation="0dp"
         android:outlineAmbientShadowColor="@color/white"
         android:outlineSpotShadowColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/iv_home_profile"
-        app:layout_constraintStart_toStartOf="@+id/tv_home_username"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <com.mapbox.maps.MapView
@@ -47,10 +49,10 @@
         style="@style/textStyleSemiBoldCustom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/placeholder_username"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/iv_home_profile"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -65,18 +67,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_home_profile"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginEnd="24dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/placeholder_profile_user"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_home_username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2"
-        app:shapeAppearanceOverlay="@style/ImageView.Round" />
 
     <TextView
         android:id="@+id/textView3"
@@ -96,7 +86,7 @@
         android:layout_marginTop="14dp"
         android:background="@drawable/custom_card_border"
         android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/iv_home_profile"
+        app:layout_constraintEnd_toEndOf="@+id/map_wrapper"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/map_wrapper">
 
@@ -108,26 +98,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_patient_profile"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/placeholder_profile_user"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/ImageView.Round" />
 
             <TextView
                 android:id="@+id/card_patient_name"
                 style="@style/textStyleSemiBoldCustom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="@string/placeholder_patient_name"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/iv_patient_profile"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -200,7 +179,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/custom_card_border"
         android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/iv_home_profile"
+        app:layout_constraintEnd_toEndOf="@+id/map_wrapper"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
@@ -212,26 +191,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_patient_list_profile"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/placeholder_profile_user"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/ImageView.Round" />
-
             <TextView
                 android:id="@+id/card_patient_list_name"
                 style="@style/textStyleSemiBoldCustom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="@string/placeholder_patient_name"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/iv_patient_list_profile"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

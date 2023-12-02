@@ -16,19 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_profile_image"
-        android:layout_width="92dp"
-        android:layout_height="92dp"
-        android:layout_marginTop="24dp"
-        android:contentDescription="@string/profile_user"
-        android:scaleType="centerCrop"
-        android:src="@drawable/placeholder_profile_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_menu"
-        app:shapeAppearanceOverlay="@style/ImageView.Round" />
-
     <TextView
         android:id="@+id/textView5"
         style="@style/textStyleSemiBoldCustom"
@@ -38,7 +25,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_profile_image" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_menu" />
 
     <TextView
         android:id="@+id/tv_profile_name"
@@ -46,8 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/dark_grey"
         android:text="@string/placeholder_username"
+        android:textColor="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -76,10 +63,10 @@
 
     <TextView
         android:id="@+id/textView9"
+        style="@style/textStyleSemiBoldCustom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        style="@style/textStyleSemiBoldCustom"
         android:text="@string/phone_number"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_email"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_email" />
@@ -97,10 +84,10 @@
 
     <TextView
         android:id="@+id/textView12"
+        style="@style/textStyleSemiBoldCustom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        style="@style/textStyleSemiBoldCustom"
         android:text="@string/user_relation"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_phone"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_phone" />
@@ -110,19 +97,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textColor="@color/dark_grey"
         android:text="@string/user_relation"
+        android:textColor="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="@+id/tv_profile_phone"
         app:layout_constraintStart_toStartOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
         android:id="@+id/textView14"
+        style="@style/textStyleSemiBoldCustom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/safe_radius_patient"
-        style="@style/textStyleSemiBoldCustom"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_status"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_status" />
 

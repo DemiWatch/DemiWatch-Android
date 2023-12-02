@@ -32,6 +32,7 @@ import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListen
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.Resource
+import com.project.demiwatch.core.utils.constants.PatientStatus
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.FragmentHomeBinding
@@ -145,6 +146,22 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setupPatientStatus(status: String) {
+        binding.apply {
+            when (status) {
+                "At Home" -> {
+                    binding.cardPatientStatus.setStatus(PatientStatus.NOT_ACTIVE.status)
+                }
+                "Arrived at destination." -> {
+                    binding.cardPatientStatus.setStatus((PatientStatus.ARRIVED.status))
+                }
+                "On the way to destination." -> {
+                    binding.cardPatientStatus.setStatus((PatientStatus.ACTIVE.status))
+                }
+            }
+        }
+    }
+
     private fun setupUserData(token: String, patientId: String) {
         homeViewModel.getUser(token, patientId).observe(this) { user ->
             when (user) {
@@ -181,6 +198,8 @@ class HomeFragment : Fragment() {
                         Timber.tag("HomeFragment").d(location.message)
                     }
                     is Resource.Success -> {
+                        setupPatientStatus(location.data?.message!!)
+
                         patientCoordinate = Point.fromLngLat(
                             location.data?.longitude ?: 0.0,
                             location.data?.latitude ?: 0.0
@@ -285,13 +304,13 @@ class HomeFragment : Fragment() {
 
     private fun onMapReady() {
         mapView.getMapboxMap().setCamera(
-            CameraOptions.Builder().center(patientCoordinate).zoom(15.0).build()
+            CameraOptions.Builder().center(patientCoordinate).zoom(13.0).build()
         )
 
         mapView.getMapboxMap().loadStyleUri(
             Style.MAPBOX_STREETS
         ) {
-//            initLocationUser()
+            initLocationUser()
             setupGesturesListener()
             addPatientLocation()
         }
@@ -348,12 +367,12 @@ class HomeFragment : Fragment() {
                 }.toJson()
             )
         }
-        locationComponentPlugin.addOnIndicatorPositionChangedListener(
-            onIndicatorPositionChangedListener
-        )
-        locationComponentPlugin.addOnIndicatorBearingChangedListener(
-            onIndicatorBearingChangedListener
-        )
+//        locationComponentPlugin.addOnIndicatorPositionChangedListener(
+//            onIndicatorPositionChangedListener
+//        )
+//        locationComponentPlugin.addOnIndicatorBearingChangedListener(
+//            onIndicatorBearingChangedListener
+//        )
     }
 
     private fun onCameraTrackingDismissed() {
