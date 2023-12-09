@@ -58,7 +58,6 @@ class FillProfileUserActivity : AppCompatActivity() {
                 when (user) {
                     is Resource.Error -> {
                         showLoading(false)
-                        showLongToast("Terjadi kesalahan, pastikan koneksi internet anda baik")
                     }
                     is Resource.Loading -> {
                         showLoading(true)
@@ -67,6 +66,8 @@ class FillProfileUserActivity : AppCompatActivity() {
                         Timber.tag("FillProfileUserActivity").d(user.message)
                     }
                     is Resource.Success -> {
+                        showLoading(false)
+
                         binding.apply {
                             if (user.data?.name != "Nama User") {
                                 edProfileName.setText(user.data?.name)

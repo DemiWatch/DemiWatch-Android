@@ -35,5 +35,8 @@ data class UserData(
     val email: String? = null,
 
     @field:SerializedName("status")
-    val status: String? = null
+    val status: String? = null,
+
+    @field: SerializedName("patients")
+    val patientId: List<String>? = null
 )

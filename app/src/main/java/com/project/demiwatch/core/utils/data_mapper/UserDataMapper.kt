@@ -29,6 +29,7 @@ object UserDataMapper {
         teleNumber = input.data?.telepon ?: "No Telpon User",
         status = input.data?.status ?: "Status User",
         safeRadius = input.data?.radius ?: "Radius Aman User",
-        error = input.error ?: "Error Response"
+        error = input.error ?: "Error Response",
+        patientId = input.data?.patientId?.first() ?: "Id Pasien"
     )
 }

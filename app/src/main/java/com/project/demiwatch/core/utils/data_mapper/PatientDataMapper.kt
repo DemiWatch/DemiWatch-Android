@@ -13,7 +13,6 @@ object PatientDataMapper {
             kode = input.location.kode
         )
 
-
     fun mapPatientResponseToDomain(input: PatientResponse?): Patient = Patient(
         id = input?.data?.id!!,
         name = input.data.nama ?: "Nama Pasien",

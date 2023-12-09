@@ -22,7 +22,6 @@ class SplashActivity : AppCompatActivity() {
     private val splashViewModel: SplashViewModel by viewModels()
     private lateinit var token: String
     private lateinit var userId: String
-    private lateinit var patientId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +37,10 @@ class SplashActivity : AppCompatActivity() {
 
             getUserId().observe(this@SplashActivity) {
                 userId = it
+
+                checkUser(token, userId)
             }
 
-            getPatientId().observe(this@SplashActivity) {
-                patientId = it
-
-                checkUser(token, userId, patientId)
-            }
         }
 
         if (BuildConfig.DEBUG) {
@@ -52,7 +48,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkUser(checkToken: String, checkUserId: String, checkPatientId: String) {
+    private fun checkUser(checkToken: String, checkUserId: String) {
         splashViewModel.getUser(checkUserId, checkToken).observe(this@SplashActivity) { user ->
             when (user) {
                 is Resource.Error -> {
@@ -66,6 +62,8 @@ class SplashActivity : AppCompatActivity() {
                     Timber.tag("SplashActivtiy").d(user.message)
                 }
                 is Resource.Success -> {
+                    Timber.tag("TEST").e(user.data?.patientId)
+
                     if (user.data?.name == "Nama User") {
                         val intentToFillProfileUser =
                             Intent(
@@ -75,13 +73,15 @@ class SplashActivity : AppCompatActivity() {
 
                         startActivity(intentToFillProfileUser)
                         finish()
-                    } else if (checkPatientId == "") {
+                    } else if (user.data?.patientId == "Id Pasien") {
                         val intentToFillProfilePatient =
                             Intent(this@SplashActivity, FillProfilePatientActivity::class.java)
 
                         startActivity(intentToFillProfilePatient)
                         finish()
                     } else {
+                        splashViewModel.savePatientId(user.data?.patientId!!)
+
                         val intentToHome =
                             Intent(this@SplashActivity, MainActivity::class.java)
 

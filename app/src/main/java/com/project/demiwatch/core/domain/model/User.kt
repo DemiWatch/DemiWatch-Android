@@ -12,4 +12,5 @@ data class User(
     val status: String,
     val safeRadius: String,
     val error: String,
+    val patientId: String,
 ) : Parcelable
