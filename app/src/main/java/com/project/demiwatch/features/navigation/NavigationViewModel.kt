@@ -7,6 +7,7 @@ import com.project.demiwatch.core.domain.model.PatientLocation
 import com.project.demiwatch.core.domain.usecase.PatientUseCase
 import com.project.demiwatch.core.domain.usecase.UserUseCase
 import com.project.demiwatch.core.utils.Resource
+import com.project.demiwatch.core.utils.data_mapper.JsonMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,17 +15,27 @@ import javax.inject.Inject
 class NavigationViewModel @Inject constructor(
     private var userUseCase: UserUseCase,
     private var patientUseCase: PatientUseCase,
-): ViewModel() {
+) : ViewModel() {
 
     fun getTokenUser() = userUseCase.getTokenUser().asLiveData()
 
-    private fun reqLocationPatient(token: String) = patientUseCase.getLocationPatient(token).asLiveData()
+    private fun reqLocationPatient(token: String, watchId: String) =
+        patientUseCase.getLocationPatient(token, watchId).asLiveData()
 
-    fun getLocationPatient(): MediatorLiveData<Resource<PatientLocation>> = MediatorLiveData<Resource<PatientLocation>>().apply {
-        addSource(getTokenUser()){ token ->
-            addSource(reqLocationPatient(token)){ location ->
-                value = location
+    fun getCachePatientProfile() = patientUseCase.getCachePatientProfile().asLiveData()
+
+    fun getLocationPatient(): MediatorLiveData<Resource<PatientLocation>> =
+        MediatorLiveData<Resource<PatientLocation>>().apply {
+            addSource(getTokenUser()) { token ->
+                addSource(getCachePatientProfile()) { patient ->
+                    if (patient != "" || patient.isNotEmpty()) {
+                        val profile = JsonMapper.convertToPatientProfile(patient)
+
+                        addSource(reqLocationPatient(token, profile.watchCode)) { location ->
+                            value = location
+                        }
+                    }
+                }
             }
         }
-    }
 }

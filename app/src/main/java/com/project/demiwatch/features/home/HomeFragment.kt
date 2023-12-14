@@ -31,8 +31,10 @@ import com.mapbox.maps.plugin.locationcomponent.OnIndicatorBearingChangedListene
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListener
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.project.demiwatch.R
+import com.project.demiwatch.core.domain.model.PatientProfileCache
 import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.constants.PatientStatus
+import com.project.demiwatch.core.utils.data_mapper.JsonMapper
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.FragmentHomeBinding
@@ -123,6 +125,24 @@ class HomeFragment : Fragment() {
         mapView = binding.mapView
 
         startPeriodicRequests()
+
+        setupCachedProfilePatient()
+    }
+
+    private fun setupCachedProfilePatient() {
+        homeViewModel.getCachePatientProfile().observe(this) { patient ->
+            if (patient != "" || !patient.isEmpty()) {
+                val data = JsonMapper.convertToPatientProfile(patient)
+
+                binding.apply {
+                    cardPatientName.text = data.name
+                    cardPatientSymptomps.text = data.patientSymptoms
+
+                    cardPatientListName.text = data.name
+                    cardPatientListSymptomps.text = data.patientSymptoms
+                }
+            }
+        }
     }
 
 
@@ -155,6 +175,20 @@ class HomeFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     showLoading(false)
+
+                    val cacheProfile = JsonMapper.convertPatientProfileToJson(
+                        PatientProfileCache(
+                            patient.data?.name!!,
+                            patient.data.age.toString(),
+                            patient.data.symptom,
+                            patient.data.note,
+                            patient.data.watchCode,
+                            patient.data.homeName,
+                            patient.data.destinationName,
+                        )
+                    )
+
+                    homeViewModel.cachePatientProfile(cacheProfile)
 
                     binding.apply {
                         cardPatientName.text = patient.data?.name
@@ -207,7 +241,7 @@ class HomeFragment : Fragment() {
     private fun setupMap() {
         locationPermissionHelper = LocationPermissionHelper((WeakReference(activity)))
         locationPermissionHelper.checkPermissions {
-
+            fetchPatientLocation()
         }
     }
 
@@ -218,6 +252,7 @@ class HomeFragment : Fragment() {
                     Timber.tag("HomeFragment").e(location.message)
                 }
                 is Resource.Loading -> {
+
                 }
                 is Resource.Message -> {
                     Timber.tag("HomeFragment").d(location.message)
@@ -229,6 +264,7 @@ class HomeFragment : Fragment() {
                         location.data?.longitude ?: 0.0,
                         location.data?.latitude ?: 0.0
                     )
+
                     onMapReady()
                 }
             }

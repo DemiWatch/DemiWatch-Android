@@ -172,6 +172,7 @@ class FillProfilePatientActivity : AppCompatActivity() {
                     destinationAddress
                 )
             )
+
             fillProfilePatientViewModel.cachePatientProfile(cacheProfile)
 
             pickLocationViewModel.setPickedLocationType(1)

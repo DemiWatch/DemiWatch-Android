@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.demiwatch.core.domain.model.ExpandableHistoryListItem
 import com.project.demiwatch.core.ui.adapter.PatientHistoryAdapter
 import com.project.demiwatch.core.utils.Resource
+import com.project.demiwatch.core.utils.data_mapper.JsonMapper
 import com.project.demiwatch.core.utils.showLongToast
 import com.project.demiwatch.databinding.FragmentHistoryBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +23,7 @@ class HistoryFragment : Fragment() {
     private val historyViewModel: HistoryViewModel by viewModels()
 
     private lateinit var savedToken: String
+    private lateinit var savedWatchId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,12 +40,21 @@ class HistoryFragment : Fragment() {
         historyViewModel.getTokenUser().observe(this) {
             savedToken = it
 
-            initRecyclerView(savedToken)
+            getCachedProfile()
         }
     }
 
-    private fun initRecyclerView(token: String) {
-        historyViewModel.getHistoryPatient(token).observe(this) { history ->
+    private fun getCachedProfile() {
+        historyViewModel.getCachePatientProfile().observe(this) { patient ->
+            val data = JsonMapper.convertToPatientProfile(patient)
+
+            savedWatchId = data.watchCode
+            initRecyclerView()
+        }
+    }
+
+    private fun initRecyclerView() {
+        historyViewModel.getHistoryPatient(savedToken, savedWatchId).observe(this) { history ->
             when (history) {
                 is Resource.Error -> {
                     showLoading(false)

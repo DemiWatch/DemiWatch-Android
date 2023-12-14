@@ -15,5 +15,9 @@ class HistoryViewModel @Inject constructor(
 
     fun getTokenUser() = userUseCase.getTokenUser().asLiveData()
 
-    fun getHistoryPatient(token: String) = patientUseCase.getHistoryPatient(token).asLiveData()
+    fun getHistoryPatient(token: String, id: String) =
+        patientUseCase.getHistoryPatient(token, id).asLiveData()
+
+    fun getCachePatientProfile() = patientUseCase.getCachePatientProfile().asLiveData()
+
 }

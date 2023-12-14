@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PatientUseCase {
 
-    fun getLocationPatient(token: String): Flow<Resource<PatientLocation>>
+    fun getLocationPatient(token: String, watchId: String): Flow<Resource<PatientLocation>>
 
     suspend fun saveIdPatient(patientId: String)
 
@@ -71,5 +71,5 @@ interface PatientUseCase {
         latitudeDestination: Double,
     ): Flow<Resource<Patient>>
 
-    fun getHistoryPatient(token: String): Flow<Resource<PatientHistory>>
+    fun getHistoryPatient(token: String, watchId: String): Flow<Resource<PatientHistory>>
 }

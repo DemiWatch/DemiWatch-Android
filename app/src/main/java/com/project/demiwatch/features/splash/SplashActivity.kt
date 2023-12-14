@@ -40,7 +40,6 @@ class SplashActivity : AppCompatActivity() {
 
                 checkUser(token, userId)
             }
-
         }
 
         if (BuildConfig.DEBUG) {

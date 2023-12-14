@@ -10,8 +10,11 @@ import javax.inject.Inject
 
 class PatientInteractor @Inject constructor(private val patientRepository: PatientRepository) :
     PatientUseCase {
-    override fun getLocationPatient(token: String): Flow<Resource<PatientLocation>> {
-        return patientRepository.getLocationPatient(token)
+    override fun getLocationPatient(
+        token: String,
+        watchId: String
+    ): Flow<Resource<PatientLocation>> {
+        return patientRepository.getLocationPatient(token, watchId)
     }
 
     override suspend fun saveIdPatient(patientId: String) {
@@ -134,8 +137,8 @@ class PatientInteractor @Inject constructor(private val patientRepository: Patie
         )
     }
 
-    override fun getHistoryPatient(token: String): Flow<Resource<PatientHistory>> {
-        return patientRepository.getHistoryPatient(token)
+    override fun getHistoryPatient(token: String, watchId: String): Flow<Resource<PatientHistory>> {
+        return patientRepository.getHistoryPatient(token, watchId)
     }
 
 

@@ -97,20 +97,22 @@ class PickLocationFragment : Fragment() {
 
     private fun setupBackButton() {
         binding.btnBack.setOnClickListener {
-            pickLocationViewModel.fromActivityType.observe(this) { type ->
-                val intentBack = when (type) {
-                    1 -> {
-                        Intent(requireActivity(), FillProfilePatientActivity::class.java)
-                    }
-                    2 -> {
-                        Intent(requireActivity(), ChangeAddressActivity::class.java)
-                    }
-                    else -> {
-                        Intent(requireActivity(), ChangeAddressActivity::class.java)
-                    }
-                }
-                startActivity(intentBack)
-            }
+            parentFragmentManager.popBackStack()
+
+//            pickLocationViewModel.fromActivityType.observe(this) { type ->
+//                val intentBack = when (type) {
+//                    1 -> {
+//                        Intent(requireActivity(), FillProfilePatientActivity::class.java)
+//                    }
+//                    2 -> {
+//                        Intent(requireActivity(), ChangeAddressActivity::class.java)
+//                    }
+//                    else -> {
+//                        Intent(requireActivity(), ChangeAddressActivity::class.java)
+//                    }
+//                }
+//                startActivity(intentBack)
+//            }
         }
     }
 

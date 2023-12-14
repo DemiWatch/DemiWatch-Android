@@ -24,14 +24,17 @@ class PatientRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
 ) : IPatientRepository {
-    override fun getLocationPatient(token: String): Flow<Resource<PatientLocation>> {
+    override fun getLocationPatient(
+        token: String,
+        watchId: String
+    ): Flow<Resource<PatientLocation>> {
         return object : NetworkBoundResource<PatientLocation, PatientLocationResponse>() {
             override suspend fun fetchFromApi(response: PatientLocationResponse): PatientLocation {
                 return PatientDataMapper.mapPatientLocationResponseToDomain(response)
             }
 
             override suspend fun createCall(): Flow<ApiResponse<PatientLocationResponse>> {
-                return remoteDataSource.getLocationPatient(token)
+                return remoteDataSource.getLocationPatient(token, watchId)
             }
 
         }.asFlow()
@@ -69,7 +72,6 @@ class PatientRepository @Inject constructor(
     override fun getCachePatientProfile(): Flow<String> {
         return localDataSource.getCachePatientProfile()
     }
-
 
     override fun addPatient(
         token: String,
@@ -219,14 +221,14 @@ class PatientRepository @Inject constructor(
         }.asFlow()
     }
 
-    override fun getHistoryPatient(token: String): Flow<Resource<PatientHistory>> {
+    override fun getHistoryPatient(token: String, watchId: String): Flow<Resource<PatientHistory>> {
         return object : NetworkBoundResource<PatientHistory, PatientHistoryResponse>() {
             override suspend fun fetchFromApi(response: PatientHistoryResponse): PatientHistory {
                 return PatientDataMapper.mapHistoryPatientResponseToDomain(response)
             }
 
             override suspend fun createCall(): Flow<ApiResponse<PatientHistoryResponse>> {
-                return remoteDataSource.getHistoryPatient(token)
+                return remoteDataSource.getHistoryPatient(token, watchId)
             }
         }.asFlow()
     }

@@ -57,9 +57,10 @@ interface ApiService {
 
 
     //PATIENT
-    @GET("api/getLocation/P002")
+    @GET("api/getLocation/{id}")
     suspend fun getLocationPatient(
         @Header("Authorization") token: String,
+        @Path("id") id: String,
     ): PatientLocationResponse
 
     @FormUrlEncoded
@@ -110,9 +111,10 @@ interface ApiService {
         @Path("id") id: String,
     ): PatientResponse
 
-    @GET("api/history/P002")
+    @GET("api/history/{id}")
     suspend fun getHistoryPatient(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
     ): PatientHistoryResponse
 
     //END-PATIENT

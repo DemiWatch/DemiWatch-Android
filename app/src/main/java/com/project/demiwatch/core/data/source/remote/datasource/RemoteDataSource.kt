@@ -128,10 +128,13 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
     //PATIENT
 
-    suspend fun getLocationPatient(token: String): Flow<ApiResponse<PatientLocationResponse>> {
+    suspend fun getLocationPatient(
+        token: String,
+        watchId: String
+    ): Flow<ApiResponse<PatientLocationResponse>> {
         return flow<ApiResponse<PatientLocationResponse>> {
             try {
-                val response = apiService.getLocationPatient(token)
+                val response = apiService.getLocationPatient(token, watchId)
 
                 if (response.status == 200) {
                     emit(ApiResponse.Success(response))
@@ -261,10 +264,13 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getHistoryPatient(token: String): Flow<ApiResponse<PatientHistoryResponse>> {
+    suspend fun getHistoryPatient(
+        token: String,
+        watchId: String
+    ): Flow<ApiResponse<PatientHistoryResponse>> {
         return flow<ApiResponse<PatientHistoryResponse>> {
             try {
-                val response = apiService.getHistoryPatient(token)
+                val response = apiService.getHistoryPatient(token, watchId)
 
                 if (response.status == 200) {
                     emit(ApiResponse.Success(response))
