@@ -202,18 +202,26 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupPatientStatus(status: String) {
+    private fun setupPatientStatus(status: String, isEmergency: Boolean) {
         binding.apply {
-            when (status) {
-                "At Home" -> {
-                    binding.cardPatientStatus.setStatus(PatientStatus.NOT_ACTIVE.status)
+            if (!isEmergency) {
+                when (status) {
+                    "At Home" -> {
+                        binding.cardPatientStatus.setStatus(PatientStatus.NOT_ACTIVE.status)
+                        binding.cardPatientListStatus.setStatus(PatientStatus.NOT_ACTIVE.status)
+                    }
+                    "Arrived at destination." -> {
+                        binding.cardPatientStatus.setStatus(PatientStatus.ARRIVED.status)
+                        binding.cardPatientListStatus.setStatus(PatientStatus.ARRIVED.status)
+                    }
+                    "On the way to destination." -> {
+                        binding.cardPatientStatus.setStatus(PatientStatus.ACTIVE.status)
+                        binding.cardPatientListStatus.setStatus(PatientStatus.ACTIVE.status)
+                    }
                 }
-                "Arrived at destination." -> {
-                    binding.cardPatientStatus.setStatus((PatientStatus.ARRIVED.status))
-                }
-                "On the way to destination." -> {
-                    binding.cardPatientStatus.setStatus((PatientStatus.ACTIVE.status))
-                }
+            } else {
+                binding.cardPatientStatus.setStatus(PatientStatus.DANGER.status)
+                binding.cardPatientListStatus.setStatus(PatientStatus.DANGER.status)
             }
         }
     }
@@ -258,7 +266,7 @@ class HomeFragment : Fragment() {
                     Timber.tag("HomeFragment").d(location.message)
                 }
                 is Resource.Success -> {
-                    setupPatientStatus(location.data?.message!!)
+                    setupPatientStatus(location.data?.message!!, location.data.emergency!!)
 
                     patientCoordinate = Point.fromLngLat(
                         location.data?.longitude ?: 0.0,

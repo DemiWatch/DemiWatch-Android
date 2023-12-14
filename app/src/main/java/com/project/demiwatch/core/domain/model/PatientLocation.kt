@@ -10,4 +10,5 @@ data class PatientLocation(
     val longitude: Double? = null,
     val latitude: Double? = null,
     val kode: String? = null,
-):Parcelable
+    val emergency: Boolean? = null,
+) : Parcelable

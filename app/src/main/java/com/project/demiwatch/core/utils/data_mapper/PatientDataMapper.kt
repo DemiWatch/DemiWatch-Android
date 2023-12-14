@@ -10,7 +10,8 @@ object PatientDataMapper {
             message = input?.message,
             latitude = input?.location?.latitude as Double,
             longitude = input.location.longitude as Double,
-            kode = input.location.kode
+            kode = input.location.kode,
+            emergency = input.emergency != "false",
         )
 
     fun mapPatientResponseToDomain(input: PatientResponse?): Patient = Patient(
