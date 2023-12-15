@@ -124,7 +124,7 @@ class HomeFragment : Fragment() {
 
         mapView = binding.mapView
 
-        startPeriodicRequests()
+        setupMap()
 
         setupCachedProfilePatient()
     }
@@ -149,14 +149,16 @@ class HomeFragment : Fragment() {
     private fun startPeriodicRequests() {
         val periodicRequestFlow = createPeriodicRequestFlow()
         coroutineScope.launch {
-            periodicRequestFlow.collect { setupMap() }
+            periodicRequestFlow.collect {
+                fetchPatientLocation()
+            }
         }
     }
 
     private fun createPeriodicRequestFlow() = flow {
         while (true) {
             emit(Unit)
-            delay(5000)
+            delay(15000)
         }
     }
 
@@ -249,7 +251,7 @@ class HomeFragment : Fragment() {
     private fun setupMap() {
         locationPermissionHelper = LocationPermissionHelper((WeakReference(activity)))
         locationPermissionHelper.checkPermissions {
-            fetchPatientLocation()
+            startPeriodicRequests()
         }
     }
 

@@ -81,6 +81,8 @@ class PatientDetailActivity : AppCompatActivity() {
         binding = ActivityPatientDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mapView = binding.mapView
+
         patientDetailViewModel.getTokenUser().observe(this) {
             token = it
         }
@@ -100,8 +102,6 @@ class PatientDetailActivity : AppCompatActivity() {
         setupFAB()
 
         setupPatientRoute()
-
-        mapView = binding.mapView
     }
 
     private fun setupPatientRoute() {
@@ -151,7 +151,8 @@ class PatientDetailActivity : AppCompatActivity() {
     }
 
     private fun setupMap() {
-        locationPermissionHelper = LocationPermissionHelper((WeakReference(this)))
+        locationPermissionHelper =
+            LocationPermissionHelper((WeakReference(this)))
         locationPermissionHelper.checkPermissions {
             patientDetailViewModel.getLocationPatient().observe(this) { location ->
                 when (location) {
