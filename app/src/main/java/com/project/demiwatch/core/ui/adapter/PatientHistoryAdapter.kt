@@ -60,6 +60,8 @@ class PatientHistoryAdapter(
         )
 
         binding.tvHistoryDuration.text = DateTimeUtils.formatDuration(data.historyListItem.duration)
+        binding.tvHomeAddress.text = data.historyListItem.homeAddress
+        binding.tvDestinationAddress.text = data.historyListItem.destinationAddress
 
         when (data.historyListItem.condition) {
             "aman" -> {

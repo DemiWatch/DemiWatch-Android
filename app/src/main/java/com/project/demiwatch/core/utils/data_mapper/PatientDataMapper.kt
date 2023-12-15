@@ -35,7 +35,9 @@ object PatientDataMapper {
             condition = it?.condition ?: "kendala",
             duration = it?.duration ?: "0 hours 0 minutes",
             start = it?.start ?: "2023-11-25 03:04:46",
-            end = it?.end ?: "2023-11-25 03:04:46"
+            end = it?.end ?: "2023-11-25 03:04:46",
+            homeAddress = "${it?.homeAddress?.name} (${it?.homeAddress?.lat} ; ${it?.homeAddress?.longi})",
+            destinationAddress = "${it?.destinationAddress?.name} (${it?.destinationAddress?.lat} ; ${it?.destinationAddress?.longi})"
         )
     }
 

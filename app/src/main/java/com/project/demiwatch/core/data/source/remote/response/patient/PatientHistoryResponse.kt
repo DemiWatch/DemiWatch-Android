@@ -56,5 +56,11 @@ data class DurationsItem(
     val start: String? = null,
 
     @field:SerializedName("end")
-    val end: String? = null
+    val end: String? = null,
+
+    @field:SerializedName("alamatRumah")
+    val homeAddress: Address? = null,
+
+    @field:SerializedName("alamatTujuan")
+    val destinationAddress: Address? = null
 )

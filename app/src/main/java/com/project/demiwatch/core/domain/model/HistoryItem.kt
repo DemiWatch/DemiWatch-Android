@@ -9,4 +9,7 @@ data class HistoryItem(
     val duration: String,
     val start: String,
     val end: String,
+
+    val homeAddress: String,
+    val destinationAddress: String,
 ) : Parcelable
