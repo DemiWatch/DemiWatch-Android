@@ -101,7 +101,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                 Timber.tag("updateUser").d(e.toString())
                 emit(ApiResponse.Error(e.toString()))
             }
-        }
+        }.flowOn(Dispatchers.IO)
     }
 
     suspend fun getUser(

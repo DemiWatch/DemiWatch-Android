@@ -79,7 +79,7 @@ interface ApiService {
     ): PatientResponse
 
     @FormUrlEncoded
-    @PUT("api/addPatient/{id}")
+    @PUT("api/editPatient/{id}")
     suspend fun updatePatient(
         @Path("id") id: String,
         @Header("Authorization") token: String,

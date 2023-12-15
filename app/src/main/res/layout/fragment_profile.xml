@@ -7,12 +7,12 @@
     tools:context=".features.profile.ProfileFragment">
 
     <ImageView
-        android:id="@+id/btn_menu"
+        android:id="@+id/btn_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_more_vert_24"
+        android:src="@drawable/ic_edit_24_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +25,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_menu" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_edit" />
 
     <TextView
         android:id="@+id/tv_profile_name"
@@ -120,7 +120,7 @@
         android:layout_marginTop="2dp"
         android:text="@string/safe_radius_patient"
         android:textColor="@color/dark_grey"
-        app:layout_constraintEnd_toEndOf="@+id/textView13"
+        app:layout_constraintEnd_toEndOf="@+id/tv_profile_status"
         app:layout_constraintStart_toStartOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
