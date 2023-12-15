@@ -30,12 +30,18 @@ import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListen
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.Resource
+import com.project.demiwatch.core.utils.constants.PatientStatus
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.databinding.ActivityPatientDetailBinding
 import com.project.demiwatch.features.maps.MapsActivity
 import com.project.demiwatch.features.navigation.NavigationActivity
 import com.project.demiwatch.features.patient_detail.change_address.ChangeAddressActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
@@ -51,6 +57,8 @@ class PatientDetailActivity : AppCompatActivity() {
     private lateinit var patientId: String
 
     private lateinit var patientCoordinate: Point
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
         mapView.getMapboxMap().setCamera(CameraOptions.Builder().bearing(it).build())
@@ -104,6 +112,42 @@ class PatientDetailActivity : AppCompatActivity() {
         setupPatientRoute()
     }
 
+    private fun setupPatientStatus(status: String, isEmergency: Boolean) {
+        binding.apply {
+            if (!isEmergency) {
+                when (status) {
+                    "At Home" -> {
+                        binding.cardPatientStatus.setStatus(PatientStatus.NOT_ACTIVE.status)
+                    }
+                    "Arrived at destination." -> {
+                        binding.cardPatientStatus.setStatus(PatientStatus.ARRIVED.status)
+                    }
+                    "On the way to destination." -> {
+                        binding.cardPatientStatus.setStatus(PatientStatus.ACTIVE.status)
+                    }
+                }
+            } else {
+                binding.cardPatientStatus.setStatus(PatientStatus.DANGER.status)
+            }
+        }
+    }
+
+    private fun startPeriodicRequests() {
+        val periodicRequestFlow = createPeriodicRequestFlow()
+        coroutineScope.launch {
+            periodicRequestFlow.collect {
+                fetchPatientLocation()
+            }
+        }
+    }
+
+    private fun createPeriodicRequestFlow() = flow {
+        while (true) {
+            emit(Unit)
+            delay(15000)
+        }
+    }
+
     private fun setupPatientRoute() {
         binding.btnPatientRoute.setOnClickListener {
             val intentToNavigation = Intent(this, NavigationActivity::class.java)
@@ -150,31 +194,38 @@ class PatientDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun fetchPatientLocation() {
+        patientDetailViewModel.getLocationPatient().observe(this) { location ->
+            when (location) {
+                is Resource.Error -> {
+                    //show loading
+                    Timber.tag("HomeFragment").e(location.message)
+                }
+                is Resource.Loading -> {
+                    //show loading
+                }
+                is Resource.Message -> {
+                    Timber.tag("HomeFragment").d(location.message)
+                }
+                is Resource.Success -> {
+                    setupPatientStatus(location.data?.message!!, location.data.emergency!!)
+
+                    patientCoordinate = Point.fromLngLat(
+                        location.data?.longitude ?: 0.0,
+                        location.data?.latitude ?: 0.0
+                    )
+
+                    onMapReady()
+                }
+            }
+        }
+    }
+
     private fun setupMap() {
         locationPermissionHelper =
             LocationPermissionHelper((WeakReference(this)))
         locationPermissionHelper.checkPermissions {
-            patientDetailViewModel.getLocationPatient().observe(this) { location ->
-                when (location) {
-                    is Resource.Error -> {
-                        //show loading
-                        Timber.tag("HomeFragment").e(location.message)
-                    }
-                    is Resource.Loading -> {
-                        //show loading
-                    }
-                    is Resource.Message -> {
-                        Timber.tag("HomeFragment").d(location.message)
-                    }
-                    is Resource.Success -> {
-                        patientCoordinate = Point.fromLngLat(
-                            location.data?.longitude ?: 0.0,
-                            location.data?.latitude ?: 0.0
-                        )
-                        onMapReady()
-                    }
-                }
-            }
+            startPeriodicRequests()
         }
 
         binding.mapWrapper.setOnClickListener {
@@ -204,7 +255,7 @@ class PatientDetailActivity : AppCompatActivity() {
         mapView.getMapboxMap().loadStyleUri(
             Style.MAPBOX_STREETS
         ) {
-//            initLocationUser()
+            initLocationUser()
             setupGesturesListener()
             addPatientLocation()
         }
@@ -261,12 +312,12 @@ class PatientDetailActivity : AppCompatActivity() {
                 }.toJson()
             )
         }
-        locationComponentPlugin.addOnIndicatorPositionChangedListener(
-            onIndicatorPositionChangedListener
-        )
-        locationComponentPlugin.addOnIndicatorBearingChangedListener(
-            onIndicatorBearingChangedListener
-        )
+//        locationComponentPlugin.addOnIndicatorPositionChangedListener(
+//            onIndicatorPositionChangedListener
+//        )
+//        locationComponentPlugin.addOnIndicatorBearingChangedListener(
+//            onIndicatorBearingChangedListener
+//        )
     }
 
     private fun onCameraTrackingDismissed() {
