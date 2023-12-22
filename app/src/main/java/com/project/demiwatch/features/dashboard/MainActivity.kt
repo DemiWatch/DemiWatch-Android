@@ -1,16 +1,21 @@
 package com.project.demiwatch.features.dashboard
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.Data
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.mapbox.android.core.permissions.PermissionsManager
 import com.project.demiwatch.R
+import com.project.demiwatch.core.utils.notifications.NOTIFICATION_CHANNEL_ID
+import com.project.demiwatch.core.utils.notifications.NotificationWorker
 import com.project.demiwatch.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -25,6 +30,22 @@ class MainActivity : AppCompatActivity() {
         setupBottomNav()
 
         setupActionBar()
+
+        setupNotifications()
+    }
+
+    private fun setupNotifications() {
+        val channelName = getString(R.string.notify_channel_name)
+        val data =
+            Data.Builder().putString(NOTIFICATION_CHANNEL_ID, channelName).build()
+
+        val periodicWork = PeriodicWorkRequest.Builder(
+            NotificationWorker::class.java,
+            15,
+            TimeUnit.MINUTES
+        ).setInputData(data).build()
+
+        WorkManager.getInstance(this).enqueue(periodicWork)
     }
 
     private fun setupBottomNav() {
@@ -43,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navViewController)
     }
 
-    private fun setupActionBar(){
+    private fun setupActionBar() {
         supportActionBar?.hide()
     }
 }

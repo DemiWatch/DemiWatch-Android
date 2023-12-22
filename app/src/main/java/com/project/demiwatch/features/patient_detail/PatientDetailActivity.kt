@@ -33,6 +33,7 @@ import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.constants.PatientStatus
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.databinding.ActivityPatientDetailBinding
+import com.project.demiwatch.features.fill_profile.patient.FillProfilePatientActivity
 import com.project.demiwatch.features.maps.MapsActivity
 import com.project.demiwatch.features.navigation.NavigationActivity
 import com.project.demiwatch.features.patient_detail.change_address.ChangeAddressActivity
@@ -110,6 +111,15 @@ class PatientDetailActivity : AppCompatActivity() {
         setupFAB()
 
         setupPatientRoute()
+
+        setupEditButton()
+    }
+
+    private fun setupEditButton() {
+        binding.btnEdit.setOnClickListener {
+            val intentToFillProfilePatient = Intent(this, FillProfilePatientActivity::class.java)
+            startActivity(intentToFillProfilePatient)
+        }
     }
 
     private fun setupPatientStatus(status: String, isEmergency: Boolean) {

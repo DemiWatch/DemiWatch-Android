@@ -29,7 +29,6 @@ data class AlamatRumah(
     @field:SerializedName("name")
     val name: String? = null,
 
-
     @field:SerializedName("longi")
     val longi: Any? = null,
 

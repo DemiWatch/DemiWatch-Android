@@ -167,7 +167,6 @@ class HomeFragment : Fragment() {
             when (patient) {
                 is Resource.Error -> {
                     showLoading(false)
-                    activity?.showToast("Pastikan internet anda terknoneksi dengan baik dan buka kembali aplikasi")
                 }
                 is Resource.Loading -> {
                     showLoading(true)
@@ -233,7 +232,7 @@ class HomeFragment : Fragment() {
             when (user) {
                 is Resource.Error -> {
                     showLoading(false)
-                    activity?.showToast("Pastikan internet anda terknoneksi dengan baik dan buka kembali aplikasi")
+                    activity?.showToast("2")
                 }
                 is Resource.Loading -> {
                     showLoading(true)

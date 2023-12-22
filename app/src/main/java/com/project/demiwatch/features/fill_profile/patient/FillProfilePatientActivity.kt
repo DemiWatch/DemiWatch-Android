@@ -81,19 +81,21 @@ class FillProfilePatientActivity : AppCompatActivity() {
                     Timber.tag("FillProfilePatientActivity").d(patient.message)
                 }
                 is Resource.Success -> {
+                    showLoading(false)
+
                     if (patient.data?.name != "Nama Pasien" || patient.data.age != 99) {
                         binding.apply {
                             edPatientFullName.setText(patient.data?.name)
-                            edPatientAge.setText(patient.data?.age!!)
-                            dropdownMenu.setText(patient.data.symptom)
-                            edPatientNotes.setText(patient.data.note)
-                            edPatientWatchId.setText(patient.data.watchCode)
-                            edPatientAddressHome.setText(patient.data.homeName)
-                            edPatientAddressHomeLatitude.setText(patient.data.latitudeHome.toString())
-                            edPatientAddressHomeLongitude.setText(patient.data.longitudeHome.toString())
-                            edPatientAddressDestination.setText(patient.data.destinationName)
-                            edPatientAddressDestinationLatitude.setText(patient.data.latitudeDestination.toString())
-                            edPatientAddressDestinationLongitude.setText(patient.data.longitudeDestination.toString())
+                            edPatientAge.setText(patient.data?.age.toString())
+                            dropdownMenu.setText(patient.data?.symptom)
+                            edPatientNotes.setText(patient.data?.note)
+                            edPatientWatchId.setText(patient.data?.watchCode)
+                            edPatientAddressHome.setText(patient.data?.homeName)
+                            edPatientAddressHomeLatitude.setText(patient.data?.latitudeHome.toString())
+                            edPatientAddressHomeLongitude.setText(patient.data?.longitudeHome.toString())
+                            edPatientAddressDestination.setText(patient.data?.destinationName)
+                            edPatientAddressDestinationLatitude.setText(patient.data?.latitudeDestination.toString())
+                            edPatientAddressDestinationLongitude.setText(patient.data?.longitudeDestination.toString())
 
                             isUpdateProfile = true
                         }

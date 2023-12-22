@@ -27,13 +27,13 @@
             app:srcCompat="@drawable/ic_arrow_back_24" />
 
         <ImageView
-            android:id="@+id/btn_detail_settings"
+            android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_more_vert_24" />
+            app:srcCompat="@drawable/ic_edit_24_blue" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
@@ -178,7 +178,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/icon_default_address"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView15"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_home_destination_detail"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_home_destination" />
 
@@ -221,7 +221,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/icon_destination_address"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView17"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_destination_detail"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_destination" />
 

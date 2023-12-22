@@ -61,5 +61,6 @@
     <string name="user_registered">Pengguna telah berhasil ditambahkan, silahkan masukkan kembali akun Anda untuk menggunakan aplikasi</string>
     <string name="user_data_registered">Data pengguna telah berhasil ditambahkan</string>
     <string name="patient_data_registered">Data pasien telah berhasil ditambahkan</string>
+    <string name="notify_channel_name">Notifikasi Status Pasien</string>
 
 </resources>
