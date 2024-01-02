@@ -37,7 +37,7 @@ interface ApiService {
     ): UserResponse
 
     @FormUrlEncoded
-    @PUT("api/addUser/{id}")
+    @PUT("api/updateUser/{id}")
     suspend fun updateUser(
         @Header("Authorization") token: String,
         @Path("id") id: String,
@@ -95,7 +95,7 @@ interface ApiService {
     ): PatientResponse
 
     @FormUrlEncoded
-    @PUT("api/addPatient/{id}")
+    @PUT("api/editPatient/{id}")
     suspend fun updatePatientLocations(
         @Path("id") id: String,
         @Header("Authorization") token: String,

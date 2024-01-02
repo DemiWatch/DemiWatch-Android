@@ -3,7 +3,6 @@ package com.project.demiwatch.features.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.project.demiwatch.core.domain.usecase.PatientUseCase
 import com.project.demiwatch.core.domain.usecase.UserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +12,6 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val userUseCase: UserUseCase,
-    private val patientUseCase: PatientUseCase
 ) : ViewModel() {
 
     fun loginUser(email: String, password: String) =

@@ -53,7 +53,6 @@ class CustomPatientStatus : AppCompatTextView {
                 ), ALPHA_OPACITY
             )
         )
-
     }
 
     private fun updateStatus() {

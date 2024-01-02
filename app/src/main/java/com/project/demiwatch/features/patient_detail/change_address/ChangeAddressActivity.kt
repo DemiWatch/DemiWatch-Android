@@ -18,8 +18,10 @@ class ChangeAddressActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangeAddressBinding
     private val changeAddressViewModel: ChangeAddressViewModel by viewModels()
     private val pickLocationViewModel: PickLocationViewModel by viewModels()
+
     private lateinit var savedToken: String
     private lateinit var savedPatientId: String
+    private lateinit var savedUserId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +33,38 @@ class ChangeAddressActivity : AppCompatActivity() {
             savedToken = it
         }
 
+        // TEMP SOLUTIONS FOR SAVED BUTTON BUG
+        changeAddressViewModel.getIdUser().observe(this) {
+            savedUserId = it
+
+            changeAddressViewModel.getUser(savedToken, savedUserId).observe(this) { user ->
+                when (user) {
+                    is Resource.Error -> {
+                        Timber.tag("ChangeAddressActivity").e(user.message)
+                    }
+                    is Resource.Loading -> {
+
+                    }
+                    is Resource.Message -> {
+
+                    }
+                    is Resource.Success -> {
+                        savedPatientId = user.data?.patientId.toString()
+
+                        setupSaveButton(savedToken, savedPatientId)
+                    }
+                }
+            }
+        }
+        // TEMP SOLUTIONS FOR SAVED BUTTON BUG
+
         changeAddressViewModel.getPatientId().observe(this) {
             savedPatientId = it
 
             setupInitialLocationNameData(savedToken, savedPatientId)
-            setupSaveButton(savedToken, savedPatientId)
+//            setupSaveButton(savedToken, savedPatientId)
         }
+
 
         setupActionBar()
 
@@ -95,6 +123,8 @@ class ChangeAddressActivity : AppCompatActivity() {
     }
 
     private fun setupSaveButton(token: String, patientId: String) {
+        Timber.tag("TEST").e("ini patient id " + patientId)
+
         binding.btnSave.setOnClickListener {
             val destinationName = binding.edNameDestination.text.toString()
             val homeName = binding.edNameHome.text.toString()
@@ -108,8 +138,8 @@ class ChangeAddressActivity : AppCompatActivity() {
                 && destinationLatitude.isNotEmpty() && destinationLongitude.isNotEmpty()
             ) {
                 changeAddressViewModel.updatePatientLocations(
-                    patientId,
                     token,
+                    patientId,
                     homeName,
                     homeLongitude.toDouble(),
                     homeLatitude.toDouble(),

@@ -46,6 +46,10 @@ class HomeViewModel @Inject constructor(
 
     fun getPatient(token: String, id: String) = patientUseCase.getPatient(token, id).asLiveData()
 
+    fun savePatientId(patientId: String) = viewModelScope.launch {
+        patientUseCase.saveIdPatient(patientId)
+    }
+
     fun cachePatientProfile(patientProfile: String) = viewModelScope.launch {
         patientUseCase.cachePatientProfile(patientProfile)
     }

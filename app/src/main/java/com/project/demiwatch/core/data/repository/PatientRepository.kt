@@ -232,6 +232,4 @@ class PatientRepository @Inject constructor(
             }
         }.asFlow()
     }
-
-
 }

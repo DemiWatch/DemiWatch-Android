@@ -30,6 +30,6 @@ object UserDataMapper {
         status = input.data?.status ?: "Status User",
         safeRadius = input.data?.radius ?: "Radius Aman User",
         error = input.error ?: "Error Response",
-        patientId = input.data?.patientId?.first() ?: "Id Pasien"
+        patientId = input.data?.patientId?.firstOrNull() ?: "Id Pasien"
     )
 }

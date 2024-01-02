@@ -1,6 +1,5 @@
 package com.project.demiwatch.core.data.source.remote.datasource
 
-import com.google.gson.Gson
 import com.project.demiwatch.core.data.source.remote.network.ApiResponse
 import com.project.demiwatch.core.data.source.remote.network.ApiService
 import com.project.demiwatch.core.data.source.remote.response.auth.LoginResponse
@@ -226,7 +225,6 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         return flow<ApiResponse<PatientResponse>> {
             try {
                 val response = apiService.getPatient(token, id)
-                Timber.tag("getPatient").d("JSON Response: ${Gson().toJson(response)}")
 
                 if (response.data != null) {
                     emit(ApiResponse.Success(response))
@@ -234,7 +232,6 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                     emit(ApiResponse.Empty)
                 }
             } catch (e: Exception) {
-                Timber.tag("getPatient2").d(e.toString())
                 emit(ApiResponse.Error(e.toString()))
             }
         }.flowOn(Dispatchers.IO)

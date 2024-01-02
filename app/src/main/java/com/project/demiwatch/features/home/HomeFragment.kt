@@ -36,7 +36,6 @@ import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.constants.PatientStatus
 import com.project.demiwatch.core.utils.data_mapper.JsonMapper
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
-import com.project.demiwatch.core.utils.showToast
 import com.project.demiwatch.databinding.FragmentHomeBinding
 import com.project.demiwatch.features.maps.MapsActivity
 import com.project.demiwatch.features.navigation.NavigationActivity
@@ -110,12 +109,6 @@ class HomeFragment : Fragment() {
             token = it
         }
 
-        homeViewModel.getIdPatient().observe(this) {
-            patientId = it
-
-            setupPatientData(token, patientId)
-        }
-
         homeViewModel.getIdUser().observe(this) {
             userId = it
 
@@ -127,6 +120,13 @@ class HomeFragment : Fragment() {
         setupMap()
 
         setupCachedProfilePatient()
+
+        homeViewModel.getIdPatient().observe(this) {
+            patientId = it
+
+            Timber.tag("TEST").e(patientId)
+            setupPatientData(token, patientId)
+        }
     }
 
     private fun setupCachedProfilePatient() {
@@ -232,7 +232,6 @@ class HomeFragment : Fragment() {
             when (user) {
                 is Resource.Error -> {
                     showLoading(false)
-                    activity?.showToast("2")
                 }
                 is Resource.Loading -> {
                     showLoading(true)
@@ -242,6 +241,9 @@ class HomeFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.tvHomeUsername.text = user.data?.name
+
+
+                    homeViewModel.savePatientId(user.data!!.patientId)
                 }
             }
         }

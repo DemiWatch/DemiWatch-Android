@@ -120,7 +120,6 @@ class LoginActivity : AppCompatActivity() {
                             loginViewModel.apply {
                                 saveUserToken(user.data?.token!!)
                                 saveUserId(user.data.userId!!)
-                                Timber.tag("TEST").e(user.data.userId)
 
                                 getUserToken().observe(this@LoginActivity) {
                                     token = it

@@ -72,6 +72,7 @@ class FillProfilePatientActivity : AppCompatActivity() {
             when (patient) {
                 is Resource.Error -> {
                     showLoading(false)
+                    Timber.tag("TEST").e("ERROR" + patient.message.toString())
                     showLongToast("Terjadi kesalahan, pastikan koneksi internet anda baik")
                 }
                 is Resource.Loading -> {
@@ -332,6 +333,7 @@ class FillProfilePatientActivity : AppCompatActivity() {
                         when (patient) {
                             is Resource.Error -> {
                                 showLoading(false)
+                                Timber.tag("TEST").e(patient.message)
                                 showLongToast("Terjadi kesalahan, pastikan internet anda baik")
                             }
                             is Resource.Loading -> {
@@ -342,6 +344,19 @@ class FillProfilePatientActivity : AppCompatActivity() {
                             }
                             is Resource.Success -> {
                                 showLongToast("Data pasien berhasil diperbaharui")
+
+                                val cacheProfile = JsonMapper.convertPatientProfileToJson(
+                                    PatientProfileCache(
+                                        patient.data?.name!!,
+                                        patient.data.age.toString(),
+                                        patient.data.symptom,
+                                        patient.data.note,
+                                        patient.data.watchCode,
+                                        patient.data.homeName,
+                                        patient.data.destinationName,
+                                    )
+                                )
+                                fillProfilePatientViewModel.cachePatientProfile(cacheProfile)
 
                                 val intentToDetail = Intent(this, PatientDetailActivity::class.java)
                                 startActivity(intentToDetail)
@@ -409,9 +424,13 @@ class FillProfilePatientActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             fillProfilePatientViewModel.getUserId().observe(this) { user ->
                 if (user != "") {
-                    val intentToSplash = Intent(this, SplashActivity::class.java)
-                    intentToSplash.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intentToSplash)
+                    if (isUpdateProfile) {
+                        finish()
+                    } else {
+                        val intentToSplash = Intent(this, SplashActivity::class.java)
+                        intentToSplash.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intentToSplash)
+                    }
                 } else {
                     val intentToProfile = Intent(this, FillProfileUserActivity::class.java)
                     startActivity(intentToProfile)

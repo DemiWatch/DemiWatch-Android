@@ -19,10 +19,9 @@ class ChangeAddressViewModel @Inject constructor(
 
     fun getPatient(token: String, id: String) = patientUseCase.getPatient(token, id).asLiveData()
 
-    fun getHomeLocationPatient() = patientUseCase.getHomeLocationPatient().asLiveData()
+    fun getIdUser() = userUseCase.getIdUser().asLiveData()
 
-    fun getDestinationLocationPatient() =
-        patientUseCase.getDestinationLocationPatient().asLiveData()
+    fun getUser(token: String, id: String) = userUseCase.getUser(token, id).asLiveData()
 
     fun updatePatientLocations(
         token: String,

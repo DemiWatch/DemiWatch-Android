@@ -41,4 +41,6 @@ class PatientDetailViewModel @Inject constructor(
     fun getIdPatient() = patientUseCase.getIdPatient().asLiveData()
 
     fun getPatient(token: String, id: String) = patientUseCase.getPatient(token, id).asLiveData()
+
+
 }

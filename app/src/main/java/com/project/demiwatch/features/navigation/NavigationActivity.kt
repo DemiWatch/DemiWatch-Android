@@ -68,6 +68,11 @@ import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.databinding.ActivityNavigationBinding
 import com.project.demiwatch.features.dashboard.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
@@ -75,6 +80,8 @@ import java.util.*
 class NavigationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNavigationBinding
     private val navigationViewModel: NavigationViewModel by viewModels()
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private companion object {
         private const val BUTTON_ANIMATION_DURATION = 1500L
@@ -501,25 +508,34 @@ class NavigationActivity : AppCompatActivity() {
 //                true
 //            }
 
-            navigationViewModel.getLocationPatient().observe(this) { location ->
-                when (location) {
-                    is Resource.Error -> {
-                        Timber.tag("NavigationActivity").e(location.message)
-                        showLoading(false)
-                    }
-                    is Resource.Loading -> {
-                        showLoading(true)
-                    }
-                    is Resource.Message -> {
-                        Timber.tag("NavigationActivity").d(location.message)
-                    }
-                    is Resource.Success -> {
-                        showLoading(false)
+            val periodicRequestFlow = createPeriodicRequestFlow()
+            coroutineScope.launch {
+                periodicRequestFlow.collect {
+                    navigationViewModel.getLocationPatient()
+                        .observe(this@NavigationActivity) { location ->
+                            when (location) {
+                                is Resource.Error -> {
+                                    Timber.tag("NavigationActivity").e(location.message)
+                                    showLoading(false)
+                                }
+                                is Resource.Loading -> {
+                                    showLoading(true)
+                                }
+                                is Resource.Message -> {
+                                    Timber.tag("NavigationActivity").d(location.message)
+                                }
+                                is Resource.Success -> {
+                                    showLoading(false)
 
-                        val destinationLocation =
-                            Point.fromLngLat(location.data?.longitude!!, location.data.latitude!!)
-                        findRoute(destinationLocation)
-                    }
+                                    val destinationLocation =
+                                        Point.fromLngLat(
+                                            location.data?.longitude!!,
+                                            location.data.latitude!!
+                                        )
+                                    findRoute(destinationLocation)
+                                }
+                            }
+                        }
                 }
             }
         }
@@ -552,6 +568,13 @@ class NavigationActivity : AppCompatActivity() {
             val intentToMain = Intent(this, MainActivity::class.java)
             startActivity(intentToMain)
             finish()
+        }
+    }
+
+    private fun createPeriodicRequestFlow() = flow {
+        while (true) {
+            emit(Unit)
+            delay(15000)
         }
     }
 
