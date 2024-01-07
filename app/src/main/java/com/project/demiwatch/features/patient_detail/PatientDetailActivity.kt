@@ -32,6 +32,7 @@ import com.project.demiwatch.R
 import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.constants.PatientStatus
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
+import com.project.demiwatch.core.utils.popup.PopUpDialog
 import com.project.demiwatch.databinding.ActivityPatientDetailBinding
 import com.project.demiwatch.features.fill_profile.patient.FillProfilePatientActivity
 import com.project.demiwatch.features.maps.MapsActivity
@@ -137,6 +138,7 @@ class PatientDetailActivity : AppCompatActivity() {
                     }
                 }
             } else {
+                PopUpDialog().show(supportFragmentManager, "Patient Emergency Dialog")
                 binding.cardPatientStatus.setStatus(PatientStatus.DANGER.status)
             }
         }

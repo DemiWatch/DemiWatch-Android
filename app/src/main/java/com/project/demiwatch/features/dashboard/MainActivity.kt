@@ -1,6 +1,10 @@
 package com.project.demiwatch.features.dashboard
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,8 +15,10 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.demiwatch.R
+import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.notifications.NOTIFICATION_CHANNEL_ID
 import com.project.demiwatch.core.utils.notifications.NotificationWorker
+import com.project.demiwatch.core.utils.popup.PopUpDialog
 import com.project.demiwatch.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
@@ -20,6 +26,7 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val homeViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +39,41 @@ class MainActivity : AppCompatActivity() {
         setupActionBar()
 
         setupNotifications()
+
+        setupPopUp()
     }
+
+    private fun setupPopUp() {
+        homeViewModel.getLocationPatient().observe(this) { patient ->
+            when (patient) {
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+
+                }
+                is Resource.Message -> {
+
+                }
+                is Resource.Success -> {
+                    if (patient.data?.emergency == true) {
+                        PopUpDialog().show(supportFragmentManager, "Patient Emergency Dialog")
+                    }
+                }
+            }
+        }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+
+            } else {
+
+            }
+        }
 
     private fun setupNotifications() {
         val channelName = getString(R.string.notify_channel_name)
@@ -46,6 +87,10 @@ class MainActivity : AppCompatActivity() {
         ).setInputData(data).build()
 
         WorkManager.getInstance(this).enqueue(periodicWork)
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     private fun setupBottomNav() {

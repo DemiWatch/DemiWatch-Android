@@ -36,6 +36,7 @@ import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.constants.PatientStatus
 import com.project.demiwatch.core.utils.data_mapper.JsonMapper
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
+import com.project.demiwatch.core.utils.popup.PopUpDialog
 import com.project.demiwatch.databinding.FragmentHomeBinding
 import com.project.demiwatch.features.maps.MapsActivity
 import com.project.demiwatch.features.navigation.NavigationActivity
@@ -124,7 +125,6 @@ class HomeFragment : Fragment() {
         homeViewModel.getIdPatient().observe(this) {
             patientId = it
 
-            Timber.tag("TEST").e(patientId)
             setupPatientData(token, patientId)
         }
     }
@@ -221,6 +221,8 @@ class HomeFragment : Fragment() {
                     }
                 }
             } else {
+                PopUpDialog().show(parentFragmentManager, "Patient Emergency Dialog")
+
                 binding.cardPatientStatus.setStatus(PatientStatus.DANGER.status)
                 binding.cardPatientListStatus.setStatus(PatientStatus.DANGER.status)
             }

@@ -32,6 +32,11 @@ import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.databinding.ActivityMapsBinding
 import com.project.demiwatch.features.navigation.NavigationActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
@@ -44,6 +49,8 @@ class MapsActivity : AppCompatActivity() {
     private lateinit var locationPermissionHelper: LocationPermissionHelper
 
     private lateinit var patientCoordinate: Point
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
         mapView.getMapboxMap().setCamera(CameraOptions.Builder().bearing(it).build())
@@ -85,30 +92,47 @@ class MapsActivity : AppCompatActivity() {
 
         locationPermissionHelper = LocationPermissionHelper((WeakReference(this)))
         locationPermissionHelper.checkPermissions {
-            mapViewModel.getLocationPatient().observe(this) { location ->
-                when (location) {
-                    is Resource.Error -> {
-                        //show loading
-                        Timber.tag("HomeFragment").e(location.message)
-                    }
-                    is Resource.Loading -> {
-                        //show loading
-                    }
-                    is Resource.Message -> {
-                        Timber.tag("HomeFragment").d(location.message)
-                    }
-                    is Resource.Success -> {
-                        patientCoordinate = Point.fromLngLat(
-                            location.data?.longitude ?: 0.0,
-                            location.data?.latitude ?: 0.0
-                        )
-                        onMapReady()
+            startPeriodicRequests()
+        }
+
+//        setupFabButton()
+    }
+
+    private fun createPeriodicRequestFlow() = flow {
+        while (true) {
+            emit(Unit)
+            delay(15000)
+        }
+    }
+
+    private fun startPeriodicRequests() {
+        val periodicRequestFlow = createPeriodicRequestFlow()
+        coroutineScope.launch {
+            periodicRequestFlow.collect {
+                mapViewModel.getLocationPatient().observe(this@MapsActivity) { location ->
+                    when (location) {
+                        is Resource.Error -> {
+                            //show loading
+                            Timber.tag("HomeFragment").e(location.message)
+                        }
+                        is Resource.Loading -> {
+                            //show loading
+                        }
+                        is Resource.Message -> {
+                            Timber.tag("HomeFragment").d(location.message)
+                        }
+                        is Resource.Success -> {
+                            Timber.tag("LOCATION").e(location.data?.latitude.toString())
+                            patientCoordinate = Point.fromLngLat(
+                                location.data?.longitude ?: 0.0,
+                                location.data?.latitude ?: 0.0
+                            )
+                            onMapReady()
+                        }
                     }
                 }
             }
         }
-
-//        setupFabButton()
     }
 
     private fun setupBottomSheet() {
