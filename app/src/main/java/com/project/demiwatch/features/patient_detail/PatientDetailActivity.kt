@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
@@ -138,10 +139,19 @@ class PatientDetailActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                PopUpDialog().show(supportFragmentManager, "Patient Emergency Dialog")
+                if (!isDialogShown(DIALOG_TAG)) {
+                    PopUpDialog().show(supportFragmentManager, DIALOG_TAG)
+                    PopUpDialog().isCancelable = false
+                }
+
                 binding.cardPatientStatus.setStatus(PatientStatus.DANGER.status)
             }
         }
+    }
+
+    private fun isDialogShown(tag: String): Boolean {
+        val fragment = supportFragmentManager.findFragmentByTag(tag)
+        return fragment != null && fragment is DialogFragment && fragment.dialog?.isShowing ?: false
     }
 
     private fun startPeriodicRequests() {
@@ -403,5 +413,9 @@ class PatientDetailActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    companion object {
+        private const val DIALOG_TAG = "Patient Emergency Dialog"
     }
 }

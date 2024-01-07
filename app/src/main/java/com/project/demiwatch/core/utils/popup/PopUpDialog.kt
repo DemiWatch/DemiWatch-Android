@@ -24,6 +24,8 @@ class PopUpDialog : DialogFragment() {
             btnAccessRoute.setOnClickListener {
                 val intentToNavigation = Intent(requireContext(), NavigationActivity::class.java)
                 startActivity(intentToNavigation)
+
+                dismiss()
             }
 
             builder.create()

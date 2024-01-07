@@ -14,11 +14,13 @@ import androidx.work.WorkerParameters
 import com.project.demiwatch.R
 import com.project.demiwatch.core.data.repository.PatientRepository
 import com.project.demiwatch.core.data.repository.UserRepository
+import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.data_mapper.JsonMapper
 import com.project.demiwatch.features.patient_detail.PatientDetailActivity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
@@ -28,9 +30,7 @@ class NotificationWorker @AssistedInject constructor(
     private val patientRepository: PatientRepository,
     private val userUserRepository: UserRepository,
 
-//    private val patientUseCase: PatientUseCase,
-//    private val userUseCase: UserUseCase,
-) : CoroutineWorker(appContext, workerParams) {
+    ) : CoroutineWorker(appContext, workerParams) {
 
     private val channelName = inputData.getString(NOTIFICATION_CHANNEL_ID)
 
@@ -74,12 +74,29 @@ class NotificationWorker @AssistedInject constructor(
 
         if (patientProfile.isNotEmpty()) {
             val profile = JsonMapper.convertToPatientProfile(patientProfile)
-            val location =
-                patientRepository.getLocationPatient(token, profile.watchCode).firstOrNull()
-                    ?: return Result.failure()
 
-            if (location.data?.emergency == true) {
-                notificationManager.notify(101, notification.build())
+            runBlocking {
+                patientRepository.getLocationPatient(token, profile.watchCode).collect { patient ->
+                    when (patient) {
+                        is Resource.Error -> {
+
+                        }
+                        is Resource.Loading -> {
+
+                        }
+                        is Resource.Message -> {
+
+                        }
+                        is Resource.Success -> {
+                            if (patient.data != null) {
+                                if (patient.data.emergency == true) {
+                                    notificationManager.notify(101, notification.build())
+                                }
+
+                            }
+                        }
+                    }
+                }
             }
         }
 

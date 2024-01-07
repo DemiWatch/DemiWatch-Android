@@ -1,16 +1,23 @@
 package com.project.demiwatch.features.home
 
+import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.work.Data
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
@@ -35,6 +42,8 @@ import com.project.demiwatch.core.domain.model.PatientProfileCache
 import com.project.demiwatch.core.utils.Resource
 import com.project.demiwatch.core.utils.constants.PatientStatus
 import com.project.demiwatch.core.utils.data_mapper.JsonMapper
+import com.project.demiwatch.core.utils.notifications.NOTIFICATION_CHANNEL_ID
+import com.project.demiwatch.core.utils.notifications.NotificationWorker
 import com.project.demiwatch.core.utils.permissions.LocationPermissionHelper
 import com.project.demiwatch.core.utils.popup.PopUpDialog
 import com.project.demiwatch.databinding.FragmentHomeBinding
@@ -49,6 +58,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.ref.WeakReference
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -127,6 +137,8 @@ class HomeFragment : Fragment() {
 
             setupPatientData(token, patientId)
         }
+
+        setupNotifications()
     }
 
     private fun setupCachedProfilePatient() {
@@ -221,12 +233,20 @@ class HomeFragment : Fragment() {
                     }
                 }
             } else {
-                PopUpDialog().show(parentFragmentManager, "Patient Emergency Dialog")
+                if (!isDialogShown(DIALOG_TAG)) {
+                    PopUpDialog().show(parentFragmentManager, DIALOG_TAG)
+                    PopUpDialog().isCancelable = false
+                }
 
                 binding.cardPatientStatus.setStatus(PatientStatus.DANGER.status)
                 binding.cardPatientListStatus.setStatus(PatientStatus.DANGER.status)
             }
         }
+    }
+
+    private fun isDialogShown(tag: String): Boolean {
+        val fragment = parentFragmentManager.findFragmentByTag(tag)
+        return fragment != null && fragment is DialogFragment && fragment.dialog?.isShowing ?: false
     }
 
     private fun setupUserData(token: String, patientId: String) {
@@ -243,7 +263,6 @@ class HomeFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.tvHomeUsername.text = user.data?.name
-
 
                     homeViewModel.savePatientId(user.data!!.patientId)
                 }
@@ -483,5 +502,38 @@ class HomeFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+
+            } else {
+
+            }
+        }
+
+    private fun setupNotifications() {
+        val channelName = getString(R.string.notify_channel_name)
+        val data =
+            Data.Builder().putString(NOTIFICATION_CHANNEL_ID, channelName).build()
+
+        val periodicWork = PeriodicWorkRequest.Builder(
+            NotificationWorker::class.java,
+            15,
+            TimeUnit.MINUTES
+        ).setInputData(data).build()
+
+        WorkManager.getInstance(requireContext()).enqueue(periodicWork)
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    companion object {
+        private const val DIALOG_TAG = "Patient Emergency Dialog"
     }
 }
