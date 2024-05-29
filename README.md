@@ -1,10 +1,11 @@
 <!-- git remote add origin https|ssh:path/to/the/repository.git  -->
 <!-- git pull origin main --rebase -->
 <div align="center">
-<h1> [Project Name] </h1>
-<a href="https://github.com/zero-911/readme-project-template/header.png">
-    <img src="./img/header.png" alt="readme-project-template">
+<h1> DemiWatch - Smart Wearable Watch for Dementia Patient with Family App Integration </h1>
+<a href="https://github.com/DemiWatch/DemiWatch-Android">
+    <img src="./img/demiwatch.png" alt="readme-project-template">
 </a>
+</div>
 
 <!-- You can make badge by read on official documentation at https://shields.io/badges -->
 
@@ -24,12 +25,14 @@
 <a href="#-reference">Reference</a>&nbsp;&bull;&nbsp;
 <a href="#-issue">Issue</a>&nbsp;&bull;&nbsp;
 <a href="#-license">License</a>&nbsp;&bull;&nbsp;
-<a href="#-author">Author</a>
+<a href="#-author">I Putu Krisna Erlangga</a>
 </p>
 
 ## 📄 Introduction
 
-`[Project Name]`is a Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam id rhoncus dapibus, diam nunc faucibus nisi, vel tincidunt nisl nunc vitae libero. Donec euismod, diam id rhoncus dapibus, diam nunc faucibus nisi, vel tincidunt nisl nunc vitae libero.
+Dementia is a health issue that leads to a decline in cognitive functions, such as thinking, memory, and communication abilities. Individuals with dementia often experience confusion, making them prone to getting lost and wandering aimlessly. This situation necessitates extra supervision from family members, which can be stressful for dementia patients and is not always feasible for families to provide 24/7 monitoring.
+
+To address this problem, my team and I developed the `DemiWatch` application to facilitate real-time monitoring of dementia patients. This application is integrated with `DemiWatch Hardware`, a watch that provides positional data in the form of coordinates to the backend and guides patients based on predetermined destinations through the application. Additionally, DemiWatch provides a travel history feature to help family members monitor the patient's past activities and an authentication feature to ensure user security.
 
 ## 💻 Tech Stack
 
@@ -37,12 +40,14 @@
 
 <!-- You can search the logo with https://simpleicons.org and copy the name in logo=copyhere same with color after badge/YourText-YourColor-->
 
--
--
+- [Clean Architecture](https://developer.android.com/topic/architecture)
+- [Hilt Dependency Injection](https://developer.android.com/training/dependency-injection/hilt-android)
+- [Retrofit](https://square.github.io/retrofit/)
+- [Room](https://developer.android.com/training/data-storage/room/)
 
 ## ⚙️ Installation
 
-1. Clone this repository `git clone https://github.com/zer0-911/readme-project-template.git` or click `Clone or Download` button and then click `Download ZIP`
+1. Clone this repository `git clone https://github.com/DemiWatch/DemiWatch-Android.git` or click `Clone or Download` button and then click `Download ZIP`
 2. Open this project in Android Studio
 3. Make sure your Android Virtual Device (AVD) is already activated
 4. Run the app
